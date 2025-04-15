@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * 
+ *
  *
  * @property int $simulation_id
  * @property int $component_id
@@ -23,13 +23,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class SimulationComponent extends Model
 {
+    public $timestamps = false;
     protected $fillable = [
         'simulation_id',
         'component_id',
         'position',
     ];
-
-    public $timestamps = false;
 
     public function simulation(): BelongsTo
     {

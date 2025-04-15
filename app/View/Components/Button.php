@@ -35,7 +35,7 @@ class Button extends Component
     public function __construct(
         public string $variant = 'primary',
         public string $size = 'default',
-        public bool $isLink = false
+        public bool   $isLink = false
     )
     {
         // Validate the variant
