@@ -6,6 +6,27 @@
 @source '../**/*.js';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'Nunito', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
+    --color-primary: oklch(0.765 0.177 163.223);
+    --color-primary-foreground: #ffffff;
+    --color-success: oklch(0.723 0.219 149.579);
+    --color-success-foreground: #ffffff;
+    --color-accent: oklch(0.746 0.16 232.661);
+    --color-accent-foreground: #ffffff;
+    --color-bg: #ffffff;
+    --color-bg-foreground: #1e2328;
+    --color-bg-200: #f5f5f5;
+    --color-bg-300: #cccccc;
+    --color-border: oklch(0.922 0 0);
+    --color-input: oklch(0.83 0 89.876);
+    --color-muted: oklch(0.97 0 0);
+    --color-muted-foreground: oklch(0.556 0 0);
+    --color-danger: oklch(0.637 0.237 25.331);
+    --color-danger-foreground: #ffffff;
 }
+label.blade.php
+input-error.blade.php
+input.blade.php
+card.blade.php
+button.blade.php
