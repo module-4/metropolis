@@ -16,7 +16,7 @@ class NavItem extends Component
      */
     public function __construct(
         public string $href = '#',
-        public bool $active = false
+        public bool   $active = false
     )
     {
         //
