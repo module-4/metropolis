@@ -23,3 +23,8 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard')->middleware('auth');
+
+//Test route for drag and drop
+Route::get('/drag-drop-test', function () {
+    return view('drag-drop-test');
+})->name('drag-drop-test');
