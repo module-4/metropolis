@@ -20,8 +20,8 @@
                     min-xl:mx-auto
                 ">
                     <x-sim-grid/>
-                    <x-sim-effects-list/>
-                    <x-sim-components-library/>
+                    <x-sim-effects-list :effects="$effects"/>
+                    <x-sim-components-library :componentGroups="$componentGroups"/>
                 </div>
             </div>
 

@@ -14,7 +14,7 @@
             <x-nav-item href="{{ route('simulation') }}"
                         active="{{ request()->routeIs('simulation') }}">
                 <x-slot:icon>
-                    <x-tabler-dashboard/>
+                    <x-tabler-map-route/>
                 </x-slot:icon>
                 Simulation
             </x-nav-item>
