@@ -1,5 +1,5 @@
 @props([
-    'componentGroups' => []
+    'categories' => []
 ])
 
 <div class="
@@ -22,13 +22,14 @@
     border
     border-gray-200
 ">
-    @forelse($componentGroups as $group)
+    @forelse($categories as $category)
         <x-sim-component-group>
-            @if ($group['category'])
-                <x-sim-component-category>{{ $group['category'] }}</x-sim-component-category>
+            @if ($category)
+                <x-sim-component-category>{{ $category->name }}</x-sim-component-category>
             @endif
-            @forelse($group['components'] as $componentName)
-                <x-sim-component>{{ $componentName }}</x-sim-component>
+            @forelse($category->components as $components)
+
+                <x-sim-component>{{ $components->name }}</x-sim-component>
             @empty
                 <p>Geen componenten gevonden.</p>
             @endforelse

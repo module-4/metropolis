@@ -21,7 +21,7 @@
                 ">
                     <x-sim-grid/>
                     <x-sim-effects-list :effects="$effects"/>
-                    <x-sim-components-library :componentGroups="$componentGroups"/>
+                    <x-sim-components-library :categories="$categories"/>
                 </div>
             </div>
 
