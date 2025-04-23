@@ -6,13 +6,10 @@ const library = document.querySelector('.library');
 
 
 /* CURRENT ISSUES
-- When drag and drop fails you can drop multiple items in one grid
-because the dragover listener is added when it shouldn't.
-the dragover listener should only be added if component is dropped in valid place
-- clone a component from library instead of taking it away
-- when a component from the grid the component in the grid should be removed
+- none
+
+test the functionality!
  */
-// console.log(library);
 addDragAndDropListeners()
 function addDragAndDropListeners() {
 
@@ -30,12 +27,13 @@ function addDragAndDropListeners() {
 }
 
 function dragStartHandler(event) {
-    let parentElement = event.target.parentElement;
-
-    if (parentElement.className === 'grid-item') {
-        parentElement.addEventListener("dragover", dragOverHandler);
+    const parentEle = event.target.parentElement;
+    let fromLibrary = false;
+    if (parentEle.classList.contains('library')) {
+        fromLibrary = true;
     }
 
+    event.dataTransfer.setData('fromLibrary', fromLibrary ? 'true' : 'false');
     event.dataTransfer.setData('text/plain', event.target.id);
 }
 
@@ -45,23 +43,38 @@ function dragOverHandler(event) {
 
 function dropHandlerGrid(event) {
     const data = event.dataTransfer.getData('text/plain');
-    const draggedElement = document.getElementById(data);
+    const fromLibrary = event.dataTransfer.getData('fromLibrary');
+    const draggedComponent = document.getElementById(data);
 
-    // cannot place the dragged element back into itself
-    if (draggedElement.contains(event.target)) {
-        console.warn("Cannot append an ancestor into its own descendant");
-    } else {
-        event.preventDefault();
-        event.target.appendChild(draggedElement);
-        event.target.removeEventListener("dragover", dragOverHandler);
+    // If the grid has component then target will have class component
+    if (event.target.classList.contains('component')) {
+        console.warn("Cannot drop a component into a grid that already has a component");
+        return;
     }
+
+    // When a component is dragged from the library, clone it and place the clone in target
+    // If it's not from library simply append the dragged element to target
+    let clonedComponent;
+    if (fromLibrary === 'true') {
+        event.preventDefault();
+        clonedComponent = draggedComponent.cloneNode(true);
+        // replace for more sensible solution for ID-generation
+        draggedComponent.id = `component-${Math.random()}`;
+        clonedComponent.addEventListener('dragstart', dragStartHandler);
+        event.target.appendChild(clonedComponent);
+    } else {
+        event.target.appendChild(draggedComponent);
+    }
+
+
+
+    console.log(`dragged and dropped successfully`)
 }
 
 
 function dropHandlerLibrary(event) {
-    console.log(event);
-    event.preventDefault();
     const data = event.dataTransfer.getData('text/plain');
-    console.log(data);
-    event.target.appendChild(document.getElementById(data));
+    const draggedComponent = document.getElementById(data);
+
+    draggedComponent.remove();
 }
