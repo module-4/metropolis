@@ -8,6 +8,27 @@ class SimulationController extends Controller
 {
     public function index()
     {
-        return view('simulation');
+        $effects = [
+            'Leefbaarheid'
+        ];
+        $componentGroups = [
+            [
+                'category' => 'Groen',
+                'components' => [
+                    'Park (klein)',
+                    'Park (groot)',
+                    'Bos'
+                ]
+            ],
+            [
+                'category' => 'Industrieel',
+                'components' => [
+                    'Appartementencomplex',
+                    'Fabriek',
+                    'Winkelcentrum'
+                ]
+            ]
+        ];
+        return view('simulation', compact('componentGroups', 'effects'));
     }
 }

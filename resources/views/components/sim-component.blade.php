@@ -7,5 +7,5 @@
     rounded-md
     text-black
 ">
-    {{ $slot }} (component)
+    {{ $slot }}
 </div>
