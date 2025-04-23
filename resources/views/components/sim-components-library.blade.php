@@ -22,20 +22,18 @@
     border
     border-gray-200
 ">
-    @foreach($componentGroups as $group)
+    @forelse($componentGroups as $group)
         <x-sim-component-group>
             @if ($group['category'])
                 <x-sim-component-category>{{ $group['category'] }}</x-sim-component-category>
             @endif
-            @foreach($group['components'] as $componentName)
+            @forelse($group['components'] as $componentName)
                 <x-sim-component>{{ $componentName }}</x-sim-component>
-            @endforeach
-            @unless($group['components'] || count($group['components']) > 0)
+            @empty
                 <p>Geen componenten gevonden.</p>
-            @endunless
+            @endforelse
         </x-sim-component-group>
-    @endforeach
-    @unless($componentGroups || count($componentGroups) > 0)
+    @empty
         <p>Geen componenten & categories gevonden.</p>
-    @endunless
+    @endforelse
 </div>

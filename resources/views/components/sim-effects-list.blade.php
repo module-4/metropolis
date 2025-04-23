@@ -21,10 +21,9 @@
     border
     border-gray-200
 ">
-    @foreach($effects as $effect)
+    @forelse($effects as $effect)
         <x-sim-effect>{{ $effect }}</x-sim-effect>
-    @endforeach
-    @unless($effects || count($effects) > 0)
+    @empty
         <p>Geen effecten gevonden.</p>
-    @endunless
+    @endforelse
 </div>
