@@ -1,12 +1,12 @@
 import './bootstrap';
 
-const components = Array.from(document.querySelectorAll('.component'));
-const gridItems = Array.from(document.querySelectorAll('.grid-item'));
+const components = document.querySelectorAll('.component');
+const gridItems = document.querySelectorAll('.grid-item');
 const library = document.querySelector('.library');
 
 
 /* CURRENT ISSUES
-- none
+- when dragging component and dropping it in library the component is removed
 
 test the functionality!
  */
@@ -75,6 +75,6 @@ function dropHandlerGrid(event) {
 function dropHandlerLibrary(event) {
     const data = event.dataTransfer.getData('text/plain');
     const draggedComponent = document.getElementById(data);
-
+    console.log(event.target)
     draggedComponent.remove();
 }
