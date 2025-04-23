@@ -29,7 +29,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class ComponentEffect extends Model
 {
-    public $timestamps = false;
     protected $fillable = [
         'component_id',
         'effect_id',
