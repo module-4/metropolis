@@ -75,6 +75,9 @@ function dropHandlerGrid(event) {
 function dropHandlerLibrary(event) {
     const data = event.dataTransfer.getData('text/plain');
     const draggedComponent = document.getElementById(data);
-    console.log(event.target)
-    draggedComponent.remove();
+    const fromLibrary = event.dataTransfer.getData('fromLibrary');
+
+    if (fromLibrary === 'false') {
+        draggedComponent.remove();
+    }
 }
