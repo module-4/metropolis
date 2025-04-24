@@ -1,8 +1,8 @@
 import './bootstrap';
 
-const components = document.querySelectorAll('.component');
-const gridItems = document.querySelectorAll('.grid-item');
-const library = document.querySelector('.library');
+const components = document.querySelectorAll('.sim-component');
+const gridItems = document.querySelectorAll('.sim-grid-tile');
+const library = document.querySelector('.sim-component-library');
 
 
 /* CURRENT ISSUES
@@ -13,7 +13,7 @@ addDragAndDropListeners()
 function addDragAndDropListeners() {
 
     library.addEventListener('dragover', dragOverHandler);
-    library.addEventListener('drop', dropHandlerLibrary)
+    library.addEventListener('drop', dropHandlerLibrary);
 
     components.forEach(component => {
         component.addEventListener('dragstart', dragStartHandler);
@@ -28,10 +28,11 @@ function addDragAndDropListeners() {
 function dragStartHandler(event) {
     const parentEle = event.target.parentElement;
     let fromLibrary = false;
-    if (parentEle.classList.contains('library')) {
+    if (parentEle.classList.contains('sim-component-group')) {
         fromLibrary = true;
     }
 
+    console.log(event.target?.id, event.currentTarget?.id)
     event.dataTransfer.setData('fromLibrary', fromLibrary ? 'true' : 'false');
     event.dataTransfer.setData('text/plain', event.target.id);
 }
@@ -46,7 +47,7 @@ function dropHandlerGrid(event) {
     const draggedComponent = document.getElementById(data);
 
     // If the grid has component then target will have class component
-    if (event.target.classList.contains('component')) {
+    if (event.target.classList.contains('sim-component')) {
         //console.warn("Cannot drop a component into a grid that already has a component");
         return;
     }
@@ -58,7 +59,7 @@ function dropHandlerGrid(event) {
         event.preventDefault();
         clonedComponent = draggedComponent.cloneNode(true);
         // replace for more sensible solution for ID-generation
-        draggedComponent.id = `component-${Math.random()}`;
+        clonedComponent.id = `component-${Math.random()}`;
         clonedComponent.addEventListener('dragstart', dragStartHandler);
         event.target.appendChild(clonedComponent);
     } else {

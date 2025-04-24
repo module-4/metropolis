@@ -1,6 +1,6 @@
 <div class="
-    grid
-    grid-cols-4
+{{--    grid--}}
+{{--    grid-cols-4--}}
     overflow-y-auto
     overflow-hidden
     bg-blue-950
@@ -14,6 +14,7 @@
     min-lg:col-span-3
     min-lg:row-span-2
     min-lg:max-h-[400px]
+    sim-grid
     ">
     <x-sim-grid-tile />
     <x-sim-grid-tile />
