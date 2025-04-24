@@ -21,15 +21,18 @@
     self-start
     border
     border-gray-200
+    sim-component-library
 ">
-    @forelse($categories as $category)
+    @forelse($categories as $i => $category)
         <x-sim-component-group>
             @if ($category)
                 <x-sim-component-category>{{ $category->name }}</x-sim-component-category>
             @endif
-            @forelse($category->components as $components)
-
-                <x-sim-component>{{ $components->name }}</x-sim-component>
+            @forelse($category->components as $gridComponent)
+                <x-sim-component :id="'component-' . $i">
+                    <img src="{{$gridComponent->image_name}}" alt="{{$gridComponent->name}}" class="pointer-events-none max-w-[64px] rounded-sm"/>
+                    <p>{{ $gridComponent->name }}</p>
+                </x-sim-component>
             @empty
                 <p>Geen componenten gevonden.</p>
             @endforelse
