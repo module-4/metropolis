@@ -13,7 +13,7 @@ class SimulationController extends Controller
         $categories = Category::all();
 
         $effects = [
-            'Leefbaarheid'
+//            'Leefbaarheid'
         ];
 
 
