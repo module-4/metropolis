@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -38,6 +39,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Component extends Model
 {
     use SoftDeletes;
+    use HasFactory;
 
     protected $fillable = ['name', 'image_name', 'category_id'];
 
@@ -49,8 +51,8 @@ class Component extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function effects(): HasManyThrough
+    public function effects(): BelongsToMany
     {
-        return $this->hasManyThrough(Effect::class, ComponentEffect::class);
+        return $this->belongsToMany(Effect::class, 'component_effects')->withPivot('value');
     }
 }
