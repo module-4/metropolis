@@ -6,7 +6,6 @@ const library = document.querySelector('.library');
 
 
 /* CURRENT ISSUES
-- when dragging component and dropping it in library the component is removed
 
 test the functionality!
  */
@@ -48,7 +47,7 @@ function dropHandlerGrid(event) {
 
     // If the grid has component then target will have class component
     if (event.target.classList.contains('component')) {
-        console.warn("Cannot drop a component into a grid that already has a component");
+        //console.warn("Cannot drop a component into a grid that already has a component");
         return;
     }
 
@@ -68,7 +67,7 @@ function dropHandlerGrid(event) {
 
 
 
-    console.log(`dragged and dropped successfully`)
+    //console.log(`dragged and dropped successfully`)
 }
 
 
