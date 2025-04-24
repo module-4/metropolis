@@ -28,3 +28,7 @@ Route::get('/dashboard', function () {
 Route::get('/simulation', [SimulationController::class, 'index'])
     ->name('simulation')
     ->middleware('auth');
+
+Route::get('/drag-drop-test', function () {
+    return view('drag-drop-test');
+})->name('drag-drop-test');
