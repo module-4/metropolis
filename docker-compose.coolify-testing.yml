@@ -98,11 +98,13 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
-
   redis:
     image: redis:latest
     container_name: laravel_redis
     restart: unless-stopped
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
 
 volumes:
   mysql_data:
