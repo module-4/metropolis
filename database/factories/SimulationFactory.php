@@ -30,7 +30,9 @@ class SimulationFactory extends Factory
     {
         return $this->afterCreating(function (Simulation $simulation) {
             for ($i = 0; $i < 12; $i++) {
-                $component = Component::factory()->withEffect()->create();
+                $component = Component::factory()->withEffect()->create([
+                    'image_name' => '/img/component-' . $i + 1 . '.jpg'
+                ]);
 
                 $simulation->components()->attach($component, ['position' => $i]);
             }
