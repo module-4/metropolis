@@ -105,8 +105,6 @@ services:
   phpmyadmin:
     image: phpmyadmin
     restart: always
-    environment:
-      - PMA_ARBITRARY=1
 
 volumes:
   mysql_data:
