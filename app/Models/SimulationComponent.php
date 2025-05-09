@@ -10,7 +10,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @property int $simulation_id
  * @property int $component_id
- * @property int $position
+ * @property int $x
+ * @property int $y
  * @property-read \App\Models\Component $component
  * @property-read \App\Models\Simulation $simulation
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SimulationComponent newModelQuery()
@@ -27,7 +28,8 @@ class SimulationComponent extends Model
     protected $fillable = [
         'simulation_id',
         'component_id',
-        'position',
+        'x',
+        'y'
     ];
 
     public function simulation(): BelongsTo
