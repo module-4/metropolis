@@ -13,9 +13,10 @@ return new class extends Migration {
         Schema::create('simulation_components', function (Blueprint $table) {
             $table->foreignId('simulation_id')->constrained()->cascadeOnDelete();
             $table->foreignId('component_id')->constrained()->cascadeOnDelete();
-            $table->integer('position');
+            $table->integer('x');
+            $table->integer('y');
             $table->primary(['simulation_id', 'component_id']);
-            $table->unique(['simulation_id', 'component_id', 'position']);
+            $table->unique(['simulation_id', 'x', 'y']);
         });
     }
 

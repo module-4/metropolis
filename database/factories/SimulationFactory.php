@@ -29,14 +29,14 @@ class SimulationFactory extends Factory
     public function withComponents(): self
     {
         return $this->afterCreating(function (Simulation $simulation) {
-            for ($i = 0; $i < 12; $i++) {
-//                $component = Component::factory()->withEffect()->create([
-//                    'image_name' => '/img/component-' . $i + 1 . '.jpg'
-//                ]);
-
-                $component = Component::factory()->withEffect()->create();
-
-                $simulation->components()->attach($component, ['position' => $i]);
+            for ($y = 0; $y < 3; $y++) {
+                for ($x = 0; $x < 4; $x++) {
+                    $component = Component::factory()->withEffect()->create();
+                    $simulation->components()->attach($component, [
+                        'x' => $x,
+                        'y' => $y
+                    ]);
+                }
             }
         });
     }
