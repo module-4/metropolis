@@ -22,19 +22,23 @@ class SimulationController extends Controller
     {
         $x = intval($request->input('x'));
         $y = intval($request->input('y'));
-        $newComponentId = intval($request->input('componentId'));
 
-        $currentSimulationComponent = SimulationComponent::where(['x' => $x, 'y' => $y, "simulation_id" => $simulation->id])->first();
+        if (($x >= 0 && $x <= 3) && ($y >= 0 && $y <= 2)) {
+            $newComponentId = intval($request->input('componentId'));
 
-        if (!$currentSimulationComponent) {
-            SimulationComponent::create([["component_id" => $newComponentId, "x" => $x, "y" => $y, "simulation_id" => $simulation->id]]);
-        } else {
-            $currentSimulationComponent["component_id"] = $newComponentId;
+            $currentSimulationComponent = SimulationComponent::find([$simulation->id, $x, $y]);
+
+            if (!$currentSimulationComponent) {
+                SimulationComponent::create(["simulation_id" => $simulation->id, "component_id" => $newComponentId, "x" => $x, "y" => $y]);
+
+            } else {
+                $currentSimulationComponent->update(["component_id" => $newComponentId]);
+                $currentSimulationComponent->save();
+            }
         }
 
         $totalSimulationEffects = $simulation->getGridEffects();
 
         return $totalSimulationEffects;
-
     }
 }

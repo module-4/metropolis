@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Thiagoprz\CompositeKey\HasCompositeKey;
 
 /**
  *
@@ -25,6 +26,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class SimulationComponent extends Model
 {
     public $timestamps = false;
+    use HasCompositeKey;
+
+    protected $primaryKey = ['simulation_id', 'x', "y"];
+
     protected $fillable = [
         'simulation_id',
         'component_id',

@@ -16,7 +16,6 @@ return new class extends Migration {
             $table->integer('x');
             $table->integer('y');
             $table->primary(['simulation_id', 'x', 'y']);
-            $table->unique(['simulation_id', 'x', 'y']);
         });
     }
 
