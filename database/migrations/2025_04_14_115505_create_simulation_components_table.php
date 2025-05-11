@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->foreignId('component_id')->constrained()->cascadeOnDelete();
             $table->integer('x');
             $table->integer('y');
-            $table->primary(['simulation_id', 'component_id']);
+            $table->primary(['simulation_id', 'x', 'y']);
             $table->unique(['simulation_id', 'x', 'y']);
         });
     }
