@@ -30,7 +30,8 @@
             @endif
             @forelse($category->components as $gridComponent)
                 <x-sim-component :id="'component-' . $gridComponent->id">
-                    <img src="{{$gridComponent->image_name}}" alt="{{$gridComponent->name}}" class="pointer-events-none max-w-[64px] rounded-sm"/>
+                    <img src="{{$gridComponent->image_name}}" alt="{{$gridComponent->name}}"
+                         class="pointer-events-none max-w-[64px] rounded-sm"/>
                     <p>{{ $gridComponent->name }}</p>
                 </x-sim-component>
             @empty

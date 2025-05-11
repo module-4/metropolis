@@ -16,16 +16,16 @@
     min-lg:max-h-[400px]
     sim-grid
     ">
-    <x-sim-grid-tile />
-    <x-sim-grid-tile />
-    <x-sim-grid-tile />
-    <x-sim-grid-tile />
-    <x-sim-grid-tile />
-    <x-sim-grid-tile />
-    <x-sim-grid-tile />
-    <x-sim-grid-tile />
-    <x-sim-grid-tile />
-    <x-sim-grid-tile />
-    <x-sim-grid-tile />
-    <x-sim-grid-tile />
+    <x-sim-grid-tile/>
+    <x-sim-grid-tile/>
+    <x-sim-grid-tile/>
+    <x-sim-grid-tile/>
+    <x-sim-grid-tile/>
+    <x-sim-grid-tile/>
+    <x-sim-grid-tile/>
+    <x-sim-grid-tile/>
+    <x-sim-grid-tile/>
+    <x-sim-grid-tile/>
+    <x-sim-grid-tile/>
+    <x-sim-grid-tile/>
 </div>

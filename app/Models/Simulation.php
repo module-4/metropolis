@@ -39,14 +39,6 @@ class Simulation extends Model
     protected $fillable = ['alias'];
 
     /**
-     * Get the components for the simulation.
-     */
-    public function components(): BelongsToMany
-    {
-        return $this->belongsToMany(Component::class, table: 'simulation_components')->withPivot('position');
-    }
-
-    /**
      * Returns the effects of a position in the current simulation.
      *
      * @return Collection<Effect>|null
@@ -57,6 +49,14 @@ class Simulation extends Model
         $positionalComponent = $this->components()->wherePivot('position', $position)->first();
 
         return $positionalComponent?->effects()->withPivot('value')->get();
+    }
+
+    /**
+     * Get the components for the simulation.
+     */
+    public function components(): BelongsToMany
+    {
+        return $this->belongsToMany(Component::class, table: 'simulation_components')->withPivot('position');
     }
 
     /**
