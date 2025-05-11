@@ -12,8 +12,7 @@ return new class extends Migration {
     {
         Schema::create('component_notifications', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('category');
+            $table->foreignId('component_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

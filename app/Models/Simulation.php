@@ -16,8 +16,9 @@ use Illuminate\Support\Collection;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Modelgets\Component> $components
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Component> $components
  * @property-read int|null $components_count
+ * @method static \Database\Factories\SimulationFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Simulation newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Simulation newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Simulation onlyTrashed()
