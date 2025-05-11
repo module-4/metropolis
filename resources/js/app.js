@@ -10,6 +10,7 @@ const library = document.querySelector('.sim-component-library');
 test the functionality!
  */
 addDragAndDropListeners()
+
 function addDragAndDropListeners() {
 
     library.addEventListener('dragover', dragOverHandler);
@@ -65,7 +66,6 @@ function dropHandlerGrid(event) {
     } else {
         event.target.appendChild(draggedComponent);
     }
-
 
 
     //console.log(`dragged and dropped successfully`)

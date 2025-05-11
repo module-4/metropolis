@@ -53,6 +53,7 @@ I can quickly display how the drag and drop will function */
     &:has(> .sim-component) {
         padding: unset;
     }
+
     & > .sim-component {
         padding: unset;
         border-radius: unset;

@@ -1227,17 +1227,17 @@
                         background-color: var(--color-white)
                     }
                 }
-            }@starting-style{
+            }@starting-style {
                 .starting\:translate-y-4 {
                     --tw-translate-y: calc(var(--spacing) * 4);
                     translate: var(--tw-translate-x) var(--tw-translate-y)
                 }
-            }@starting-style{
+            }@starting-style {
                 .starting\:translate-y-6 {
                     --tw-translate-y: calc(var(--spacing) * 6);
                     translate: var(--tw-translate-x) var(--tw-translate-y)
                 }
-            }@starting-style{
+            }@starting-style {
                 .starting\:opacity-0 {
                     opacity: 0
                 }
