@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SimulationController;
+use App\Models\ComponentNotification;
 use Illuminate\Support\Facades\Route;
 
 
@@ -22,7 +23,9 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('dashboard', [
+        'notifications' => ComponentNotification::orderBy('created_at', 'desc')->limit(5)->get(),
+    ]);
 })->name('dashboard')->middleware('auth');
 
 Route::get('/simulation', [SimulationController::class, 'index'])
