@@ -37,6 +37,10 @@ Route::get('/component-effect-management', [ComponentEffectManagementController:
     ->name('component-effect-management')
     ->middleware('auth');
 
+Route::patch('/component-effect-management/{componentId}/{effectId}', [ComponentEffectManagementController::class, 'update'])
+    ->name('component-effect-management-update')
+    ->middleware('auth');
+
 Route::get('/drag-drop-test', function () {
     return view('drag-drop-test');
 })->name('drag-drop-test');

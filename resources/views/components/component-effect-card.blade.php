@@ -4,6 +4,7 @@
         <table class="w-full">
             @foreach($component->effects as $effect)
                 <x-component-effect-row
+                :component="$component"
                 :effect="$effect"
                 >
 
