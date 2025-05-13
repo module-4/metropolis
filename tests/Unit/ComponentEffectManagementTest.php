@@ -38,7 +38,7 @@ test('the application updates the component effect successfully', function () {
         ->value('value');
 
     // Make the PATCH request
-    $response = $this->patch(route('component-effect-management-update', [
+    $response = $this->from(route('component-effect-management'))->patch(route('component-effect-management-update', [
         'componentId' => $component->id,
         'effectId' => $effect->id,
     ]), [

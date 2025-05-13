@@ -18,6 +18,13 @@
                 </x-slot:icon>
                 Simulation
             </x-nav-item>
+            <x-nav-item href="{{ route('component-effect-management') }}"
+                        active="{{ request()->routeIs('component-effect-management') }}">
+                <x-slot:icon>
+                    <x-tabler-map-route/>
+                </x-slot:icon>
+                Component Effect Management
+            </x-nav-item>
         </li>
     </x-nav-section>
 </li>
