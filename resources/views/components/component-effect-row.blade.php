@@ -4,7 +4,7 @@
         <form id="form-{{ $effect->name }}" method="POST" action="{{ route('component-effect-management-update', ['componentId' => $component->id, 'effectId' => $effect->id]) }}">
             @csrf
             @method('PATCH')
-            <input value="{{ $effect->pivot->value }}" name="effect-value" type="number" class="border rounded px-3 py-2 w-full text-center"/>
+            <input value="{{ $effect->pivot->value }}" name="effect-value" type="number" class="border rounded px-3 py-2 w-full text-center" min="-100000000" max="100000000"/>
         </form>
     </td>
     <td class="p-3 w-1/4">
