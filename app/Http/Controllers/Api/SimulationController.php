@@ -11,11 +11,21 @@ use Illuminate\Http\Request;
 
 class SimulationController extends Controller
 {
-    public function show(Simulation $simulation, $neighbors, $x, $y)
+    public function getNeighbors(Simulation $simulation, Request $request)
     {
-        $simulationWithEffects = $simulation;
 
-        return $simulationWithEffects;
+        $x = intval($request->input("x"));
+        $y = intval($request->input("y"));
+
+        $neighbors = [];
+
+        $simulationComponent = SimulationComponent::find([$simulation->id, $x, $y]);
+
+        if ($simulationComponent) {
+            $neighbors = $simulationComponent->getNeighbors();
+        }
+
+        return $neighbors;
     }
 
     public function updateComponent(Simulation $simulation, Request $request)
@@ -37,6 +47,6 @@ class SimulationController extends Controller
             }
         }
 
-        return response($simulation->getGridEffects(),200 );
+        return response($simulation->getGridEffects(), 200);
     }
 }

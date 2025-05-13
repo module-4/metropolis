@@ -46,4 +46,48 @@ class SimulationComponent extends Model
     {
         return $this->belongsTo(Component::class);
     }
+
+    public function getNeighbors()
+    {
+        $neighbors = [];
+
+        // Offset of coordinates for all neighbors based on current position
+        $offsets = [
+            [-1, -1], [0, -1], [1, -1],
+            [1, 0], [1, 1], [0, 1],
+            [-1, 1], [-1, 0],
+        ];
+
+        foreach ($offsets as [$dx, $dy]) {
+            $x = $this->x + $dx;
+            $y = $this->y + $dy;
+
+            $neighbor = SimulationComponent::find([
+                $this->simulation->id,
+                $x,
+                $y
+            ]);
+
+            if (!$neighbor) {
+                continue;
+            }
+
+            $neighbors[] = [
+                'id' => $neighbor->component_id,
+                'x' => $neighbor->x,
+                'y' => $neighbor->y,
+                'effects' => $neighbor->component->effects->map(function ($effect) {
+                    return [
+                        'name' => $effect->name,
+                        'value' => $effect->pivot->value,
+                    ];
+                })
+            ];
+
+        }
+
+        return $neighbors;
+    }
+
+
 }
