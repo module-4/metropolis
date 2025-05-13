@@ -23,7 +23,7 @@ class SimulationController extends Controller
         $x = intval($request->input('x'));
         $y = intval($request->input('y'));
 
-        if (($x >= 0 && $x <= 3) && ($y >= 0 && $y <= 2)) {
+        if (($x >= 0 && $x <= 3) && ($y >= 0 && $y <= 2) && ($x != null && $y != null)) {
             $newComponentId = intval($request->input('componentId'));
 
             $currentSimulationComponent = SimulationComponent::find([$simulation->id, $x, $y]);
@@ -37,8 +37,6 @@ class SimulationController extends Controller
             }
         }
 
-        $totalSimulationEffects = $simulation->getGridEffects();
-
-        return $totalSimulationEffects;
+        return response($simulation->getGridEffects(),200 );
     }
 }
