@@ -2,7 +2,7 @@
     'effects' => []
 ])
 
-<div class="
+<div id="sim-effects-list" class="
     flex
     flex-col
 

@@ -1,5 +1,6 @@
 import './bootstrap';
-import { updateSimulationComponent } from './componentHandler.js';
+
+import {deleteSimulationComponent, updateSimulationComponent} from './componentHandler.js';
 
 const components = document.querySelectorAll('.sim-component');
 const gridItems = document.querySelectorAll('.sim-grid-tile');
@@ -84,12 +85,21 @@ async function dropHandlerGrid(event) {
 }
 
 
-function dropHandlerLibrary(event) {
+async function dropHandlerLibrary(event) {
     const data = event.dataTransfer.getData('text/plain');
     const draggedComponent = document.getElementById(data);
     const fromLibrary = event.dataTransfer.getData('fromLibrary');
 
     if (fromLibrary === 'false') {
+        const x = parseInt(draggedComponent.parentElement.getAttribute('data-x'));
+        const y = parseInt(draggedComponent.parentElement.getAttribute('data-y'));
+
         draggedComponent.remove();
+
+        if (([null, undefined].includes(x) || isNaN(x)) || ([null, undefined].includes(y) || isNaN(y))) {
+            // No x / y values were provided, or provided x / y values are not of type number.
+            return;
+        }
+        await deleteSimulationComponent(1, x, y);
     }
 }
