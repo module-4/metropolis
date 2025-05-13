@@ -1,6 +1,8 @@
+@props([
+    'components' => []
+])
+
 <div class="
-{{--    grid--}}
-{{--    grid-cols-4--}}
     overflow-y-auto
     overflow-hidden
     bg-blue-950
@@ -16,16 +18,22 @@
     min-lg:max-h-[400px]
     sim-grid
     ">
-    <x-sim-grid-tile />
-    <x-sim-grid-tile />
-    <x-sim-grid-tile />
-    <x-sim-grid-tile />
-    <x-sim-grid-tile />
-    <x-sim-grid-tile />
-    <x-sim-grid-tile />
-    <x-sim-grid-tile />
-    <x-sim-grid-tile />
-    <x-sim-grid-tile />
-    <x-sim-grid-tile />
-    <x-sim-grid-tile />
+
+    @for($y = 0; $y < 3; $y++)
+        @for($x = 0; $x < 4; $x++)
+            @php
+                $gridComponent = $components->first(function ($c) use ($x, $y) {
+                    return $c->pivot->x === $x && $c->pivot->y === $y;
+                });
+            @endphp
+            <x-sim-grid-tile :x="$x" :y="$y">
+                @if($gridComponent)
+                    <x-sim-component :id="$gridComponent->id">
+                        <img src="{{$gridComponent->image_name}}" alt="{{$gridComponent->name}}" class="pointer-events-none max-w-[64px] rounded-sm"/>
+                        <p>{{ $gridComponent->name }}</p>
+                    </x-sim-component>
+                @endif
+            </x-sim-grid-tile>
+        @endfor
+    @endfor
 </div>

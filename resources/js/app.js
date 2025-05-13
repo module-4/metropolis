@@ -1,9 +1,9 @@
 import './bootstrap';
+import { updateSimulationComponent } from './componentHandler.js';
 
 const components = document.querySelectorAll('.sim-component');
 const gridItems = document.querySelectorAll('.sim-grid-tile');
 const library = document.querySelector('.sim-component-library');
-
 
 /* CURRENT ISSUES
 
@@ -41,14 +41,26 @@ function dragOverHandler(event) {
     event.preventDefault();
 }
 
-function dropHandlerGrid(event) {
+async function dropHandlerGrid(event) {
     const data = event.dataTransfer.getData('text/plain');
     const fromLibrary = event.dataTransfer.getData('fromLibrary');
     const draggedComponent = document.getElementById(data);
+    const componentId = parseInt(draggedComponent.getAttribute('data-component-id'));
+    const x = parseInt(event.currentTarget.getAttribute('data-x'));
+    const y = parseInt(event.currentTarget.getAttribute('data-y'));
 
     // If the grid has component then target will have class component
     if (event.target.classList.contains('sim-component')) {
         //console.warn("Cannot drop a component into a grid that already has a component");
+        return;
+    }
+
+    if (!componentId || isNaN(componentId)) {
+        // No componentId provided, or provided componentId is not of type number.
+        return;
+    }
+    if (([null, undefined].includes(x) || isNaN(x)) || ([null, undefined].includes(y) || isNaN(y))) {
+        // No x / y values were provided, or provided x / y values are not of type number.
         return;
     }
 
@@ -66,7 +78,7 @@ function dropHandlerGrid(event) {
         event.target.appendChild(draggedComponent);
     }
 
-
+    await updateSimulationComponent(1, componentId, x, y);
 
     //console.log(`dragged and dropped successfully`)
 }
