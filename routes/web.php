@@ -32,3 +32,6 @@ Route::get('/simulation', [SimulationController::class, 'index'])
 Route::get('/drag-drop-test', function () {
     return view('drag-drop-test');
 })->name('drag-drop-test');
+
+Route::get('/component-manager', [\App\Http\Controllers\ComponentController::class, 'index'])->name('component-manager');
+Route::post('/component-manager', [\App\Http\Controllers\ComponentController::class, 'store'])->name('component-store');
