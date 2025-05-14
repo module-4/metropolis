@@ -4,8 +4,6 @@
             <x-slot name="title">
                 Simulation view
             </x-slot>
-            <p class="text-sm text-bg-foreground">Welkom op het simulatie overzicht</p>
-
             <div class="flex flex-col">
                 <div class="
                     grid
