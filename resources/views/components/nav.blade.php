@@ -1,7 +1,7 @@
 <li>
     <x-nav-section>
         <x-slot:title>
-            Algemeen
+            General
         </x-slot:title>
         <li>
             <x-nav-item href="{{ route('dashboard') }}"
