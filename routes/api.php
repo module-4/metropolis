@@ -9,12 +9,12 @@ Route::group(['prefix' => 'simulation/{simulation}'], function () {
     return [
         Route::group(["prefix" => 'component'], function () {
             return [
-                Route::post("/", [SimulationComponentApi::class, 'index']),
+                Route::post("/", [SimulationComponentApi::class, 'store']),
                 Route::delete("/", [SimulationComponentApi::class, 'destroy']),
-                Route::patch("/", [SimulationComponentApi::class, 'index'])
+                Route::patch("/", [SimulationComponentApi::class, 'update']),
             ];
-        })
+        }),
+
+        Route::get("/neighbors", [SimulationController::class, 'getNeighbors'])
     ];
 });
-//Route::put("/simulation/{simulation}/component", [SimulationController::class, 'updateComponent']);
-Route::get("/simulation/{simulation}/neighbors", [SimulationController::class, 'getNeighbors']);

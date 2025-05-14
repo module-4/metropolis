@@ -28,25 +28,4 @@ class SimulationController extends Controller
         return $neighbors;
     }
 
-    public function updateComponent(Simulation $simulation, Request $request)
-    {
-        $x = intval($request->input('x'));
-        $y = intval($request->input('y'));
-
-        if (($x >= 0 && $x <= 3) && ($y >= 0 && $y <= 2) && ($x != null && $y != null)) {
-            $newComponentId = intval($request->input('componentId'));
-
-            $currentSimulationComponent = SimulationComponent::find([$simulation->id, $x, $y]);
-
-            if (!$currentSimulationComponent) {
-                SimulationComponent::create(["simulation_id" => $simulation->id, "component_id" => $newComponentId, "x" => $x, "y" => $y]);
-
-            } else {
-                $currentSimulationComponent->update(["component_id" => $newComponentId]);
-                $currentSimulationComponent->save();
-            }
-        }
-
-        return response($simulation->getGridEffects(), 200);
-    }
 }
