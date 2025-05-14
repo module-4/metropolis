@@ -45,9 +45,8 @@ test('the application updates the component effect successfully', function () {
         'effect-value' => $newValue,
     ]);
 
-    // Assert the response has a successful status code
+    // Assert the response has a successful status code & and redirects to correct route
     $response->assertStatus(302);
-    // This fails bc it redirects to / instead of index route
     $response->assertRedirect(route('component-effect-management'));
 
     // get updated value from DB

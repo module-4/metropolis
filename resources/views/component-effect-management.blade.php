@@ -1,8 +1,8 @@
 <x-dashboard-layout>
     <div class="flex flex-wrap content-start">
-         @foreach($data as $component)
+         @foreach($data as $simComponent)
            <x-component-effect-card
-             :component="$component"
+             :simComponent="$simComponent"
              >
 
            </x-component-effect-card>
