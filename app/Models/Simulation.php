@@ -88,4 +88,12 @@ class Simulation extends Model
 
         return $appliedEffects;
     }
+
+
+    public function inBounds(int $x, int $y):bool{
+        if (($x >= 0 && $x <= 3) && ($y >= 0 && $y <= 2)){
+            return true;
+        }
+        return false;
+    }
 }
