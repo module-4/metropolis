@@ -17,12 +17,11 @@
                     min-xl:max-w-[1000px]
                     min-xl:mx-auto
                 ">
-                    <x-sim-grid/>
+                    <x-sim-grid :components="$simulationComponents" />
                     <x-sim-effects-list :effects="$effects"/>
                     <x-sim-components-library :categories="$categories"/>
                 </div>
             </div>
-
         </x-card>
     </div>
 </x-dashboard-layout>

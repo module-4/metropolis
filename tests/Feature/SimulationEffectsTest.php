@@ -5,10 +5,7 @@ namespace Tests\Feature;
 use App\Models\Component;
 use App\Models\Effect;
 use App\Models\Simulation;
-
-//class SimulationEffectsTest extends TestCase
-//{
-//    use RefreshDatabase;
+use App\Models\SimulationComponent;
 
 test('it_returns_effects_for_a_specific_position', function () {
     $simulation = Simulation::factory()->create();
@@ -18,9 +15,9 @@ test('it_returns_effects_for_a_specific_position', function () {
     $component->effects()->attach($effect->id, ['value' => 1.5]);
 
     // Attach component to simulation at position 3
-    $simulation->components()->attach($component->id, ['position' => 3]);
+    $simulation->components()->attach($component->id, ['x' => 3, "y" => 3]);
 
-    $effects = $simulation->getPositionEffects(3);
+    $effects = $simulation->getPositionEffects(3, 3);
 
     $this->assertNotNull($effects);
     $this->assertCount(1, $effects);
@@ -51,10 +48,8 @@ test('it_sums_effects_across_all_components_in_simulation', function () {
         $effect2->id => ['value' => 1.5],
     ]);
 
-    $simulation->components()->attach([
-        $component1->id => ['position' => 1],
-        $component2->id => ['position' => 2],
-    ]);
+    SimulationComponent::create(["simulation_id" => $simulation->id, "component_id" => $component1->id, "x"=>1, "y"=>1]);
+    SimulationComponent::create(["simulation_id" => $simulation->id, "component_id" => $component2->id, "x"=>1, "y"=>2]);
 
     $summed = $simulation->getGridEffects();
 
@@ -63,4 +58,3 @@ test('it_sums_effects_across_all_components_in_simulation', function () {
     $this->assertEquals(3.5, $summed['Leefbaarheid']); // 2.0 + 1.5
     $this->assertEquals(3.0, $summed['Veiligheid']);
 });
-//}

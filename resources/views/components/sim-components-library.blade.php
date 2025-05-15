@@ -29,16 +29,15 @@
                 <x-sim-component-category>{{ $category->name }}</x-sim-component-category>
             @endif
             @forelse($category->components as $gridComponent)
-                <x-sim-component :id="'component-' . $gridComponent->id">
-                    <img src="{{$gridComponent->image_name}}" alt="{{$gridComponent->name}}"
-                         class="pointer-events-none max-w-[64px] rounded-sm"/>
+                <x-sim-component :id="$gridComponent->id">
+                    <img src="{{$gridComponent->image_name}}" alt="{{$gridComponent->name}}" class="pointer-events-none max-w-[64px] rounded-sm"/>
                     <p>{{ $gridComponent->name }}</p>
                 </x-sim-component>
             @empty
-                <p>Geen componenten gevonden.</p>
+                <p>No components found.</p>
             @endforelse
         </x-sim-component-group>
     @empty
-        <p>Geen componenten & categories gevonden.</p>
+        <p>No components and categories found.</p>
     @endforelse
 </div>

@@ -44,10 +44,10 @@ class Simulation extends Model
      *
      * @return Collection<Effect>|null
      */
-    public function getPositionEffects(int $position): Collection|null
+    public function getPositionEffects(int $x, int $y): Collection|null
     {
         /** @var Component|null $positionalComponent */
-        $positionalComponent = $this->components()->wherePivot('position', $position)->first();
+        $positionalComponent = $this->components()->wherePivot('x', $x)->wherePivot('y',$y)->first();
 
         return $positionalComponent?->effects()->withPivot('value')->get();
     }
@@ -57,7 +57,7 @@ class Simulation extends Model
      */
     public function components(): BelongsToMany
     {
-        return $this->belongsToMany(Component::class, table: 'simulation_components')->withPivot('position');
+        return $this->belongsToMany(Component::class, table: 'simulation_components')->withPivot(['x', 'y']);
     }
 
     /**
@@ -88,5 +88,13 @@ class Simulation extends Model
         }
 
         return $appliedEffects;
+    }
+
+
+    public function inBounds(int $x, int $y):bool{
+        if (($x >= 0 && $x <= 3) && ($y >= 0 && $y <= 2)){
+            return true;
+        }
+        return false;
     }
 }
