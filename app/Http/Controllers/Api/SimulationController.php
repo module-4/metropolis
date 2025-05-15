@@ -13,19 +13,27 @@ class SimulationController extends Controller
 {
     public function getNeighbors(Simulation $simulation, Request $request)
     {
+        try {
+            $x = intval($request->input("x"));
+            $y = intval($request->input("y"));
 
-        $x = intval($request->input("x"));
-        $y = intval($request->input("y"));
+            if (!$simulation->inBounds($x, $y)) {
+                throw new \Exception("Coordinates out of bounds");
+            }
 
-        $neighbors = [];
+            $neighbors = [];
 
-        $simulationComponent = SimulationComponent::find([$simulation->id, $x, $y]);
+            $simulationComponent = SimulationComponent::find([$simulation->id, $x, $y]);
 
-        if ($simulationComponent) {
-            $neighbors = $simulationComponent->getNeighbors();
+            if ($simulationComponent) {
+                $neighbors = $simulationComponent->getNeighbors();
+            }
+
+            return response(["data" => ["neighbors" => $neighbors]], 200);
+        } catch (\Exception $e) {
+            return response(["error" => $e->getMessage()], 500);
         }
 
-        return $neighbors;
     }
 
 }
