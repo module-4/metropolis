@@ -34,10 +34,10 @@
                     <p>{{ $gridComponent->name }}</p>
                 </x-sim-component>
             @empty
-                <p>Geen componenten gevonden.</p>
+                <p>No components found.</p>
             @endforelse
         </x-sim-component-group>
     @empty
-        <p>Geen componenten & categories gevonden.</p>
+        <p>No components and categories found.</p>
     @endforelse
 </div>

@@ -24,6 +24,6 @@
     @forelse($effects as $key => $value)
         <x-sim-effect>{{ $key }} {{ $value }}</x-sim-effect>
     @empty
-        <p>Geen effecten gevonden.</p>
+        <p>No effects found.</p>
     @endforelse
 </div>

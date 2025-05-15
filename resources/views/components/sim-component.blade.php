@@ -2,7 +2,7 @@
     'id' => ''
 ])
 
-<div draggable="true" id="component-{{$id}}" data-component-id="{{$id}}" class="
+<div draggable="true" id="component-{{bin2hex(random_bytes(8))}}" data-component-id="{{$id}}" class="
     bg-white
     border
     border-gray-200
