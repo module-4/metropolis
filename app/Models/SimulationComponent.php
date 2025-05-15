@@ -28,7 +28,10 @@ class SimulationComponent extends Model
     public $timestamps = false;
     use HasCompositeKey;
 
+
     protected $primaryKey = ['simulation_id', 'x', "y"];
+    public $incrementing = false;
+    protected $keyType = 'int';
 
     protected $fillable = [
         'simulation_id',

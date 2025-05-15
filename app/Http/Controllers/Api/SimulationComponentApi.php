@@ -72,23 +72,34 @@ class SimulationComponentApi extends Controller
                 throw new \Exception("Destination coordinates out of bounds");
             }
 
+
             $component = SimulationComponent::find([$simulation->id, $originX, $originY]);
 
             if (!$component) {
                 throw new \Exception('Simulation component not found');
             }
-
-            $component->x = $destX;
-            $component->y = $destY;
-
-            $res = $component->save();
-
-            if (!$res) {
-                throw new \Exception('Simulation component could not be updated');
+            try {
+                \DB::table('simulation_components')
+                    ->where('simulation_id', $simulation->id)
+                    ->where('x', $originX)
+                    ->where('y', $originY)
+                    ->update([
+                        'x' => $destX,
+                        'y' => $destY,
+                    ]);
+            } catch (\Exception $exception) {
+                if ($exception->getCode() == 23000) {
+                    throw new \Exception("Coordinates already occupied");
+                }else {
+                    throw new \Exception("Component couldn't be added to the simulation");
+                }
             }
+
 
             return Response([
                 "data" => ["effects" => $simulation->getGridEffects(), "altered_data" => ["x" => $destX, "y" => $destY]],
+
+                "component" => $component,
             ], 200);
 
         } catch (\Exception $e) {
@@ -123,7 +134,7 @@ class SimulationComponentApi extends Controller
             }
 
             return Response([
-                "data" => ["effects" => $simulation->getGridEffects()],
+                "data" => ["effects" => $simulation->getGridEffects()]
             ], 200);
 
         } catch (\Exception $e) {
