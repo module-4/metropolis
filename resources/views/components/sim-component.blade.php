@@ -13,7 +13,7 @@
     flex
     items-center
     gap-2
-text-center
+    text-center
 ">
     {{ $slot }}
 </div>

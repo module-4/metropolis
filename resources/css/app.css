@@ -50,6 +50,7 @@ I can quickly display how the drag and drop will function */
 }
 
 .sim-grid-tile {
+    position: relative;
     &:has(> .sim-component) {
         padding: unset;
     }
@@ -74,5 +75,41 @@ I can quickly display how the drag and drop will function */
             max-width: unset;
             border-radius: unset;
         }
+    }
+
+    .tile-info {
+        position: absolute;
+        z-index: 100;
+        width: max-content;
+        background-color: white;
+        border: 1px solid var(--color-primary);
+        color: black;
+        border-radius: 7px;
+        min-height: 50px;
+        padding: 12px;
+        display: none;
+        transform: scale(0.7);
+        opacity: 0;
+
+        li {
+            margin: 0;
+            padding: 0;
+        }
+
+        &[aria-hidden=false] {
+            display: block;
+            animation: tile-info-entry 150ms ease-in-out forwards;
+        }
+    }
+}
+
+@keyframes tile-info-entry {
+    from {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
     }
 }

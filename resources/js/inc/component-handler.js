@@ -1,5 +1,3 @@
-import Simulation from './classes/Simulation.js';
-
 const updateEffectsList = (effects) => {
     const effectsList = document.getElementById('sim-effects-list');
 
@@ -66,6 +64,16 @@ const componentDragStartHandler = e => {
     }
 
     e.dataTransfer.setData('text/json', JSON.stringify(data));
+}
+
+/**
+ * Initialize the hover handler for the library.
+ * @param {Event} e
+ * @param {Simulation} simulation
+ * @returns {Promise<void>}
+ */
+const gridItemHoverHandler = async (e, simulation) => {
+    console.log(e.currentTarget);
 }
 
 /**
@@ -140,15 +148,15 @@ const libraryDropHandler = async (e, simulation) => {
     }
 }
 
+const components = document.querySelectorAll('.sim-component');
+const gridItems = document.querySelectorAll('.sim-grid-tile');
+const library = document.querySelector('.sim-component-library');
+
 /**
  * Initialize the drag and drop listeners.
  * @param {Simulation} simulation
  */
 export const initializeDragAndDropListeners = (simulation) => {
-    const components = document.querySelectorAll('.sim-component');
-    const gridItems = document.querySelectorAll('.sim-grid-tile');
-    const library = document.querySelector('.sim-component-library');
-
     library.addEventListener('dragover', e => e.preventDefault());
     library.addEventListener('drop', e => libraryDropHandler(e, simulation));
 
@@ -159,5 +167,79 @@ export const initializeDragAndDropListeners = (simulation) => {
     gridItems.forEach(gridItem => {
         gridItem.addEventListener('dragover', e => e.preventDefault());
         gridItem.addEventListener('drop', e => gridItemDropHandler(e, simulation));
+    });
+}
+
+/**
+ * Initialize the hover listeners.
+ * @param {Simulation} simulation
+ */
+export const initializeHoverListeners = (simulation) => {
+    let hoverTimeout = null;
+
+    /**
+     *
+     * @param {MouseEvent} e
+     * @param {Simulation} simulation
+     */
+    const gridItemAnimationEndHandler = async (e, simulation) => {
+        const x = parseInt(e.currentTarget.getAttribute('data-x'));
+        const y = parseInt(e.currentTarget.getAttribute('data-y'));
+
+        if (typeof x !== 'number' || typeof y !== 'number') return;
+
+        if (hoverTimeout) {
+            clearTimeout(hoverTimeout);
+            hoverTimeout = null;
+        }
+
+        hoverTimeout = setTimeout(async () => {
+            await simulation.getNeighborsFromPosition(x, y, (success, data) => {
+                if (!success) {
+                    console.error(data);
+                    return;
+                }
+
+                for (const neighbor of data.neighbors) {
+                    const tileInfo = document.querySelector(`.sim-grid-tile[data-x="${neighbor.x}"][data-y="${neighbor.y}"] .tile-info`);
+                    const tileInfoEffectsList = document.querySelector(`.sim-grid-tile[data-x="${neighbor.x}"][data-y="${neighbor.y}"] .tile-info > ul`);
+
+                    while (tileInfoEffectsList.lastChild) {
+                        tileInfoEffectsList.lastChild.remove();
+                    }
+
+                    for (const effect of neighbor.effects) {
+                        Object.entries(effect).forEach(([key, value]) => {
+                            const li = document.createElement('li');
+                            li.textContent = `${key}, ${value}`;
+                            tileInfoEffectsList.appendChild(li);
+                        });
+                    }
+                    if (neighbor.effects.length > 0) {
+                        tileInfo.setAttribute('aria-hidden', 'false');
+                    }
+                }
+            });
+
+            hoverTimeout = null;
+        }, 500);
+
+    }
+
+    gridItems.forEach(gridItem => {
+        // gridItem.addEventListener('mouseover', e => gridItemHoverHandler(e, simulation));
+        // gridItem.addEventListener('mouseenter', e => gridItemMouseEnterHandler(e, simulation));
+        // gridItem.addEventListener('mouseleave', e => gridItemMouseLeaveHandler(e, simulation));
+        gridItem.addEventListener('mouseleave', e => {
+            if (hoverTimeout) {
+                clearTimeout(hoverTimeout);
+                hoverTimeout = null;
+            }
+            document.querySelectorAll('.sim-grid-tile .tile-info').forEach(tileInfo => {
+                tileInfo.setAttribute('aria-hidden', 'true');
+            });
+        });
+        gridItem.addEventListener('mouseenter', e => gridItemAnimationEndHandler(e, simulation));
+        // gridItem.addEventListener('animationend', e => gridItemAnimationEndHandler(e, simulation));
     });
 }

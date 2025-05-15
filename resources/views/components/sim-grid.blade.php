@@ -33,6 +33,9 @@
                         <p>{{ $gridComponent->name }}</p>
                     </x-sim-component>
                 @endif
+                <div class="tile-info">
+                    <ul></ul>
+                </div>
             </x-sim-grid-tile>
         @endfor
     @endfor

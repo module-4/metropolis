@@ -27,4 +27,7 @@
 
         </x-card>
     </div>
+    <dialog id="sim-neighbor-popups">
+        Hello world
+    </dialog>
 </x-dashboard-layout>
