@@ -2,7 +2,7 @@
     'effects' => []
 ])
 
-<div class="
+<div id="sim-effects-list" class="
     flex
     flex-col
 
@@ -21,9 +21,9 @@
     border
     border-gray-200
 ">
-    @forelse($effects as $effect)
-        <x-sim-effect>{{ $effect }}</x-sim-effect>
+    @forelse($effects as $key => $value)
+        <x-sim-effect>{{ $key }} {{ $value }}</x-sim-effect>
     @empty
-        <p>Geen effecten gevonden.</p>
+        <p>No effects found.</p>
     @endforelse
 </div>

@@ -10,12 +10,10 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('simulation_components', function (Blueprint $table) {
-            $table->foreignId('simulation_id')->constrained()->cascadeOnDelete();
+        Schema::create('component_notifications', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('component_id')->constrained()->cascadeOnDelete();
-            $table->integer('x');
-            $table->integer('y');
-            $table->primary(['simulation_id', 'x', 'y']);
+            $table->timestamps();
         });
     }
 
@@ -24,6 +22,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('simulation_components');
+        Schema::dropIfExists('component_notifications');
     }
 };
