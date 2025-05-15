@@ -11,7 +11,7 @@ class SimulationController extends Controller
     public function index()
     {
         // Get simulation by id 1, get the applied effects and components
-        $simulation = Simulation::find(1);
+        $simulation = Simulation::firstOrCreate([], ["alias" => "simulation_1"]);
         $effects = $simulation->getGridEffects();
         $simulationComponents = $simulation->components;
 

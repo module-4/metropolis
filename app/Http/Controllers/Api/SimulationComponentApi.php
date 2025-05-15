@@ -98,8 +98,6 @@ class SimulationComponentApi extends Controller
 
             return Response([
                 "data" => ["effects" => $simulation->getGridEffects(), "altered_data" => ["x" => $destX, "y" => $destY]],
-
-                "component" => $component,
             ], 200);
 
         } catch (\Exception $e) {
