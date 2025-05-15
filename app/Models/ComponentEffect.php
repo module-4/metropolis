@@ -12,8 +12,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $component_id
  * @property int $effect_id
  * @property string $value
- * @property string|null $created_at
- * @property string|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Component $component
  * @property-read \App\Models\Effect $effect
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ComponentEffect newModelQuery()

@@ -18,7 +18,6 @@
     min-lg:max-h-[400px]
     sim-grid
     ">
-
     @for($y = 0; $y < 3; $y++)
         @for($x = 0; $x < 4; $x++)
             @php

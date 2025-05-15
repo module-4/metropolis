@@ -6,12 +6,6 @@ use App\Models\Component;
 use App\Models\Effect;
 use App\Models\Simulation;
 use App\Models\SimulationComponent;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
-
-//class SimulationEffectsTest extends TestCase
-//{
-//    use RefreshDatabase;
 
 test('it_returns_effects_for_a_specific_position', function () {
     $simulation = Simulation::factory()->create();
@@ -64,4 +58,3 @@ test('it_sums_effects_across_all_components_in_simulation', function () {
     $this->assertEquals(3.5, $summed['Leefbaarheid']); // 2.0 + 1.5
     $this->assertEquals(3.0, $summed['Veiligheid']);
 });
-//}
