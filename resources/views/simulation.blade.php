@@ -24,10 +24,6 @@
                     <x-sim-components-library :categories="$categories"/>
                 </div>
             </div>
-
         </x-card>
     </div>
-    <dialog id="sim-neighbor-popups">
-        Hello world
-    </dialog>
 </x-dashboard-layout>

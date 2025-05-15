@@ -76,7 +76,7 @@ test("addComponentToSimulation", function () {
     $this->assertDatabaseHas("simulation_components", ["simulation_id" => $simulation->id, "component_id" => $component->id, "x" => 0, "y" => 0]);
 });
 
-test("deleteComponentFromSimulation", function () {
+test("deleteComponentFromSimulationInBounds", function () {
     $simulation = Simulation::factory()->create();
     $component = Component::factory()->create();
 
@@ -84,13 +84,26 @@ test("deleteComponentFromSimulation", function () {
 
     $this->assertDatabaseHas("simulation_components", ["simulation_id" => $simulation->id, "component_id" => $component->id, "x" => 0, "y" => 0]);
 
-    $this->delete("/api/simulation/" . $simulation->id . "/component?x=10&y=10")->assertStatus(500);
-
     $res = $this->delete("/api/simulation/" . $simulation->id . "/component?x=0&y=0");
 
     $res->assertStatus(200);
     $res->assertJson(["data" => ["effects" => []]]);
     $this->assertDatabaseEmpty("simulation_components");
+});
+
+test("deleteComponentFromSimulationOutOfBounds", function () {
+    $simulation = Simulation::factory()->create();
+    $component = Component::factory()->create();
+
+    SimulationComponent::create(["simulation_id" => $simulation->id, "component_id" => $component->id, "x" => 0, "y" => 0]);
+
+    $this->assertDatabaseHas("simulation_components", ["simulation_id" => $simulation->id, "component_id" => $component->id, "x" => 0, "y" => 0]);
+
+    $res = $this->delete("/api/simulation/" . $simulation->id . "/component?x=10&y=10");
+
+    $res->assertStatus(500);
+    $res->assertJson(["error" => "Coordinates out of bounds"]);
+    $this->assertDatabaseHas("simulation_components", ["simulation_id" => $simulation->id, "component_id" => $component->id, "x" => 0, "y" => 0]);
 });
 
 test("updateComponentPositionInSimulation", function () {

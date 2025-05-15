@@ -17,7 +17,7 @@ export default class Simulation {
     #id;
     get id() { return this.#id; }
 
-    #neighborCache = new Map();
+    #neighborCache = [];
 
     /**
      * Create a new Simulation with the specified id.
