@@ -81,8 +81,7 @@ class SimulationComponent extends Model
                 'y' => $neighbor->y,
                 'effects' => $neighbor->component->effects->map(function ($effect) {
                     return [
-                        'name' => $effect->name,
-                        'value' => $effect->pivot->value,
+                        $effect->name => $effect->pivot->value
                     ];
                 })
             ];
