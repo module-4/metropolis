@@ -64,6 +64,26 @@ class Component extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function blocks()
+    {
+        return $this->belongsToMany(
+            Component::class,
+            'component_blocklist',
+            'component_id',
+            'blocked_component_id'
+        );
+    }
+
+    // Components that block this component
+    public function blockedBy()
+    {
+        return $this->belongsToMany(
+            Component::class,
+            'component_blocklist',
+            'blocked_component_id',
+            'component_id'
+        );
+    }
     public function effects(): BelongsToMany
     {
         return $this->belongsToMany(Effect::class, 'component_effects')->withPivot('value');
