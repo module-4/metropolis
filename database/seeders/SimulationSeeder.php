@@ -12,7 +12,8 @@ class SimulationSeeder extends Seeder
      */
     public function run(): void
     {
-        /**@var $sim Simulation */
-        $sim = Simulation::factory()->withComponents()->create();
+       Simulation::create([
+           "alias" => "Test Simulation",
+       ]);
     }
 }
