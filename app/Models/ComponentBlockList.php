@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Thiagoprz\CompositeKey\HasCompositeKey;
 
 /**
  *
@@ -28,10 +29,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class ComponentBlockList extends Model
 {
+    use HasCompositeKey;
+
     /**
      * Ensure used table is 'component_blocklist' instead of **list(s) (plural)
      */
     protected $table = 'component_blocklist';
+
+    protected $primaryKey = ['component_id', 'simulation_id'];
+    public $incrementing = false;
+    protected $keyType = 'int';
 
     protected $fillable = [
         'component_id',
