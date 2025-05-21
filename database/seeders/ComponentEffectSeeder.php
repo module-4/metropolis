@@ -43,7 +43,7 @@ class ComponentEffectSeeder extends Seeder
         ]);
         ComponentEffect::create([
             'component_id' => Component::firstWhere('name', 'Fire Station')->id,
-            'effect_id' => Effect::firstWhere('name', 'Environmental Quality')->id,
+            'effect_id' => Effect::firstWhere('name', 'Eco-Quality')->id,
             'value' => fake()->numberBetween($minEffectValue, $maxEffectValue),
         ]);
 
@@ -55,7 +55,7 @@ class ComponentEffectSeeder extends Seeder
         ]);
         ComponentEffect::create([
             'component_id' => Component::firstWhere('name', 'Park')->id,
-            'effect_id' => Effect::firstWhere('name', 'Environmental Quality')->id,
+            'effect_id' => Effect::firstWhere('name', 'Eco-Quality')->id,
             'value' => fake()->numberBetween($minEffectValue, $maxEffectValue),
         ]);
 
@@ -79,7 +79,7 @@ class ComponentEffectSeeder extends Seeder
         ]);
         ComponentEffect::create([
             'component_id' => Component::firstWhere('name', 'Sports Park')->id,
-            'effect_id' => Effect::firstWhere('name', 'Environmental Quality')->id,
+            'effect_id' => Effect::firstWhere('name', 'Eco-Quality')->id,
             'value' => fake()->numberBetween($minEffectValue, $maxEffectValue),
         ]);
         ComponentEffect::create([
@@ -91,7 +91,7 @@ class ComponentEffectSeeder extends Seeder
         // Water Treatment
         ComponentEffect::create([
             'component_id' => Component::firstWhere('name', 'Water Treatment')->id,
-            'effect_id' => Effect::firstWhere('name', 'Environmental Quality')->id,
+            'effect_id' => Effect::firstWhere('name', 'Eco-Quality')->id,
             'value' => fake()->numberBetween($minEffectValue, $maxEffectValue),
         ]);
         ComponentEffect::create([
@@ -137,7 +137,7 @@ class ComponentEffectSeeder extends Seeder
         ]);
         ComponentEffect::create([
             'component_id' => Component::firstWhere('name', 'Hospital')->id,
-            'effect_id' => Effect::firstWhere('name', 'Environmental Quality')->id,
+            'effect_id' => Effect::firstWhere('name', 'Eco-Quality')->id,
             'value' => fake()->numberBetween($minEffectValue, $maxEffectValue),
         ]);
 
@@ -166,7 +166,7 @@ class ComponentEffectSeeder extends Seeder
         ]);
         ComponentEffect::create([
             'component_id' => Component::firstWhere('name', 'Road')->id,
-            'effect_id' => Effect::firstWhere('name', 'Environmental Quality')->id,
+            'effect_id' => Effect::firstWhere('name', 'Eco-Quality')->id,
             'value' => fake()->numberBetween($minEffectValue, $maxEffectValue),
         ]);
 
@@ -183,7 +183,7 @@ class ComponentEffectSeeder extends Seeder
         ]);
         ComponentEffect::create([
             'component_id' => Component::firstWhere('name', 'Bicycle Path')->id,
-            'effect_id' => Effect::firstWhere('name', 'Environmental Quality')->id,
+            'effect_id' => Effect::firstWhere('name', 'Eco-Quality')->id,
             'value' => fake()->numberBetween($minEffectValue, $maxEffectValue),
         ]);
 
