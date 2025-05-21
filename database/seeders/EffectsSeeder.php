@@ -22,7 +22,7 @@ class EffectsSeeder extends Seeder
         ]);
 
         Effect::create([
-            'name' => 'Environmental Quality'
+            'name' => 'Eco-Quality'
         ]);
 
         Effect::create([
