@@ -35,5 +35,5 @@ Route::get('/drag-drop-test', function () {
 
 Route::get('/component-manager', [\App\Http\Controllers\ComponentController::class, 'index'])->name('component-manager');
 Route::post('/component-manager', [\App\Http\Controllers\ComponentController::class, 'store'])->name('component-store');
-Route::get('/components/{id}/edit', [\App\Http\Controllers\ComponentController::class, 'edit'])->name('components.edit');
-Route::put('/components/{id}', [\App\Http\Controllers\ComponentController::class, 'update'])->name('components.update');
+Route::get('/components-manager/{component}/edit', [\App\Http\Controllers\ComponentController::class, 'edit'])->name('components.edit');
+Route::patch('/components-manager/{component}', [\App\Http\Controllers\ComponentController::class, 'update'])->name('components.update');

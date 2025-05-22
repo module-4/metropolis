@@ -32,7 +32,7 @@
                             <h2 class="text-lg font-semibold">{{ $simComponent->name }}</h2>
                             <p class="text-sm text-gray-600 mb-3">Category: {{ $simComponent->category->name ?? 'N/A' }}</p>
 
-                            <x-button variant="primary" onclick="document.getElementById('editModal-{{ $simComponent->id }}').showModal()">
+                            <x-button isLink href="/components-manager/{{ $simComponent->id }}/edit" variant="primary">
                                 Edit
                             </x-button>
 
@@ -81,15 +81,11 @@
                                     </div>
 
                                     <div class="flex justify-end gap-3 mt-6">
-                                        <button type="button"
-                                                onclick="document.getElementById('editModal-{{ $simComponent->id }}').close()"
-                                                class="bg-gray-300 px-4 py-2 rounded">
-                                            Cancel
-                                        </button>
-                                        <button type="submit"
-                                                class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+                                        <div class="flex justify-end gap-2 mt-4">
+                                            <x-button id="openComponentForm">New Component</x-button>
+                                        <x-button type="submit">
                                             Save
-                                        </button>
+                                        </x-button>
                                     </div>
                                 </form>
                             </dialog>
@@ -133,6 +129,16 @@
                                     @endforeach
                                 </x-select>
                             </div>
+                            <div id="effects-container"> <div class="effect-row">
+                                    <select name="effects[0][id]" required>
+                                        @foreach ($effects as $effect)
+                                            <option value="{{ $effect->id }}">{{ $effect->name }}</option>
+                                        @endforeach
+                                    </select> <input type="text" name="effects[0][value]" placeholder="Effect Value" required>
+                                </div>
+                            </div>
+                            <button type="button" id="add-effect">+ Add Effect</button>
+                            <button type="submit">Submit</button>
                         </div>
 
                         <div class="flex justify-end gap-2 mt-4">
