@@ -28,5 +28,9 @@ class CategoriesSeeder extends Seeder
         Category::create([
             'name' => 'Services',
         ]);
+
+        Category::create([
+            'name' => 'Mobility',
+        ]);
     }
 }
