@@ -22,8 +22,7 @@ class DatabaseSeeder extends Seeder
             EffectsSeeder::class,
             ComponentEffectSeeder::class,
             SimulationSeeder::class,
-            // Not needed, this seeder fills the grid
-            //SimulationComponentsSeeder::class,
+            SimulationComponentsSeeder::class,
         ]);
     }
 }
