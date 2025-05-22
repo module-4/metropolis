@@ -3,7 +3,7 @@
         <h1 class="text-2xl font-semibold mb-6">Edit Component</h1>
 
         {{-- Component Edit Form --}}
-        <form action="{{ route('components.update', $component->id) }}" method="POST" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <form action="{{ route('components.update', $component->id) }}" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             @csrf
             @method('PATCH')
             {{-- form fields --}}

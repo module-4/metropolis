@@ -47,21 +47,24 @@ class ComponentController extends Controller
     public function store(Request $request) {
         $request->validate([
             'name' => 'required',
-            'image' => 'required|url',
+            'image' => 'required',
             'category' => 'required|exists:categories,id',
-            'effect' => 'required|exists:effects,id', // assuming a single effect
+            'effect' => 'required|exists:effects,id',
         ]);
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
+        }
 
         $component = Component::create([
             'name' => $request->name,
-            'image_name' => $request->image,
+            'image_name' => $imagePath,
             'category_id' => $request->category,
         ]);
 
-        // Attach effect via pivot table
         $component->effects()->attach($request->effect, ['value' => 0.0]);
 
-        return redirect()->route('component-manager')->with('success', 'Component updated successfully.');
+        return redirect()->route('component-manager')->with('success', 'Component created successfully.');
     }
 }
 
