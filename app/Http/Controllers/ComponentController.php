@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Component;
 use App\Models\Effect;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 
 class ComponentController extends Controller
@@ -20,12 +21,15 @@ class ComponentController extends Controller
     }
 
     public function store(Request $request) {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required',
-            'image' => 'required',
+            'image' => 'required|image',
             'category' => 'required|exists:categories,id',
-            'effect.*.id' => 'required|exists:effects,id|string',
+            'effects' => 'required|array',
+            'effects.*.id' => 'required|exists:effects,id|distinct',
+            'effects.*.value' => 'required|numeric',
         ]);
+
 
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('images', 'public');
@@ -37,7 +41,12 @@ class ComponentController extends Controller
             'category_id' => $request->category,
         ]);
 
-        $component->effects()->attach($request->effect, ['value' => 0.0]);
+        $effectsData = [];
+        foreach ($validated['effects'] as $effect) {
+            $effectsData[$effect['id']] = ['value' => $effect['value']];
+        }
+
+        $component->effects()->attach($effectsData);
 
         return redirect()->route('component-manager')->with('success', 'Component created successfully.');
     }
