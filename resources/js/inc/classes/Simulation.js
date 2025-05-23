@@ -11,6 +11,21 @@
  * } | ErrorResponse} MultipleNeighborsResponse
  */
 
+/**
+ * @typedef {{
+ *     isBlocked: boolean,
+ *     blocklist: Array<{
+ *         blocks: Array<Component>,
+ *         id: number,
+ *         category_id: number,
+ *         name: string,
+ *         image_name: string,
+ *         created_at: Date,
+ *         updated_at: Date,
+ *         deleted_at: Date?
+ *     }>
+ * } | ErrorResponse} BlocklistResponse
+ */
 export default class Simulation {
 
     /** @type {number} */
@@ -32,6 +47,29 @@ export default class Simulation {
         this.#neighborCache = Array.from({ length: 4 }, () =>
             Array.from({ length: 3 }, () => null)
         );
+    }
+
+    /**
+     * Check if placement of component at a certain position is allowed,
+     * defined by adjacent components.
+     * @param {number} componentId
+     * @param {number} x
+     * @param {number} y
+     * @param {(success: boolean, data: BlocklistResponse) => any} callback
+     */
+    async validateComponentPlacement(componentId, x, y, callback) {
+        const response = await fetch(
+            `/api/simulation/${this.#id}/isblocked?componentId=${componentId}&x=${x}&y=${y}`,
+            { method: 'GET' }
+        );
+        const json = await response.json();
+
+        if (!response.ok) {
+            console.error(json.error);
+            return;
+        }
+
+        if (callback) callback(response.ok, json.data);
     }
 
     /**

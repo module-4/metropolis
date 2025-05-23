@@ -1,3 +1,7 @@
+const blockListWarningDialog = document.getElementById('simulation-blocklist-warning');
+const blockListWarningDialogAcceptButton = blockListWarningDialog?.querySelector('button[name=accept]')
+const blockListWarningDialogDismissButton = blockListWarningDialog?.querySelector('button[name=dismiss]')
+
 const updateEffectsList = (effects) => {
     const effectsList = document.getElementById('sim-effects-list');
 
@@ -108,9 +112,37 @@ const gridItemDropHandler = async (e, simulation) => {
         clonedComponent.addEventListener('dragstart', componentDragStartHandler);
         e.target.appendChild(clonedComponent);
 
-        await simulation.addComponentAtPosition(componentId, x, y, (success, data) => {
-            if (success) updateEffectsList(data.effects);
-        });
+        await simulation.validateComponentPlacement(componentId, x, y, async (success, data) => {
+            if (!success) return;
+            // If unsuccessful, show error.
+            console.log(data)
+            if (data.isBlocked === true) {
+                // Show warning
+                const list = blockListWarningDialog.querySelector('ul');
+                while(list.lastChild) {
+                    list.lastChild.remove();
+                }
+                data.blocklist.forEach(blockedComponent => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = blockedComponent.name;
+                    list.appendChild(listItem);
+                });
+
+                blockListWarningDialog.querySelector('form input[name=componentId]').value = componentId
+                blockListWarningDialog.querySelector('form input[name=x]').value = x
+                blockListWarningDialog.querySelector('form input[name=y]').value = y
+
+                blockListWarningDialog.showModal();
+                return;
+            }
+
+            await simulation.addComponentAtPosition(componentId, x, y, (success, data) => {
+                if (success) updateEffectsList(data.effects);
+            });
+        })
+        // await simulation.addComponentAtPosition(componentId, x, y, (success, data) => {
+        //     if (success) updateEffectsList(data.effects);
+        // });
     }
 }
 
@@ -158,6 +190,59 @@ export const initializeDragAndDropListeners = (simulation) => {
         gridItem.addEventListener('dragover', e => e.preventDefault());
         gridItem.addEventListener('drop', e => gridItemDropHandler(e, simulation));
     });
+
+    const blockListWarningForm = blockListWarningDialog?.querySelector('form');
+    blockListWarningDialog?.addEventListener('close', async e => {
+        if (!blockListWarningForm) return;
+        const { elements } = blockListWarningForm;
+        const data = {
+            componentId: parseInt(elements.componentId.value),
+            x: parseInt(elements.x.value),
+            y: parseInt(elements.y.value)
+        }
+        const tile = document.querySelector(`.sim-grid-tile[data-x="${data.x}"][data-y="${data.y}"]`);
+        while (tile.lastChild) {
+            tile.lastChild.remove();
+        }
+    })
+    blockListWarningForm?.addEventListener('submit', async e => {
+        e.preventDefault();
+        const { elements } = e.currentTarget;
+        const data = {
+            componentId: parseInt(elements.componentId.value),
+            x: parseInt(elements.x.value),
+            y: parseInt(elements.y.value)
+        }
+        const type = e.submitter.name;
+        const tile = document.querySelector(`.sim-grid-tile[data-x="${data.x}"][data-y="${data.y}"]`);
+        const clearGridTile = () => {
+            while (tile.lastChild) {
+                tile.lastChild.remove();
+            }
+        }
+
+        if (type === 'accept') {
+            blockListWarningDialog.close();
+            clearGridTile();
+        }
+        else if (type === 'dismiss') {
+            blockListWarningDialog.close();
+            // Add component regardless
+            await simulation.addComponentAtPosition(data.componentId, data.x, data.y, (success, data) => {
+                if (success) return;
+                clearGridTile();
+            });
+        }
+    });
+
+    // blockListWarningDialogAcceptButton?.addEventListener('click', async e => {
+    //     blockListWarningDialog.close();
+    //     // Remove placed grid-item
+    // });
+    // blockListWarningDialogDismissButton?.addEventListener('click', async e => {
+    //     blockListWarningDialog.close();
+    //     // await simulation.
+    // });
 }
 
 /**
@@ -196,15 +281,15 @@ export const initializeHoverListeners = (simulation) => {
                     const tileInfo = document.querySelector(`.sim-grid-tile[data-x="${neighbor.x}"][data-y="${neighbor.y}"] .tile-info`);
                     const tileInfoEffectsList = document.querySelector(`.sim-grid-tile[data-x="${neighbor.x}"][data-y="${neighbor.y}"] .tile-info > ul`);
 
-                    while (tileInfoEffectsList.lastChild) {
-                        tileInfoEffectsList.lastChild.remove();
+                    while (tileInfoEffectsList?.lastChild) {
+                        tileInfoEffectsList?.lastChild.remove();
                     }
 
                     for (const effect of neighbor.effects) {
                         Object.entries(effect).forEach(([key, value]) => {
                             const li = document.createElement('li');
                             li.textContent = `${key}, ${value}`;
-                            tileInfoEffectsList.appendChild(li);
+                            tileInfoEffectsList?.appendChild(li);
                         });
                     }
                     if (neighbor.effects.length > 0) {

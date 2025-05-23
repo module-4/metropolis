@@ -25,3 +25,30 @@
         </x-card>
     </div>
 </x-dashboard-layout>
+<x-modal id="simulation-blocklist-warning">
+    <x-slot:icon>
+        <x-tabler-alert-hexagon class="w-8 h-8"/>
+    </x-slot:icon>
+    <x-slot:heading>Condition Enforcement</x-slot:heading>
+    <x-slot:description>Prohibited condition detected</x-slot:description>
+    <p>
+        The component could not be placed because it is prohibited from being placed directly adjacent to the following component(s):
+    </p>
+    <ul class="mt-2 list-disc list-inside">
+        <li>Component 1</li>
+        <li>Component 2</li>
+        <li>Component 3</li>
+    </ul>
+    <p class="italic text-danger text-sm mt-5">
+        Dismissing this warning will result in the component being forcefully placed, disregarding any blocklist conditions that have been set, for this occurance.
+    </p>
+    <x-slot:footer>
+        <form>
+            <input type="hidden" name="componentId" value="" />
+            <input type="hidden" name="x" value="" />
+            <input type="hidden" name="y" value="" />
+            <x-button type="submit" name="dismiss" variant="danger">Dismiss</x-button>
+            <x-button type="submit" name="accept">Accept</x-button>
+        </form>
+    </x-slot:footer>
+</x-modal>
