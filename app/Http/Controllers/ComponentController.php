@@ -22,7 +22,7 @@ class ComponentController extends Controller
 
     public function store(Request $request) {
         $validated = $request->validate([
-            'name' => 'required',
+            'name' => 'required|unique:components|max:255',
             'image' => 'required|image',
             'category' => 'required|exists:categories,id',
             'effects' => 'required|array',
@@ -54,9 +54,10 @@ class ComponentController extends Controller
     public function edit(Component $component) {
         $categories = Category::all();
         $effects = Effect::all();
+        $compEffects = $component->effects()->get();
         $simComponent = $component;
 
-        return view('component-manager-edit', compact('simComponent', 'categories', 'effects'));
+        return view('component-manager-edit', compact('simComponent', 'categories', 'effects', 'compEffects'));
     }
 
     public function update(Request $request, Component $component)
@@ -64,7 +65,7 @@ class ComponentController extends Controller
 
 
         $validated = $request->validate([
-            'name' => 'required',
+            'name' => 'required|unique:components|max:255',
             'image_url' => 'required',
             'category_id' => 'required|exists:categories,id',
             'effect_id' => 'required|exists:effects,id',
@@ -82,9 +83,16 @@ class ComponentController extends Controller
             'category_id' => $validated['category_id'],
         ]);
 
-        $component->effects()->sync([
-            $validated['effect_id'] => ['value' => 0.0]
-        ]);
+//        $component->effects()->sync([
+//            $validated['effect_id'] => ['value' => 0.0]
+//        ]);
+
+        $effectsData = [];
+        foreach ($validated['effects'] as $effect) {
+            $effectsData[$effect['id']] = ['value' => $effect['value']];
+        }
+
+        $component->effects()->attach($effectsData);
 
         return redirect()->route('component-manager')->with('success', 'Component updated successfully.');
     }

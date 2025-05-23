@@ -1,6 +1,5 @@
 <x-dashboard-layout>
-    @vite('resources/js/component-form.js')
-    <script> const effectsList = @json($effects); </script>
+
 
     <div class="flex items-center justify-center grow max-h-full">
         <x-card class="min-h-[95%] w-[95%] overflow-hidden flex flex-col">
@@ -36,61 +35,6 @@
                             <x-button isLink href="/components-manager/{{ $simComponent->id }}/edit" variant="primary">
                                 Edit
                             </x-button>
-
-                            <!-- Edit Modal -->
-                            <dialog id="editModal-{{ $simComponent->id }}" class="rounded-lg p-6">
-                                <form action="{{ route('components.update', $simComponent->id) }}">
-                                    @csrf
-                                    @method('PATCH')
-
-                                    <h3 class="text-xl font-bold mb-4">Edit Component</h3>
-
-                                    <div class="mb-4">
-                                        <label class="block font-medium">Name</label>
-                                        <input name="name" type="text" value="{{ $simComponent->name }}"
-                                               class="w-full border px-3 py-2 rounded">
-                                    </div>
-
-                                    <div class="mb-4">
-                                        <label class="block font-medium">Image URL</label>
-                                        <input name="image_url" type="text" value="{{ $simComponent->image_name }}"
-                                               class="w-full border px-3 py-2 rounded">
-                                    </div>
-
-                                    <div class="mb-4">
-                                        <label class="block font-medium">Category</label>
-                                        <select name="category_id" class="w-full border px-3 py-2 rounded">
-                                            @foreach ($categories as $category)
-                                                <option value="{{ $category->id }}"
-                                                    {{ $simComponent->category_id == $category->id ? 'selected' : '' }}>
-                                                    {{ $category->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-                                    <div class="mb-4">
-                                        <label class="block font-medium">Effect</label>
-                                        <select name="effect_id" class="w-full border px-3 py-2 rounded">
-                                            @foreach ($effects as $effect)
-                                                <option value="{{ $effect->id }}"
-                                                    {{ optional($simComponent->effects->first())->id == $effect->id ? 'selected' : '' }}>
-                                                    {{ $effect->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-                                    <div class="flex justify-end gap-3 mt-6">
-                                        <div class="flex justify-end gap-2 mt-4">
-                                            <x-button id="openComponentForm">New Component</x-button>
-                                            <x-button type="submit">
-                                                Save
-                                            </x-button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </dialog>
                         </div>
                     @endforeach
                 </div>
@@ -102,7 +46,9 @@
                                 <option value="{{ $effect->id }}">{{ $effect->name }}</option>
                             @endforeach
                         </x-select>
+{{--                        <x-input-error :messages="$errors->get('effects.*.id')"/>--}}
                         <x-input type="text" placeholder="Effect Value" required />
+{{--                        <x-input-error :messages="$errors->get('effects.*.value')"/>--}}
                     </div>
                     <form id="newComponentForm" method="POST" action="{{ route('component-store') }}" enctype="multipart/form-data" class="bg-white shadow-md rounded-lg p-6 space-y-4">
                         @csrf
@@ -110,13 +56,16 @@
 
                         <div class="flex flex-col gap-2">
                             <div>
-                                <x-label for="Name" >Name:</x-label>
+                                <x-label for="name" >Name:</x-label>
                                 <x-input type="text" id="name" name="name" />
+                                <x-input-error :messages="$errors->get('name')"/>
                             </div>
 
                             <div>
                                 <x-label for="image">Image:</x-label>
                                 <x-input type="file" id="image" name="image" accept="image/*" />
+                                <x-input-error :messages="$errors->get('image')"/>
+
                             </div>
 
                             <div>
@@ -127,6 +76,7 @@
                                         <option value="{{ $category->id }}">{{ $category->name }}</option>
                                     @endforeach
                                 </x-select>
+                                <x-input-error :messages="$errors->get('category')"/>
                             </div>
                             <div id="effects-container">
                             </div>

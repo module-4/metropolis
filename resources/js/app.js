@@ -1,4 +1,5 @@
 import './bootstrap';
+import './component-form.js';
 
 const components = document.querySelectorAll('.sim-component');
 const gridItems = document.querySelectorAll('.sim-grid-tile');
