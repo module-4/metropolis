@@ -13,20 +13,12 @@ class CategoriesSeeder extends Seeder
      */
     public function run(): void
     {
-        Category::create([
-            'name' => 'Safety',
-        ]);
+        $simCategories = ['Safety', 'Recreation', 'Eco-Quality', 'Services', 'Mobility'];
 
-        Category::create([
-            'name' => 'Recreation',
-        ]);
-
-        Category::create([
-            'name' => 'Environmental Quality',
-        ]);
-
-        Category::create([
-            'name' => 'Services',
-        ]);
+        foreach ($simCategories as $category) {
+            Category::create([
+                'name' => $category,
+            ]);
+        }
     }
 }
