@@ -16,8 +16,9 @@ use Illuminate\Support\Collection;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Modelgets\Component> $components
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Component> $components
  * @property-read int|null $components_count
+ * @method static \Database\Factories\SimulationFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Simulation newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Simulation newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Simulation onlyTrashed()
@@ -39,24 +40,24 @@ class Simulation extends Model
     protected $fillable = ['alias'];
 
     /**
-     * Get the components for the simulation.
-     */
-    public function components(): BelongsToMany
-    {
-        return $this->belongsToMany(Component::class, table: 'simulation_components')->withPivot('position');
-    }
-
-    /**
      * Returns the effects of a position in the current simulation.
      *
      * @return Collection<Effect>|null
      */
-    public function getPositionEffects(int $position): Collection|null
+    public function getPositionEffects(int $x, int $y): Collection|null
     {
         /** @var Component|null $positionalComponent */
-        $positionalComponent = $this->components()->wherePivot('position', $position)->first();
+        $positionalComponent = $this->components()->wherePivot('x', $x)->wherePivot('y',$y)->first();
 
         return $positionalComponent?->effects()->withPivot('value')->get();
+    }
+
+    /**
+     * Get the components for the simulation.
+     */
+    public function components(): BelongsToMany
+    {
+        return $this->belongsToMany(Component::class, table: 'simulation_components')->withPivot(['x', 'y']);
     }
 
     /**
@@ -87,5 +88,13 @@ class Simulation extends Model
         }
 
         return $appliedEffects;
+    }
+
+
+    public function inBounds(int $x, int $y):bool{
+        if (($x >= 0 && $x <= 3) && ($y >= 0 && $y <= 2)){
+            return true;
+        }
+        return false;
     }
 }
