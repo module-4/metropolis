@@ -72,6 +72,8 @@ class SimulationController extends Controller
 
             $inBlockListComponents = [];
 
+            $allAdjacent = [];
+
             foreach ($offsets as [$dx, $dy]) {
                 $offsetX = $x + $dx;
                 $offsetY = $y + $dy;
@@ -86,9 +88,11 @@ class SimulationController extends Controller
                     continue;
                 }
 
+                $allAdjacent[] = $adjacent;
                 $adjacentBlocklist = $adjacent->component->blocks;
 
-                if ($adjacentBlocklist->contains('id', $componentId)) {
+
+                if ($adjacentBlocklist->contains('id', $componentId) || $component->blocks->contains('id', $adjacent->component_id)) {
                     $inBlockListComponents[] = $adjacent->component;
                     $isBlocked = true;
                 }

@@ -135,6 +135,7 @@ test("validatePositionInSimulation",function (){
     SimulationComponent::create(["simulation_id" => $simulation->id, "component_id" => $component->id, "x" => 0, "y" => 0]);
     SimulationComponent::create(["simulation_id" => $simulation->id, "component_id" => $component->id, "x" => 1, "y" => 0]);
     SimulationComponent::create(["simulation_id" => $simulation->id, "component_id" => $component->id, "x" => 2, "y" => 0]);
+    SimulationComponent::create(["simulation_id" => $simulation->id, "component_id" => $blockedComponent->id, "x" => 0, "y" => 3]);
 
 
     $resWithMissingParameters = $this->get("/api/simulation/" . $simulation->id . "/isblocked");
@@ -145,7 +146,12 @@ test("validatePositionInSimulation",function (){
     $resOutOfBounds->assertStatus(500);
 
     $res = $this->get("/api/simulation/" . $simulation->id . "/isblocked?componentId=".$blockedComponent->id."&x=1&y=1");
-
     $res->assertStatus(200);
     $res->assertJson(["data" => ["isBlocked" => true,"blocklist"=>[]]]);
+
+
+    $resOtherWay = $this->get("/api/simulation/" . $simulation->id . "/isblocked?componentId=".$component->id."&x=0&y=2");
+    $resOtherWay->assertStatus(200);
+    $resOtherWay->assertJson(["data" => ["isBlocked" => true,"blocklist"=>[]]]);
+
 });
