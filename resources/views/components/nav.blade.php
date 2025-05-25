@@ -25,6 +25,13 @@
                 </x-slot:icon>
                 Component Effect Management
             </x-nav-item>
+            <x-nav-item href="{{ route('component-manager') }}"
+                        active="{{ request()->routeIs('component-manager') }}">
+                <x-slot:icon>
+                    <x-tabler-map-route/>
+                </x-slot:icon>
+                Component Manger
+            </x-nav-item>
         </li>
     </x-nav-section>
 </li>

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Events\ComponentCreated;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -64,6 +65,26 @@ class Component extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function blocks()
+    {
+        return $this->belongsToMany(
+            Component::class,
+            'component_blocklist',
+            'component_id',
+            'blocked_component_id'
+        );
+    }
+
+    // Components that block this component
+    public function blockedBy()
+    {
+        return $this->belongsToMany(
+            Component::class,
+            'component_blocklist',
+            'blocked_component_id',
+            'component_id'
+        );
+    }
     public function effects(): BelongsToMany
     {
         return $this->belongsToMany(Effect::class, 'component_effects')->withPivot('value');
@@ -72,5 +93,15 @@ class Component extends Model
     public function notifications(): HasMany
     {
         return $this->hasMany(ComponentNotification::class);
+    }
+    public function getImageNameAttribute($value)
+    {
+        if (str_starts_with($value, 'http')) {
+            return $value;
+        } else if ($value === "placeholder.png" || $value === null) {
+            return asset('placeholder.png');
+        }
+
+        return asset('storage/' . $value);
     }
 }

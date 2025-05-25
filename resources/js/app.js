@@ -1,4 +1,5 @@
 import './bootstrap';
+import './component-form.js';
 
 import Simulation from './inc/classes/Simulation.js';
 import {initializeDragAndDropListeners, initializeHoverListeners} from './inc/component-handler.js';
