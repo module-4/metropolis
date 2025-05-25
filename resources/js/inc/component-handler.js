@@ -171,7 +171,7 @@ const gridItemDropHandler = async (e, simulation) => {
 
         clonedComponent.id = `component-${randomBytes}`;
         clonedComponent.addEventListener('dragstart', componentDragStartHandler);
-        e.target.appendChild(clonedComponent);
+        e.currentTarget.appendChild(clonedComponent);
 
         await handleTileValidation(
             simulation, componentId, x, y,
@@ -183,8 +183,8 @@ const gridItemDropHandler = async (e, simulation) => {
             },
             async () => {
                 // Remove tile
-                while (e.currentTarget?.lastChild) {
-                    e.currentTarget.lastChild.remove();
+                while (e.target?.lastChild) {
+                    e.target.lastChild.remove();
                 }
             }
         );
