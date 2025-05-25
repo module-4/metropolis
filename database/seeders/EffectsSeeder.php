@@ -13,24 +13,12 @@ class EffectsSeeder extends Seeder
      */
     public function run(): void
     {
-        Effect::create([
-            'name' => 'Safety'
-        ]);
+        $simEffects = ['Safety', 'Recreation', 'Eco-Quality', 'Services'];
 
-        Effect::create([
-            'name' => 'Recreation'
-        ]);
-
-        Effect::create([
-            'name' => 'Eco-Quality'
-        ]);
-
-        Effect::create([
-            'name' => 'Services'
-        ]);
-
-        Effect::create([
-            'name' => 'Mobility'
-        ]);
+        foreach ($simEffects as $effect) {
+            Effect::create([
+                'name' => $effect,
+            ]);
+        }
     }
 }

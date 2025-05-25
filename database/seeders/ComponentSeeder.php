@@ -49,11 +49,11 @@ class ComponentSeeder extends Seeder
             'category_id' => Category::firstWhere('name', 'Recreation')->id,
         ]);
 
-        // Environmental Quality Components
+        // Eco-Quality Components
         Component::create([
             'name' => 'Water Treatment',
             'image_name' => "https://em-content.zobj.net/source/microsoft-3D-fluent/406/potable-water_1f6b0.png",
-            'category_id' => Category::firstWhere('name', 'Environmental Quality')->id,
+            'category_id' => Category::firstWhere('name', 'Eco-Quality')->id,
         ]);
 
         // Services Components
