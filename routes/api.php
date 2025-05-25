@@ -15,6 +15,7 @@ Route::group(['prefix' => 'simulation/{simulation}'], function () {
             ];
         }),
 
-        Route::get("/neighbors", [SimulationController::class, 'getNeighbors'])
+        Route::get("/neighbors", [SimulationController::class, 'getNeighbors']),
+        Route::get("/isblocked", [SimulationController::class, 'isBlocked'])
     ];
 });

@@ -1,8 +1,9 @@
 <?php
 
-use App\Models\Component;
 use App\Models\Simulation;
 use App\Models\SimulationComponent;
+use App\Models\ComponentBlockList;
+use App\Models\Component;
 
 
 // /api/simulation/{simulationId}/neighbors?x=int&y=int
@@ -122,4 +123,35 @@ test("updateComponentPositionInSimulation", function () {
     $res->assertStatus(200);
     $res->assertJson(["data" => ["altered_data" => ["x" => 1, "y" => 1], "effects" => []]]);
     $this->assertDatabaseHas("simulation_components", ["simulation_id" => $simulation->id, "component_id" => $component->id, "x" => 1, "y" => 1]);
+});
+
+test("validatePositionInSimulation",function (){
+    $simulation = Simulation::factory()->create();
+    $component = Component::factory()->create();
+    $blockedComponent = Component::factory()->create();
+
+    ComponentBlockList::create(["component_id" => $component->id, "blocked_component_id" => $blockedComponent->id]);
+
+    SimulationComponent::create(["simulation_id" => $simulation->id, "component_id" => $component->id, "x" => 0, "y" => 0]);
+    SimulationComponent::create(["simulation_id" => $simulation->id, "component_id" => $component->id, "x" => 1, "y" => 0]);
+    SimulationComponent::create(["simulation_id" => $simulation->id, "component_id" => $component->id, "x" => 2, "y" => 0]);
+    SimulationComponent::create(["simulation_id" => $simulation->id, "component_id" => $blockedComponent->id, "x" => 0, "y" => 3]);
+
+
+    $resWithMissingParameters = $this->get("/api/simulation/" . $simulation->id . "/isblocked");
+    $resWithMissingParameters->assertStatus(500);
+
+    $resOutOfBounds = $this->get("/api/simulation/" . $simulation->id . "/isblocked?componentId=" . $component->id . "&x=100&y=100");
+
+    $resOutOfBounds->assertStatus(500);
+
+    $res = $this->get("/api/simulation/" . $simulation->id . "/isblocked?componentId=".$blockedComponent->id."&x=1&y=1");
+    $res->assertStatus(200);
+    $res->assertJson(["data" => ["isBlocked" => true,"blocklist"=>[]]]);
+
+
+    $resOtherWay = $this->get("/api/simulation/" . $simulation->id . "/isblocked?componentId=".$component->id."&x=0&y=2");
+    $resOtherWay->assertStatus(200);
+    $resOtherWay->assertJson(["data" => ["isBlocked" => true,"blocklist"=>[]]]);
+
 });
