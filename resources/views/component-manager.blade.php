@@ -1,6 +1,5 @@
 <x-dashboard-layout>
 
-
     <div class="flex items-center justify-center grow max-h-full">
         <x-card class="min-h-[95%] w-[95%] overflow-hidden flex flex-col">
             <div class="container mx-auto px-6 py-8">
@@ -23,11 +22,12 @@
                     </div>
                 @endif
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-7 gap-6">
+                <div class="flex flex-wrap gap-6">
                     @foreach ($components as $simComponent)
-                        <div class="bg-white shadow rounded-lg p-4 relative flex flex-col items-center justify-between text-center h-full">
-                            <img src="{{ $simComponent->image_name }}" alt="{{ $simComponent->name }}"
-                                 class="w-[150px] h-[150px] object-cover rounded mb-3 mx-auto">
+                        <div class="w-[200px] bg-white shadow rounded-lg p-4 relative flex flex-col items-center justify-between text-center h-full">
+                            <div class="max-w-[150px] max-h-[150px] border object-cover rounded mb-3 mx-auto">
+                                <img src="{{ $simComponent->image_name }}" alt="{{ $simComponent->name }}">
+                            </div>
 
                             <h2 class="text-lg font-semibold">{{ $simComponent->name }}</h2>
                             <p class="text-sm text-gray-600 mb-3">Category: {{ $simComponent->category->name ?? 'N/A' }}</p>
@@ -38,6 +38,7 @@
                         </div>
                     @endforeach
                 </div>
+
                 <div id="formModal"
                      class="fixed inset-0 bg-black/10 flex items-center justify-center z-50 hidden">
                     <div id="effect-row-template" class="flex gap-2" hidden>

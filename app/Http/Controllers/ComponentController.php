@@ -62,39 +62,27 @@ class ComponentController extends Controller
 
     public function update(Request $request, Component $component)
     {
-
-
+//        return redirect(route('component-manager'))->with('success', '000');
         $validated = $request->validate([
-            'name' => 'required|unique:components|max:255',
-            'image_url' => 'required',
+            'name' => 'required|unique:components,name,'. $component->id .'|max:255',
+            'image' => 'nullable|image',
             'category_id' => 'required|exists:categories,id',
-            'effect_id' => 'required|exists:effects,id',
         ]);
+
+        $attributes = [
+            'name' => $validated['name'],
+            'category_id' => $validated['category_id'],
+        ];
 
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('images', 'public');
+            $attributes['image_name'] = $imagePath;
         }
 
-        $component->update([
+        $component->update($attributes);
 
-            'name' => $validated['name'],
-            //todo: IMAGE_URL moet een geupload bestand zijn, waar image_url de lokale locatie is van het bestand
-            'image_url' => $imagePath,
-            'category_id' => $validated['category_id'],
-        ]);
-
-//        $component->effects()->sync([
-//            $validated['effect_id'] => ['value' => 0.0]
-//        ]);
-
-        $effectsData = [];
-        foreach ($validated['effects'] as $effect) {
-            $effectsData[$effect['id']] = ['value' => $effect['value']];
-        }
-
-        $component->effects()->attach($effectsData);
-
-        return redirect()->route('component-manager')->with('success', 'Component updated successfully.');
+        return redirect(route('component-manager'))->with('success', 'Component updated successfully.');
+//        return redirect()->route('component-manager')->with('success', 'Component updated successfully.');
     }
 
 
