@@ -1,4 +1,7 @@
+/** @type {HTMLDialogElement} */
 const blockListWarningDialog = document.getElementById('simulation-blocklist-warning');
+blockListWarningDialog.onSuccess = () => {};
+blockListWarningDialog.onFailure = () => {};
 const blockListWarningDialogAcceptButton = blockListWarningDialog?.querySelector('button[name=accept]')
 const blockListWarningDialogDismissButton = blockListWarningDialog?.querySelector('button[name=dismiss]')
 
@@ -71,12 +74,55 @@ const componentDragStartHandler = e => {
 }
 
 /**
+ * Handle the tile validation
+ * @param {Simulation} simulation
+ * @param {number} componentId
+ * @param {number} x
+ * @param {number} y
+ * @param {(() => any)?} onSuccess
+ * @param {(() => any)?} onFailure
+ * @returns {Promise<void>}
+ */
+const handleTileValidation = async (simulation, componentId, x, y, onSuccess, onFailure) => {
+    await simulation.validateComponentPlacement(componentId, x, y, async (success, data) => {
+        if (!success) return;
+
+        if (data.isBlocked === true) {
+            // Show warning
+            const list = blockListWarningDialog.querySelector('ul');
+            while(list.lastChild) {
+                list.lastChild.remove();
+            }
+            data.blocklist.forEach(blockedComponent => {
+                const listItem = document.createElement('li');
+                listItem.textContent = blockedComponent.name;
+                list.appendChild(listItem);
+            });
+
+            blockListWarningDialog.querySelector('form input[name=componentId]').value = componentId;
+            blockListWarningDialog.querySelector('form input[name=x]').value = x;
+            blockListWarningDialog.querySelector('form input[name=y]').value = y;
+
+            blockListWarningDialog.showModal();
+
+            // Set custom callbacks
+            if (onSuccess) blockListWarningDialog.onSuccess = onSuccess;
+            if (onFailure) blockListWarningDialog.onFailure = onFailure;
+        } else {
+            if (onSuccess) await onSuccess();
+        }
+    });
+}
+
+/**
  * Initialize the drop handler for a grid item.
  * @param {Event} e
  * @param {Simulation} simulation
  * @returns {Promise<void>}
  */
 const gridItemDropHandler = async (e, simulation) => {
+    e.stopPropagation();
+
     const data = JSON.parse(e.dataTransfer.getData('text/json') ?? "{}");
     const draggedComponent = document.getElementById(data.targetId);
     const componentId = parseInt(draggedComponent.getAttribute('data-component-id'));
@@ -91,10 +137,25 @@ const gridItemDropHandler = async (e, simulation) => {
 
     // If the dragged component's origin is the grid, update the position
     if (data.origin.name === 'grid') {
-        e.target.appendChild(draggedComponent);
-        await simulation.updateComponentPosition(data.origin.x, data.origin.y, x, y, (success, data) => {
-            if (success) updateEffectsList(data.effects);
-        });
+        e.currentTarget.appendChild(draggedComponent);
+
+        await handleTileValidation(
+            simulation, componentId, x, y,
+            async () => {
+                await simulation.updateComponentPosition(data.origin.x, data.origin.y, x, y, (success, data) => {
+                    if (success) updateEffectsList(data.effects);
+                });
+            },
+            async () => {
+                // Place the component back where it belongs
+                const tile = document.querySelector(`.sim-grid-tile[data-x="${data.origin.x}"][data-y="${data.origin.y}"]`);
+                tile.appendChild(draggedComponent);
+                // Clear children
+                while (e.currentTarget?.lastChild) {
+                    e.currentTarget.lastChild.remove()
+                }
+            }
+        );
         return;
     }
 
@@ -112,37 +173,21 @@ const gridItemDropHandler = async (e, simulation) => {
         clonedComponent.addEventListener('dragstart', componentDragStartHandler);
         e.target.appendChild(clonedComponent);
 
-        await simulation.validateComponentPlacement(componentId, x, y, async (success, data) => {
-            if (!success) return;
-            // If unsuccessful, show error.
-            console.log(data)
-            if (data.isBlocked === true) {
-                // Show warning
-                const list = blockListWarningDialog.querySelector('ul');
-                while(list.lastChild) {
-                    list.lastChild.remove();
-                }
-                data.blocklist.forEach(blockedComponent => {
-                    const listItem = document.createElement('li');
-                    listItem.textContent = blockedComponent.name;
-                    list.appendChild(listItem);
+        await handleTileValidation(
+            simulation, componentId, x, y,
+            async () => {
+                // Place tile
+                await simulation.addComponentAtPosition(componentId, x, y, (success, data) => {
+                    if (success) updateEffectsList(data.effects);
                 });
-
-                blockListWarningDialog.querySelector('form input[name=componentId]').value = componentId
-                blockListWarningDialog.querySelector('form input[name=x]').value = x
-                blockListWarningDialog.querySelector('form input[name=y]').value = y
-
-                blockListWarningDialog.showModal();
-                return;
+            },
+            async () => {
+                // Remove tile
+                while (e.currentTarget?.lastChild) {
+                    e.currentTarget.lastChild.remove();
+                }
             }
-
-            await simulation.addComponentAtPosition(componentId, x, y, (success, data) => {
-                if (success) updateEffectsList(data.effects);
-            });
-        })
-        // await simulation.addComponentAtPosition(componentId, x, y, (success, data) => {
-        //     if (success) updateEffectsList(data.effects);
-        // });
+        );
     }
 }
 
@@ -201,8 +246,15 @@ export const initializeDragAndDropListeners = (simulation) => {
             y: parseInt(elements.y.value)
         }
         const tile = document.querySelector(`.sim-grid-tile[data-x="${data.x}"][data-y="${data.y}"]`);
-        while (tile.lastChild) {
-            tile.lastChild.remove();
+
+        switch (blockListWarningDialog.returnValue) {
+            case 'dismiss':
+                blockListWarningDialog.onSuccess();
+                break;
+            case 'accept':
+            default:
+                blockListWarningDialog.onFailure();
+                break;
         }
     })
     blockListWarningForm?.addEventListener('submit', async e => {
@@ -214,35 +266,10 @@ export const initializeDragAndDropListeners = (simulation) => {
             y: parseInt(elements.y.value)
         }
         const type = e.submitter.name;
-        const tile = document.querySelector(`.sim-grid-tile[data-x="${data.x}"][data-y="${data.y}"]`);
-        const clearGridTile = () => {
-            while (tile.lastChild) {
-                tile.lastChild.remove();
-            }
-        }
+        // const tile = document.querySelector(`.sim-grid-tile[data-x="${data.x}"][data-y="${data.y}"]`);
 
-        if (type === 'accept') {
-            blockListWarningDialog.close();
-            clearGridTile();
-        }
-        else if (type === 'dismiss') {
-            blockListWarningDialog.close();
-            // Add component regardless
-            await simulation.addComponentAtPosition(data.componentId, data.x, data.y, (success, data) => {
-                if (success) return;
-                clearGridTile();
-            });
-        }
+        blockListWarningDialog.close(type);
     });
-
-    // blockListWarningDialogAcceptButton?.addEventListener('click', async e => {
-    //     blockListWarningDialog.close();
-    //     // Remove placed grid-item
-    // });
-    // blockListWarningDialogDismissButton?.addEventListener('click', async e => {
-    //     blockListWarningDialog.close();
-    //     // await simulation.
-    // });
 }
 
 /**
@@ -250,7 +277,7 @@ export const initializeDragAndDropListeners = (simulation) => {
  * @param {Simulation} simulation
  */
 export const initializeHoverListeners = (simulation) => {
-    /** @type {number?} */
+    /** @type {?number} */
     let hoverTimeout = null;
 
     /**
