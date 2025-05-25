@@ -44,3 +44,10 @@ Route::patch('/component-effect-management/{componentId}/{effectId}', [Component
 Route::get('/drag-drop-test', function () {
     return view('drag-drop-test');
 })->name('drag-drop-test');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/component-manager', [\App\Http\Controllers\ComponentController::class, 'index'])->name('component-manager');
+    Route::post('/component-manager', [\App\Http\Controllers\ComponentController::class, 'store'])->name('component-store');
+    Route::get('/components-manager/{component}/edit', [\App\Http\Controllers\ComponentController::class, 'edit'])->name('components.edit');
+    Route::patch('/components-manager/{component}', [\App\Http\Controllers\ComponentController::class, 'update'])->name('components.update');
+});
