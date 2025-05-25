@@ -21,7 +21,7 @@ beforeEach(function () {
     $this->image = UploadedFile::fake()->image('component.jpg');
 });
 
-test('Component routing', function () {
+test('Authenticated user can access routes', function () {
     actingAs($this->user);
 
     $response = get(route('component-manager'));
@@ -33,6 +33,12 @@ test('Component routing', function () {
         'effects',
         'categories',
     ]);
+});
+
+test('unauthenticated user cannot access component manager', function () {
+    $response = get(route('component-manager'));
+
+    $response->assertRedirect(route('login'));
 });
 
 test('store a component', function () {
