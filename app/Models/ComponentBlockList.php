@@ -36,7 +36,7 @@ class ComponentBlockList extends Model
      */
     protected $table = 'component_blocklist';
 
-    protected $primaryKey = ['component_id', 'simulation_id'];
+    protected $primaryKey = ['component_id', 'blocked_component_id'];
     public $timestamps = false;
     public $incrementing = false;
     protected $keyType = 'int';

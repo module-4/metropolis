@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ComponentBlockListController;
 use App\Http\Controllers\ComponentEffectManagementController;
 use App\Http\Controllers\SimulationController;
 use App\Models\ComponentNotification;
@@ -41,13 +42,16 @@ Route::patch('/component-effect-management/{componentId}/{effectId}', [Component
     ->name('component-effect-management-update')
     ->middleware('auth');
 
-Route::get('/drag-drop-test', function () {
-    return view('drag-drop-test');
-})->name('drag-drop-test');
-
 Route::middleware('auth')->group(function () {
     Route::get('/component-manager', [\App\Http\Controllers\ComponentController::class, 'index'])->name('component-manager');
     Route::post('/component-manager', [\App\Http\Controllers\ComponentController::class, 'store'])->name('component-store');
     Route::get('/components-manager/{component}/edit', [\App\Http\Controllers\ComponentController::class, 'edit'])->name('components.edit');
     Route::patch('/components-manager/{component}', [\App\Http\Controllers\ComponentController::class, 'update'])->name('components.update');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/blocklist', [ComponentBlockListController::class, 'index'])->name('blocklist.index');
+    Route::get('/blocklist/create', [ComponentBlockListController::class, 'create'])->name('blocklist.create');
+    Route::delete('/blocklist/{componentId}/{blockedComponentId}', [ComponentBlockListController::class, 'destroy'])->name('blocklist.destroy');
+    Route::post('/blocklist', [ComponentBlockListController::class, 'store'])->name('blocklist.store');
 });

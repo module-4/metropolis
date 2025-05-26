@@ -21,16 +21,23 @@
             <x-nav-item href="{{ route('component-effect-management') }}"
                         active="{{ request()->routeIs('component-effect-management') }}">
                 <x-slot:icon>
-                    <x-tabler-map-route/>
+                    <x-tabler-waves-electricity />
                 </x-slot:icon>
                 Component Effect Management
             </x-nav-item>
             <x-nav-item href="{{ route('component-manager') }}"
                         active="{{ request()->routeIs('component-manager') }}">
                 <x-slot:icon>
-                    <x-tabler-map-route/>
+                    <x-tabler-puzzle />
                 </x-slot:icon>
-                Component Manger
+                Component Manager
+            </x-nav-item>
+            <x-nav-item href="{{ route('blocklist.index') }}"
+                        active="{{ request()->routeIs('blocklist.index') }}">
+                <x-slot:icon>
+                    <x-tabler-ban />
+                </x-slot:icon>
+                Placement restrictions
             </x-nav-item>
         </li>
     </x-nav-section>
