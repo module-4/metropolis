@@ -40,7 +40,7 @@
         <li>Component 3</li>
     </ul>
     <p class="italic text-danger text-sm mt-5">
-        Dismissing this warning will result in the component being forcefully placed, disregarding any blocklist conditions that have been set, for this occurance.
+        Dismissing this warning will result in the component being forcefully placed, disregarding any placement restrictions that have been set, for this occurance.
     </p>
     <x-slot:footer>
         <form>
