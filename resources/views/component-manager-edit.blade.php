@@ -30,7 +30,7 @@
                                     type="file" name="image" id="image"
                                 />
                                 @if ($simComponent->image_name)
-                                    <img src="/{{ $simComponent->image_name }}" alt="component image" class="max-h-40 block">
+                                    <img src="{{ $simComponent->image_name }}" alt="component image" class="max-h-40 block">
                                 @endif
                             </div>
                             <x-input-error :messages="$errors->get('image')"/>
