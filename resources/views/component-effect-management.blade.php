@@ -10,12 +10,16 @@
             </div>
         @endif
         <div class="flex flex-wrap content-start">
-            @foreach($data as $simComponent)
+            @forelse($data as $simComponent)
                 <x-component-effect-card
                     :simComponent="$simComponent"
                 >
                 </x-component-effect-card>
-            @endforeach
+            @empty
+                <div class="flex justify-center items-center w-full">
+                    <p class="text-lg font-bold mt-2">No Components</p>
+                </div>
+            @endforelse
         </div>
         <div class="m-4">
             {{ $data->links() }}
