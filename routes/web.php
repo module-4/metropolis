@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ComponentBlockListController;
 use App\Http\Controllers\ComponentEffectManagementController;
+use App\Http\Controllers\PDFReportController;
 use App\Http\Controllers\SimulationController;
 use App\Models\ComponentNotification;
 use Illuminate\Support\Facades\Route;
@@ -54,4 +55,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/blocklist/create', [ComponentBlockListController::class, 'create'])->name('blocklist.create');
     Route::delete('/blocklist/{componentId}/{blockedComponentId}', [ComponentBlockListController::class, 'destroy'])->name('blocklist.destroy');
     Route::post('/blocklist', [ComponentBlockListController::class, 'store'])->name('blocklist.store');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/create-report', [PDFReportController::class, 'index'])->name('create-report');
 });
