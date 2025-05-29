@@ -1,9 +1,12 @@
 <x-dashboard-layout>
     <div class="flex items-center justify-center grow max-h-full">
         <x-card class="min-h-[95%] w-[95%] overflow-hidden flex flex-col">
-            <x-slot name="title">
-                Simulation view
-            </x-slot>
+            <div class="flex justify-between items-center">
+                <h1 class="font-bold text-xl leading-none tracking-tight p-6">
+                    Simulation view
+                </h1>
+                <x-button :isLink="true" href="{{ route('create-report') }}">Create PDF</x-button>
+            </div>
             <div class="flex flex-col">
                 <div class="
                     grid
