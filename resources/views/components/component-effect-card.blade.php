@@ -14,7 +14,7 @@
                         <x-table-data><form id="form-{{ $effect->name }}" method="POST" action="{{ route('component-effect-management-update', ['componentId' => $simComponent->id, 'effectId' => $effect->id]) }}">
                                 @csrf
                                 @method('PATCH')
-                                <input value="{{ $effect->pivot->value }}" name="effect-value" type="number" class="border rounded px-3 py-2 w-full text-center" min="-100000000" max="100000000"/>
+                                <input value="{{ $effect->pivot->value }}" name="effect-value" type="number" class="border rounded px-3 py-2 w-full text-center" min="-100000" max="100000"/>
                             </form></x-table-data>
                         <x-table-data><button form="form-{{ $effect->name }}" class="bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 rounded">
                                 Update
