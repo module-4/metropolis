@@ -15,6 +15,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",
         "secondnetwork/blade-tabler-icons": "^3.31",
+        "spatie/laravel-pdf": "^1.5",
         "thiagoprz/eloquent-composite-key": "^1.0"
     },
     "require-dev": {
