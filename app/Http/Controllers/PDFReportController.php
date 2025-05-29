@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Simulation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Spatie\LaravelPdf\Facades\Pdf;
+use function Spatie\LaravelPdf\Support\pdf;
 class  PDFReportController extends Controller
 {
     public function index() {
@@ -19,7 +19,8 @@ class  PDFReportController extends Controller
 
         //return view('report', compact('simulation', 'effects', 'simulationComponents', 'dateOfExport'));
 
-        return Pdf::view('report', compact('simulation', 'totalEffects', 'simulationComponents', 'dateOfExport'))
+        return pdf()
+            ->view('report', compact('simulation', 'totalEffects', 'simulationComponents', 'dateOfExport'))
             ->format('a4')
             ->name($fileName);
     }

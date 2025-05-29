@@ -16,8 +16,6 @@
 
     overflow-y-auto
     max-h-[400px]
-    w-full
-
     self-start
     border
     border-gray-200
