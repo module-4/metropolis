@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class ComponentEffectManagementController extends Controller
 {
     public function index() {
-        $data = Component::with('effects')->get();
+        $data = Component::with('effects')->paginate(6);
         return view('component-effect-management', compact('data'));
     }
 
