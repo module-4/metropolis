@@ -1,5 +1,5 @@
 <x-dashboard-layout>
-    <div class="flex flex-col">
+    <div class="flex flex-col w-full">
         @if ($errors->any())
             <div class="bg-red-100 text-red-800 p-4 rounded mb-4 ">
                 <ul>
@@ -16,6 +16,9 @@
                 >
                 </x-component-effect-card>
             @endforeach
+        </div>
+        <div class="m-4">
+            {{ $data->links() }}
         </div>
     </div>
 </x-dashboard-layout>
