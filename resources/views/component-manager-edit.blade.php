@@ -52,7 +52,7 @@
                     </div>
                     {{-- Submit Button --}}
                     <div class="flex items-center justify-between">
-                        <x-button id="closeComponenteditForm" variant="danger" type="button">
+                        <x-button :isLink="true" href="{{ route('component-manager') }}" variant="danger">
                             Cancel
                         </x-button>
                         <x-button variant="primary" type="submit">
