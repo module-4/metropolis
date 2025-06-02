@@ -8,7 +8,7 @@ use Illuminate\Support\Carbon;
 use function Spatie\LaravelPdf\Support\pdf;
 class  PDFReportController extends Controller
 {
-    public function index() {
+    public function show() {
 
         $simulation = Simulation::firstOrCreate([], ["alias" => "simulation_1"]);
         $totalEffects = $simulation->getGridEffects();
@@ -16,8 +16,6 @@ class  PDFReportController extends Controller
 
         $dateOfExport = Carbon::now()->toDateString();
         $fileName = 'Simulation Report - ' . $dateOfExport;
-
-        //return view('report', compact('simulation', 'effects', 'simulationComponents', 'dateOfExport'));
 
         return pdf()
             ->view('report', compact('simulation', 'totalEffects', 'simulationComponents', 'dateOfExport'))

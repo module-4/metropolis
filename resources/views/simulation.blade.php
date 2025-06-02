@@ -5,7 +5,7 @@
                 <h1 class="font-bold text-xl leading-none tracking-tight p-6">
                     Simulation view
                 </h1>
-                <x-button :isLink="true" href="{{ route('create-report') }}">Create PDF</x-button>
+                <x-button :isLink="true" href="{{ route('reports.show') }}">Create PDF</x-button>
             </div>
             <div class="flex flex-col">
                 <div class="

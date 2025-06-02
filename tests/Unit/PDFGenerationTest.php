@@ -19,9 +19,9 @@ beforeEach(function () {
     SimulationComponent::create(["simulation_id" => $simulation->id, "component_id" => $component->id, "x" => 1, "y" => 0]);
 });
 
-test('/create-report returns a pdf', closure: function () {
+test('/report returns a pdf', closure: function () {
     $this->actingAs(User::factory()->create());
-    $this->get(route('create-report'))->assertOk();
+    $this->get(route('reports.show'))->assertOk();
 
     $dateOfExport = Carbon::now()->toDateString();
 
