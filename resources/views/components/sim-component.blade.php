@@ -14,6 +14,11 @@
     items-center
     gap-2
     text-center
+
+    transition-shadow duration-200 ease
+
+    cursor-grab
+    hover:shadow-md
 ">
     {{ $slot }}
 </div>
