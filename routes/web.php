@@ -58,5 +58,5 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/create-report', [PDFReportController::class, 'index'])->name('create-report');
+    Route::get('/report', [PDFReportController::class, 'show'])->name('reports.show');
 });
