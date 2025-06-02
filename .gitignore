@@ -6,7 +6,6 @@
 /storage/*.key
 /storage/pail
 /vendor
-/docker
 .env
 .env.backup
 .env.production
