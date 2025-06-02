@@ -1503,7 +1503,10 @@
                 <x-table-data>{{ $value }}</x-table-data>
             </x-table-row>
         @empty
-            <p>No effects found.</p>
+            <x-table-row>
+                <x-table-data>No effects found.</x-table-data>
+                <x-table-data></x-table-data>
+            </x-table-row>
         @endforelse
     </x-table>
     @pageBreak
@@ -1515,7 +1518,7 @@
             <x-table-head>Category</x-table-head>
             <x-table-head>Effects</x-table-head>
         </x-slot:thead>
-        @foreach($simulationComponents as $comp)
+        @forelse($simulationComponents as $comp)
 
             <x-table-row>
                 <x-table-data>{{ $comp->name }}</x-table-data>
@@ -1529,8 +1532,14 @@
                     @endforeach
                 </x-table-data>
             </x-table-row>
-
-        @endforeach
+        @empty
+            <x-table-row>
+                <x-table-data>No components found.</x-table-data>
+                <x-table-data></x-table-data>
+                <x-table-data></x-table-data>
+                <x-table-data></x-table-data>
+            </x-table-row>
+        @endforelse
     </x-table>
 </div>
 </body>
