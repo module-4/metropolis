@@ -31,7 +31,7 @@
         @endif
     </div>
 
-    <div class="flex flex-col gap-2 overflow-y-auto rounded-md">
+    <div class="flex flex-col gap-1 overflow-y-auto rounded-md {{ count($categories) > 0 ? 'mt-2' : '' }}">
         @forelse($categories as $category)
             <x-sim-component-group :category="$category">
                 @forelse($category->components as $gridComponent)
