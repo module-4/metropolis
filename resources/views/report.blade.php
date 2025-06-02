@@ -1506,6 +1506,7 @@
             <p>No effects found.</p>
         @endforelse
     </x-table>
+    @pageBreak
     <h2 class="font-bold text-2xl py-6">Used Components and Effects</h2>
     <x-table>
         <x-slot:thead>
