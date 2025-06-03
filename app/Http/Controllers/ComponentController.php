@@ -62,7 +62,6 @@ class ComponentController extends Controller
 
     public function update(Request $request, Component $component)
     {
-//        return redirect(route('component-manager'))->with('success', '000');
         $validated = $request->validate([
             'name' => 'required|unique:components,name,'. $component->id .'|max:255',
             'image' => 'nullable|image',
@@ -82,7 +81,6 @@ class ComponentController extends Controller
         $component->update($attributes);
 
         return redirect(route('component-manager'))->with('success', 'Component updated successfully.');
-//        return redirect()->route('component-manager')->with('success', 'Component updated successfully.');
     }
 
 

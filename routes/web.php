@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ComponentBlockListController;
 use App\Http\Controllers\ComponentEffectManagementController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\SimulationController;
 use App\Models\ComponentNotification;
 use Illuminate\Support\Facades\Route;
@@ -55,3 +56,5 @@ Route::middleware('auth')->group(function () {
     Route::delete('/blocklist/{componentId}/{blockedComponentId}', [ComponentBlockListController::class, 'destroy'])->name('blocklist.destroy');
     Route::post('/blocklist', [ComponentBlockListController::class, 'store'])->name('blocklist.store');
 });
+
+Route::resource('events', EventController::class)->middleware('auth');
