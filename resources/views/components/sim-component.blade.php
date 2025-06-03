@@ -9,7 +9,6 @@
     p-2
     rounded-md
     text-black
-    sim-component
     flex
     items-center
     gap-2
@@ -19,6 +18,7 @@
 
     cursor-grab
     hover:shadow-md
+    sim-component
 ">
     {{ $slot }}
 </div>

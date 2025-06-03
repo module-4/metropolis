@@ -32,7 +32,7 @@
     </div>
 
     <div class="flex flex-col gap-1 overflow-y-auto rounded-md {{ count($categories) > 0 ? 'mt-2' : '' }}">
-        @forelse($categories as $category)
+        @foreach($categories as $category)
             <x-sim-component-group :category="$category">
                 @forelse($category->components as $gridComponent)
                     <x-sim-component :id="$gridComponent->id">
@@ -43,9 +43,10 @@
                     <p>No components have been added to this category.</p>
                 @endforelse
             </x-sim-component-group>
-        @empty
-            <p>No components and categories found.</p>
-        @endforelse
+        @endforeach
+        <p {{ count($categories) > 1 ? 'hidden aria-hidden' : '' }} id="category-library-empty-state" class="text-sm text-neutral-700 italic">
+            No components found.
+        </p>
     </div>
 
 </div>
