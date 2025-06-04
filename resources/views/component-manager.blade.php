@@ -24,7 +24,7 @@
 
                 <div class="flex flex-wrap gap-6">
                     @foreach ($components as $simComponent)
-                        <div class="w-[200px] bg-white shadow rounded-lg p-4 relative flex flex-col items-center justify-between text-center h-full">
+                        <div class="w-[200px] bg-white shadow rounded-lg p-4 relative flex flex-col gap-2 items-center justify-between text-center h-full">
                             <div class="max-w-[150px] max-h-[150px] border object-cover rounded mb-3 mx-auto">
                                 <img src="{{ $simComponent->image_name }}" alt="{{ $simComponent->name }}">
                             </div>
@@ -35,6 +35,13 @@
                             <x-button isLink href="/components-manager/{{ $simComponent->id }}/edit" variant="primary">
                                 Edit
                             </x-button>
+                            <form method="post" action="{{ route('components.destroy', $simComponent) }}">
+                                @method('DELETE')
+                                @csrf
+                                <x-button variant="danger">
+                                    Delete
+                                </x-button>
+                            </form>
                         </div>
                     @endforeach
                 </div>
@@ -47,9 +54,7 @@
                                 <option value="{{ $effect->id }}">{{ $effect->name }}</option>
                             @endforeach
                         </x-select>
-{{--                        <x-input-error :messages="$errors->get('effects.*.id')"/>--}}
                         <x-input type="text" placeholder="Effect Value" required />
-{{--                        <x-input-error :messages="$errors->get('effects.*.value')"/>--}}
                     </div>
                     <form id="newComponentForm" method="POST" action="{{ route('component-store') }}" enctype="multipart/form-data" class="bg-white shadow-md rounded-lg p-6 space-y-4">
                         @csrf

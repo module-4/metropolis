@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/component-manager', [\App\Http\Controllers\ComponentController::class, 'store'])->name('component-store');
     Route::get('/components-manager/{component}/edit', [\App\Http\Controllers\ComponentController::class, 'edit'])->name('components.edit');
     Route::patch('/components-manager/{component}', [\App\Http\Controllers\ComponentController::class, 'update'])->name('components.update');
+    Route::delete('/components-manager/{component}', [\App\Http\Controllers\ComponentController::class, 'destroy'])->name('components.destroy');
 });
 
 Route::middleware('auth')->group(function () {

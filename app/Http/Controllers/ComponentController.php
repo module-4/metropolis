@@ -6,7 +6,6 @@ use App\Models\Category;
 use App\Models\Component;
 use App\Models\Effect;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 
 
 class ComponentController extends Controller
@@ -20,7 +19,42 @@ class ComponentController extends Controller
         return view('component-manager', compact('components', 'categories', 'effects'));
     }
 
-    public function store(Request $request) {
+    public function edit(Component $component)
+    {
+        $categories = Category::all();
+        $effects = Effect::all();
+        $compEffects = $component->effects()->get();
+        $simComponent = $component;
+
+        return view('component-manager-edit', compact('simComponent', 'categories', 'effects', 'compEffects'));
+    }
+
+    public function update(Request $request, Component $component)
+    {
+//        return redirect(route('component-manager'))->with('success', '000');
+        $validated = $request->validate([
+            'name' => 'required|unique:components,name,' . $component->id . '|max:255',
+            'image' => 'nullable|image',
+            'category_id' => 'required|exists:categories,id',
+        ]);
+
+        $attributes = [
+            'name' => $validated['name'],
+            'category_id' => $validated['category_id'],
+        ];
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
+            $attributes['image_name'] = $imagePath;
+        }
+
+        $component->update($attributes);
+
+        return redirect(route('component-manager'))->with('success', 'Component updated successfully.');
+    }
+
+    public function store(Request $request)
+    {
         $validated = $request->validate([
             'name' => 'required|unique:components|max:255',
             'image' => 'required|image',
@@ -51,38 +85,11 @@ class ComponentController extends Controller
         return redirect()->route('component-manager')->with('success', 'Component created successfully.');
     }
 
-    public function edit(Component $component) {
-        $categories = Category::all();
-        $effects = Effect::all();
-        $compEffects = $component->effects()->get();
-        $simComponent = $component;
-
-        return view('component-manager-edit', compact('simComponent', 'categories', 'effects', 'compEffects'));
-    }
-
-    public function update(Request $request, Component $component)
+    public function destroy(Component $component)
     {
-//        return redirect(route('component-manager'))->with('success', '000');
-        $validated = $request->validate([
-            'name' => 'required|unique:components,name,'. $component->id .'|max:255',
-            'image' => 'nullable|image',
-            'category_id' => 'required|exists:categories,id',
-        ]);
+        $component->delete();
 
-        $attributes = [
-            'name' => $validated['name'],
-            'category_id' => $validated['category_id'],
-        ];
-
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images', 'public');
-            $attributes['image_name'] = $imagePath;
-        }
-
-        $component->update($attributes);
-
-        return redirect(route('component-manager'))->with('success', 'Component updated successfully.');
-//        return redirect()->route('component-manager')->with('success', 'Component updated successfully.');
+        return redirect(route('component-manager'))->with('success', 'Component deleted successfully.');
     }
 
 
