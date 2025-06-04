@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('event_id')->constrained()->cascadeOnDelete();
             $table->foreignId('effect_id')->constrained()->cascadeOnDelete();
-            $table->decimal('value', 8, 4);
+            $table->decimal('value', 5, 2);
             $table->timestamps();
         });
     }

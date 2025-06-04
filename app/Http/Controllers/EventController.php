@@ -10,7 +10,6 @@ class EventController extends Controller
 {
     function index() {
         $events = Event::with(['effects'])->get();
-        $effects = Effect::all();
 
         return view('events.index', compact('events'));
     }
@@ -20,9 +19,6 @@ class EventController extends Controller
         return view('events.create', compact('effects'));
     }
 
-    function show(Event $event, Effect $effect) {
-        return view('events.show', compact('event', 'effect'));
-    }
 
     function store(Request $request) {
         $validated = $request->validate([
@@ -52,6 +48,7 @@ class EventController extends Controller
     }
 
     function update(Request $request, Event $event) {
+
         $validated = $request->validate([
             'name' => 'required|max:255|unique:events,name,' . $event->id,
             'effects' => 'required|array',
@@ -70,13 +67,13 @@ class EventController extends Controller
 
         $event->effects()->sync($effectsData);
 
-        return redirect()->route('events.show')->with('success', 'Event updated successfully.');
+        return redirect()->route('events.index')->with('success', 'Event updated successfully.');
     }
 
     public function destroy(Event $event)
     {
         $event->delete();
 
-        return redirect('events.index')->with('success', 'Event deleted successfully.');
+        return redirect()->route('events.index')->with('success', 'Event deleted successfully.');
     }
 }
