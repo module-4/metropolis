@@ -27,7 +27,7 @@
             @endphp
             <x-sim-grid-tile :x="$x" :y="$y">
                 @if($gridComponent)
-                    <x-sim-component :id="$gridComponent->id">
+                    <x-sim-component :id="$gridComponent->id" :isApproved="$gridComponent->pivot->approved" :inLibrary="false">
                         <img src="{{$gridComponent->image_name}}" alt="{{$gridComponent->name}}" class="pointer-events-none max-w-[64px] rounded-sm"/>
                         <p>{{ $gridComponent->name }}</p>
                     </x-sim-component>
