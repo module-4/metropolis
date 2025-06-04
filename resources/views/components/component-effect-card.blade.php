@@ -1,5 +1,5 @@
 <div class="w-full md:w-1/2 px-2 my-2">
-    <div class="bg-white shadow-md rounded-lg p-6 h-full overflow-auto">
+    <div class="bg-white shadow-md rounded-lg p-6 overflow-auto">
         <h1 class="text-2xl font-bold mb-4">{{ $simComponent->name }}</h1>
         <x-table>
             <x-slot:thead>
