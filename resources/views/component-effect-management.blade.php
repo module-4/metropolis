@@ -9,12 +9,12 @@
                 </ul>
             </div>
         @endif
-        <div class="flex flex-wrap content-start">
+        <div class="flex flex-wrap">
             @forelse($data as $simComponent)
                 <x-component-effect-card
                     :simComponent="$simComponent"
-                >
-                </x-component-effect-card>
+                />
+
             @empty
                 <div class="flex justify-center items-center w-full">
                     <p class="text-lg font-bold mt-2">No Components</p>
