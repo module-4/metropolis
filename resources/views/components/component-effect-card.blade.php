@@ -21,7 +21,6 @@
                             </button></x-table-data>
 
                     </x-table-row>
-
             @endforeach
         </x-table>
     </div>
