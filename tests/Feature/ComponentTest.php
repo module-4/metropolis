@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Component;
+use App\Models\Simulation;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -59,7 +61,7 @@ test('store a component', function () {
 
     Storage::disk('public')->assertExists('images/' . $this->image->hashName());
 
-    $component = \App\Models\Component::where('name', 'Test Component')->first();
+    $component = Component::where('name', 'Test Component')->first();
     expect($component->effects()->where('effect_id', $this->effect->id)->exists())->toBeTrue();
 });
 
@@ -76,7 +78,7 @@ test('store a component without data', function () {
 test('edit form returns errors with invalid input', function () {
     actingAs($this->user);
 
-    $component = \App\Models\Component::factory()->create([
+    $component = Component::factory()->create([
         'name' => 'valid input',
         'category_id' => $this->category->id,
     ]);
@@ -92,7 +94,7 @@ test('edit form returns errors with invalid input', function () {
 test('user can see the edit component form', function () {
     actingAs($this->user);
 
-    $component = \App\Models\Component::factory()->create([
+    $component = Component::factory()->create([
         'name' => 'Editable Component',
         'category_id' => $this->category->id,
         'image_name' => 'images/example.jpg',
@@ -110,7 +112,7 @@ test('user can see the edit component form', function () {
 test('user can update a component', function () {
     actingAs($this->user);
 
-    $component = \App\Models\Component::factory()->create([
+    $component = Component::factory()->create([
         'name' => 'Old Name',
         'category_id' => $this->category->id,
     ]);
@@ -131,4 +133,34 @@ test('user can update a component', function () {
     ]);
 
     Storage::disk('public')->assertExists('images/' . $newImage->hashName());
+});
+
+
+test('a component can be soft deleted', function () {
+    $sim = Simulation::create([
+        'alias' => 'Test Simulation',
+    ]);
+    $component = Component::factory()->create([
+        'name' => 'Deletable Component',
+        'category_id' => $this->category->id,
+    ]);
+    $sim->components()->attach($component->id, [
+        'x' => 0,
+        'y' => 0,
+    ]);
+
+    actingAs($this->user);
+    $response = post(route('components.destroy', $component), [
+        '_method' => 'DELETE',
+    ]);
+
+    $response->assertRedirect(route('component-manager'));
+    $this->assertSoftDeleted('components', [
+        'id' => $component->id,
+        'name' => 'Deletable Component',
+    ]);
+
+    // Check if the component is still associated with the simulation
+    $sim->refresh();
+    $this->assertTrue($sim->components()->where('id', $component->id)->exists(), 'Component should still be associated with the simulation after soft delete.');
 });
