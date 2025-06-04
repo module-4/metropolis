@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Event;
 use App\Models\Simulation;
 use Illuminate\Http\Request;
 
@@ -17,13 +18,17 @@ class SimulationController extends Controller
 
         // Get all available components, included with the categories
         $categories = Category::all();
+        $events = Event::with(['effects'])->get();
+        $eventEffects = $events->effects();
 
         return view(
             'simulation',
             compact(
                 'categories',
                 'simulationComponents',
-                'effects'
+                'effects',
+                'eventEffects',
+                'events'
             )
         );
     }

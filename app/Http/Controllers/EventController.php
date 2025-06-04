@@ -26,7 +26,7 @@ class EventController extends Controller
 
     function store(Request $request) {
         $validated = $request->validate([
-            'name' => 'required|max:255',
+            'name' => 'required|max:255|unique:events,name',
             'effects' => 'required|array',
             'effects.*.id' => 'required|exists:effects,id|distinct',
             'effects.*.value' => 'required|numeric',
