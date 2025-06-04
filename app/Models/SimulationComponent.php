@@ -91,5 +91,9 @@ class SimulationComponent extends Model
         return $neighbors;
     }
 
+    public function isApproved(): bool {
+        return SimulationComponent::find([$this->simulation_id, $this->x, $this->y])->approved;
+    }
+
 
 }

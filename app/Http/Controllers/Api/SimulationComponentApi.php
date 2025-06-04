@@ -78,6 +78,11 @@ class SimulationComponentApi extends Controller
             if (!$component) {
                 throw new \Exception('Simulation component not found');
             }
+
+            if ($component->isApproved()) {
+                throw new \Exception('Simulation component is approved, thus cant be modified');
+            }
+
             try {
                 \DB::table('simulation_components')
                     ->where('simulation_id', $simulation->id)
@@ -123,6 +128,10 @@ class SimulationComponentApi extends Controller
 
             if (!$component) {
                 throw new \Exception('Simulation component not found');
+            }
+
+            if ($component->isApproved()) {
+                throw new \Exception('Simulation component is approved, thus cant be deleted');
             }
 
             $res = $component->delete();
