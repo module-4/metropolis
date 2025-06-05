@@ -177,7 +177,7 @@ export default class Simulation {
     async toggleApprovalStatus(x, y, callback) {
         const response = await fetch(
             `/api/simulation/${this.#id}/toggle-approved-status?x=${x}&y=${y}`,
-            { method: 'GET' }
+            { method: 'PATCH' }
         );
         const json = await response.json();
 
