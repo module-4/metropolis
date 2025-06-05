@@ -57,7 +57,7 @@ class SimulationController extends Controller
                 throw new \Exception("Component id is required");
             }
 
-            $component = Component::find($componentId);
+            $component = Component::withTrashed()->find($componentId);
 
             if (!$component) {
                 throw new \Exception("Component not found");

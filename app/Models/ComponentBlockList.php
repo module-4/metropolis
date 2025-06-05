@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Thiagoprz\CompositeKey\HasCompositeKey;
 
 /**
- * 
+ *
  *
  * @property int $component_id
  * @property int $blocked_component_id
@@ -44,7 +44,7 @@ class ComponentBlockList extends Model
      */
     public function component(): BelongsTo
     {
-        return $this->belongsTo(Component::class);
+        return $this->belongsTo(Component::class)->withTrashed();
     }
 
     /**
@@ -52,6 +52,6 @@ class ComponentBlockList extends Model
      */
     public function blockedComponent(): BelongsTo
     {
-        return $this->belongsTo(Component::class);
+        return $this->belongsTo(Component::class)->withTrashed();
     }
 }
