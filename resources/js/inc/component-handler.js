@@ -1,7 +1,9 @@
 /** @type {HTMLDialogElement} */
 const blockListWarningDialog = document.getElementById('simulation-blocklist-warning');
-blockListWarningDialog.onSuccess = () => {};
-blockListWarningDialog.onFailure = () => {};
+if (blockListWarningDialog) {
+    blockListWarningDialog.onSuccess = () => {};
+    blockListWarningDialog.onFailure = () => {};
+}
 const blockListWarningDialogAcceptButton = blockListWarningDialog?.querySelector('button[name=accept]')
 const blockListWarningDialogDismissButton = blockListWarningDialog?.querySelector('button[name=dismiss]')
 
@@ -224,8 +226,8 @@ const library = document.querySelector('.sim-component-library');
  * @param {Simulation} simulation
  */
 export const initializeDragAndDropListeners = (simulation) => {
-    library.addEventListener('dragover', e => e.preventDefault());
-    library.addEventListener('drop', e => libraryDropHandler(e, simulation));
+    library?.addEventListener('dragover', e => e.preventDefault());
+    library?.addEventListener('drop', e => libraryDropHandler(e, simulation));
 
     components.forEach(component => {
         component.addEventListener('dragstart', componentDragStartHandler);
