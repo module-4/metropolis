@@ -1,7 +1,9 @@
 /** @type {HTMLDialogElement} */
 const blockListWarningDialog = document.getElementById('simulation-blocklist-warning');
-blockListWarningDialog.onSuccess = () => {};
-blockListWarningDialog.onFailure = () => {};
+if (blockListWarningDialog) {
+    blockListWarningDialog.onSuccess = () => {};
+    blockListWarningDialog.onFailure = () => {};
+}
 const blockListWarningDialogAcceptButton = blockListWarningDialog?.querySelector('button[name=accept]')
 const blockListWarningDialogDismissButton = blockListWarningDialog?.querySelector('button[name=dismiss]')
 
@@ -12,11 +14,9 @@ const updateEffectsList = (effects) => {
         effectsList.lastChild.remove();
     }
     const effectEntries = Object.entries(effects);
-    if (effectEntries.length === 0) {
-        const emptyStateMessage = document.createElement('p');
-        emptyStateMessage.textContent = 'No effects found';
-        return;
-    }
+    const emptyState = document.getElementById('effects-empty-state');
+    emptyState.toggleAttribute('aria-hidden', effectEntries.length > 0);
+    emptyState.toggleAttribute('hidden', effectEntries.length > 0);
 
     effectEntries.forEach(([key, value]) => {
         const effect = document.createElement('div');
@@ -263,8 +263,8 @@ const library = document.querySelector('.sim-component-library');
  * @param {Simulation} simulation
  */
 export const initializeDragAndDropListeners = (simulation) => {
-    library.addEventListener('dragover', e => e.preventDefault());
-    library.addEventListener('drop', e => libraryDropHandler(e, simulation));
+    library?.addEventListener('dragover', e => e.preventDefault());
+    library?.addEventListener('drop', e => libraryDropHandler(e, simulation));
 
     components.forEach(component => {
         component.addEventListener('dragstart', componentDragStartHandler);

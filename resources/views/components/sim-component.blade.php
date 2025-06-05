@@ -23,6 +23,6 @@
 
     select-none
     sim-component
-">
+" aria-label="Component">
     {{ $slot }}
 </div>

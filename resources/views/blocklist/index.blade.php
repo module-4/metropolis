@@ -1,9 +1,15 @@
 <x-dashboard-layout>
-    <div class="flex items-center justify-center grow max-h-full">
-        <x-card class="min-h-[95%] w-[95%] overflow-hidden flex flex-col">
-            <x-slot name="title">
+    <div class="flex grow max-h-full">
+        <x-card class="m-6 w-full">
+            <x-slot:title>
                 Placement restrictions
-            </x-slot>
+            </x-slot:title>
+            <x-slot:buttons>
+                <x-button :isLink="true" href="{{ route('blocklist.create') }}">
+                    New restriction
+                    <x-tabler-plus aria-hidden="true" class="-mr-1"/>
+                </x-button>
+            </x-slot:buttons>
 
             @if(count($blocklist) > 0)
                 <div class="flex flex-col bg-white drop-shadow-sm drop-shadow-gray-100 rounded-sm">
@@ -31,8 +37,10 @@
                                 }}" method="POST">
                                     @method('DELETE')
                                     @csrf
-                                    <button type="submit" class="flex justify-center items-center h-full p-1.5 pl-3 pr-3 bg-white text-danger not-disabled:cursor-pointer">
-                                        <x-tabler-trash />
+                                    <button type="submit" class="flex justify-center items-center h-full p-1.5 pl-3 pr-3 bg-white text-danger not-disabled:cursor-pointer"
+                                            aria-label="Delete restriction for '{{ $blocklistEntry->component->name }}' and '{{ $blocklistEntry->blockedComponent->name }}'"
+                                            title="Delete restriction for '{{ $blocklistEntry->component->name }}' and '{{ $blocklistEntry->blockedComponent->name }}'">
+                                        <x-tabler-trash aria-hidden="true"/>
                                     </button>
                                 </form>
                             </div>
@@ -42,10 +50,6 @@
             @else
                 <p>No restrictions set.</p>
             @endif
-
-            <div class="flex">
-                <x-button :isLink="true" href="{{ route('blocklist.create') }}" class="ml-auto mt-3">New restriction</x-button>
-            </div>
         </x-card>
     </div>
 </x-dashboard-layout>

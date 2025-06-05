@@ -5,18 +5,11 @@
 <div class="
     overflow-y-auto
     overflow-hidden
-    bg-blue-950
-    border
-    border-blue-950
-    rounded-md
-    gap-0.25
-
-    col-span-1
-    min-md:col-span-2
-    min-lg:col-span-3
-    min-lg:row-span-2
-    min-lg:max-h-[400px]
+    gap-1
     sim-grid
+    grid
+    grid-cols-4
+    grid-rows-3
     ">
     @for($y = 0; $y < 3; $y++)
         @for($x = 0; $x < 4; $x++)
