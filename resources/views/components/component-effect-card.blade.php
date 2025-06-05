@@ -19,7 +19,7 @@
                                  class="bg-white w-full" min="-100000" max="100000"/>
                     </form>
                 </x-table-data>
-                <x-table-data>
+                <x-table-data class="flex h-full justify-end items-center">
                     <x-button tabindex="0" form="form-{{ $effect->name }}" variant="success">
                         Update effect
                         <x-tabler-check aria-hidden="true" class="-mr-1"/>
