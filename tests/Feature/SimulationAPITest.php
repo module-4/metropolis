@@ -176,12 +176,12 @@ test("Component approval toggle works", function () {
 
     SimulationComponent::create(["simulation_id" => $simulation->id, "component_id" => $component->id, "x" => 0, "y" => 0]);
 
-    $resApprove = $this->get("/api/simulation/" . $simulation->id . "/toggle-approved-status?x=0&y=0");
+    $resApprove = $this->patch("/api/simulation/" . $simulation->id . "/toggle-approved-status?x=0&y=0");
 
     $resApprove->assertStatus(200);
     $this->assertDatabaseHas("simulation_components", ["simulation_id" => $simulation->id, "component_id" => $component->id, "x" => 0, "y" => 0, "approved" => true]);
 
-    $resNoApprove = $this->get("/api/simulation/" . $simulation->id . "/toggle-approved-status?x=0&y=0");
+    $resNoApprove = $this->patch("/api/simulation/" . $simulation->id . "/toggle-approved-status?x=0&y=0");
 
     $resNoApprove->assertStatus(200);
     $this->assertDatabaseHas("simulation_components", ["simulation_id" => $simulation->id, "component_id" => $component->id, "x" => 0, "y" => 0, "approved" => false]);
