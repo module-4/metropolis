@@ -14,11 +14,9 @@ const updateEffectsList = (effects) => {
         effectsList.lastChild.remove();
     }
     const effectEntries = Object.entries(effects);
-    if (effectEntries.length === 0) {
-        const emptyStateMessage = document.createElement('p');
-        emptyStateMessage.textContent = 'No effects found';
-        return;
-    }
+    const emptyState = document.getElementById('effects-empty-state');
+    emptyState.toggleAttribute('aria-hidden', effectEntries.length > 0);
+    emptyState.toggleAttribute('hidden', effectEntries.length > 0);
 
     effectEntries.forEach(([key, value]) => {
         const effect = document.createElement('div');
