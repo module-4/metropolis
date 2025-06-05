@@ -74,6 +74,43 @@ const componentDragStartHandler = e => {
 }
 
 /**
+ * Handles component approval
+ * @param {DragEvent} e
+ * @param {Simulation} simulation
+ */
+const componentDblClickHandler = async (e, simulation) => {
+    const component = e.currentTarget;
+    const gridCell = component.parentElement
+    const grid = component.parentElement.parentElement;
+    const x = parseInt(gridCell.getAttribute('data-x'));
+    const y = parseInt(gridCell.getAttribute('data-y'));
+
+    if (!grid.classList.contains('sim-grid')) {
+        return;
+    }
+
+    const hasGrayBorder = component.classList.contains('border-gray-200');
+
+    if (hasGrayBorder) {
+        component.setAttribute('draggable', 'false')
+    } else {
+        component.setAttribute('draggable', 'true')
+    }
+
+    component.classList.toggle('border-4');
+
+    component.classList.replace(
+        hasGrayBorder ? 'border-gray-200' : 'border-success',
+        hasGrayBorder ? 'border-success' : 'border-gray-200'
+    );
+
+    await simulation.toggleApprovalStatus(x, y, (success, data) => {
+        if (!success) console.error(data);
+    });
+
+}
+
+/**
  * Handle the tile validation
  * @param {Simulation} simulation
  * @param {number} componentId
@@ -171,6 +208,8 @@ const gridItemDropHandler = async (e, simulation) => {
 
         clonedComponent.id = `component-${randomBytes}`;
         clonedComponent.addEventListener('dragstart', componentDragStartHandler);
+        clonedComponent.addEventListener('dblclick', e => componentDblClickHandler(e, simulation));
+
         e.currentTarget.appendChild(clonedComponent);
 
         await handleTileValidation(
@@ -229,6 +268,7 @@ export const initializeDragAndDropListeners = (simulation) => {
 
     components.forEach(component => {
         component.addEventListener('dragstart', componentDragStartHandler);
+        component.addEventListener('dblclick', e => componentDblClickHandler(e, simulation));
     });
 
     gridItems.forEach(gridItem => {

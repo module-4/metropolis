@@ -155,3 +155,58 @@ test("validatePositionInSimulation",function (){
     $resOtherWay->assertJson(["data" => ["isBlocked" => true,"blocklist"=>[]]]);
 
 });
+
+// Approval
+
+test("New Component on grid is not approved", function () {
+
+    $simulation = Simulation::factory()->create();
+    $component = Component::factory()->create();
+    $res = $this->post("/api/simulation/" . $simulation->id . "/component?id=" . $component->id . "&x=0&y=0");
+
+    $res->assertStatus(200);
+    $res->assertJson(["data" => ["effects" => []]]);
+    $this->assertDatabaseHas("simulation_components", ["simulation_id" => $simulation->id, "component_id" => $component->id, "x" => 0, "y" => 0, "approved" => false]);
+});
+
+test("Component approval toggle works", function () {
+
+    $simulation = Simulation::factory()->create();
+    $component = Component::factory()->create();
+
+    SimulationComponent::create(["simulation_id" => $simulation->id, "component_id" => $component->id, "x" => 0, "y" => 0]);
+
+    $resApprove = $this->patch("/api/simulation/" . $simulation->id . "/toggle-approved-status?x=0&y=0");
+
+    $resApprove->assertStatus(200);
+    $this->assertDatabaseHas("simulation_components", ["simulation_id" => $simulation->id, "component_id" => $component->id, "x" => 0, "y" => 0, "approved" => true]);
+
+    $resNoApprove = $this->patch("/api/simulation/" . $simulation->id . "/toggle-approved-status?x=0&y=0");
+
+    $resNoApprove->assertStatus(200);
+    $this->assertDatabaseHas("simulation_components", ["simulation_id" => $simulation->id, "component_id" => $component->id, "x" => 0, "y" => 0, "approved" => false]);
+});
+
+test("Approved Component cannot be moved", function () {
+
+    $simulation = Simulation::factory()->create();
+    $component = Component::factory()->create();
+
+    $simulation->components()->attach($component->id, ['x' => 0, 'y' => 0, 'approved' => true]);
+
+    // I like to move it, move it. I like to move it, move it. MOVE IT!
+    $resMoveIt = $this->patch("/api/simulation/" . $simulation->id . "/component?originX=0&originY=0&destX=1&destY=1");
+    $resMoveIt->assertStatus(500);
+});
+
+test("Approved Component cannot be deleted", function () {
+
+    $simulation = Simulation::factory()->create();
+    $component = Component::factory()->create();
+
+    $simulation->components()->attach($component->id, ['x' => 0, 'y' => 0, 'approved' => true]);
+
+    $res = $this->delete("/api/simulation/" . $simulation->id . "/component?x=0&y=0");
+    $res->assertStatus(500);
+});
+

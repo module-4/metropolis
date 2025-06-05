@@ -16,6 +16,7 @@ Route::group(['prefix' => 'simulation/{simulation}'], function () {
         }),
 
         Route::get("/neighbors", [SimulationController::class, 'getNeighbors']),
-        Route::get("/isblocked", [SimulationController::class, 'isBlocked'])
+        Route::get("/isblocked", [SimulationController::class, 'isBlocked']),
+        Route::patch("/toggle-approved-status", [SimulationController::class, 'toggleApprovedStatus'])
     ];
 });

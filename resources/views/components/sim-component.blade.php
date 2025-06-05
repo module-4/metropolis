@@ -1,11 +1,13 @@
 @props([
-    'id' => ''
+    'id' => '',
+    'isApproved' => false,
+    'inLibrary' => true
 ])
-
-<div draggable="true" id="component-{{bin2hex(random_bytes(8))}}" data-component-id="{{$id}}" class="
+<div draggable="{{ $inLibrary ? 'true' : ($isApproved ? 'false' : 'true') }}" id="component-{{bin2hex(random_bytes(8))}}" data-component-id="{{$id}}"
+     class="
     bg-white
     border
-    border-gray-200
+    {{ $inLibrary ? 'border-gray-200' : ($isApproved ? 'border-success border-4' : 'border-gray-200') }}
     p-2
     rounded-md
     text-black
@@ -18,6 +20,8 @@
 
     cursor-grab
     hover:shadow-md
+
+    select-none
     sim-component
 " aria-label="Component">
     {{ $slot }}

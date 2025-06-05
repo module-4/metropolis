@@ -25,7 +25,6 @@
                         <x-tabler-check aria-hidden="true" class="-mr-1"/>
                     </x-button>
                 </x-table-data>
-
             </x-table-row>
         @endforeach
     </x-table>

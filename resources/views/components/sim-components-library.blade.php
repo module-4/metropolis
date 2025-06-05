@@ -32,7 +32,7 @@
         @foreach($categories as $category)
             <x-sim-component-group :category="$category">
                 @forelse($category->components as $gridComponent)
-                    <x-sim-component :id="$gridComponent->id">
+                    <x-sim-component :id="$gridComponent->id" :inLibrary="true">
                         <img src="{{$gridComponent->image_name}}" alt="{{$gridComponent->name}}" class="pointer-events-none max-w-12 rounded-sm"/>
                         <p>{{ $gridComponent->name }}</p>
                     </x-sim-component>
