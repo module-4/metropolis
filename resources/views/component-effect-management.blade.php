@@ -13,7 +13,7 @@
                     </ul>
                 </div>
             @endif
-            <div class="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4 gap-y-6">
+            <div class="grid grid-cols-1 xl:grid-cols-2 3xl:grid-cols-3 gap-4 gap-y-6">
                 @forelse($data as $simComponent)
                     <x-component-effect-card :simComponent="$simComponent"/>
                 @empty
