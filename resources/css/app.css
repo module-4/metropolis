@@ -5,14 +5,47 @@
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
+@font-face {
+    font-family: 'SF Pro';
+    src: url('/public/fonts/SF-Pro/Regular.otf');
+}
+@font-face {
+    font-family: 'SF Pro';
+    src: url('/public/fonts/SF-Pro/RegularItalic.otf');
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'SF Pro';
+    src: url('/public/fonts/SF-Pro/Bold.otf');
+    font-weight: 700;
+}
+@font-face {
+    font-family: 'SF Pro';
+    src: url('/public/fonts/SF-Pro/BoldItalic.otf');
+    font-weight: 700;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'SF Pro';
+    src: url('/public/fonts/SF-Pro/Semibold.otf');
+    font-weight: 600;
+}
+@font-face {
+    font-family: 'SF Pro';
+    src: url('/public/fonts/SF-Pro/SemiboldItalic.otf');
+    font-weight: 600;
+    font-style: italic;
+}
+
 @theme {
-    --font-sans: 'Nunito', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    --font-sans: 'SF Pro', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
     'Segoe UI Symbol', 'Noto Color Emoji';
-    --color-primary: oklch(0.765 0.177 163.223);
+    --color-primary: oklch(0.4226 0.2621 268.79);
     --color-primary-foreground: #ffffff;
-    --color-success: oklch(0.723 0.219 149.579);
+    --color-success: oklch(0.598 0.163 149.843);
     --color-success-foreground: #ffffff;
-    --color-accent: oklch(0.746 0.16 232.661);
+    --color-accent: #000000;
     --color-accent-foreground: #ffffff;
     --color-bg: #ffffff;
     --color-bg-foreground: #1e2328;
@@ -57,9 +90,9 @@ I can quickly display how the drag and drop will function */
 
     & > .sim-component {
         padding: unset;
-        border-radius: unset;
         height: 100%;
         width: 100%;
+        border: unset;
 
         p {
             display: none;

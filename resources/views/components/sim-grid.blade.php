@@ -5,11 +5,7 @@
 <div class="
     overflow-y-auto
     overflow-hidden
-    bg-blue-950
-    border
-    border-blue-950
-    rounded-md
-    gap-0.25
+    gap-1
 
     col-span-1
     min-md:col-span-2

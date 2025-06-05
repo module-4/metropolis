@@ -19,6 +19,6 @@
     cursor-grab
     hover:shadow-md
     sim-component
-">
+" aria-label="Component">
     {{ $slot }}
 </div>
