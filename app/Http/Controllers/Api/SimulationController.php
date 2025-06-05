@@ -61,7 +61,7 @@ class SimulationController extends Controller
                $isApproved = true;
            }
 
-            return response(["data" => ["altered_date" => ['component_approval_status' => $isApproved]], 200]);
+            return response(["data" => ["altered_data" => ['isApproved' => $isApproved]], 200]);
 
         } catch (\Exception $e) {
             return response(["error" => $e->getMessage()], 500);
