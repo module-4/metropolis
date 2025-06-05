@@ -32,8 +32,8 @@
                     <div
                         class="w-full bg-gray-50 border border-border rounded-lg p-4 relative flex flex-col items-center justify-between text-center h-full">
                         <div
-                            class="w-full bg-white aspect-square border border-border object-cover rounded mb-3 mx-auto">
-                            <img src="{{ $simComponent->image_name }}" alt="{{ $simComponent->name }}">
+                            class="w-full bg-white aspect-square border border-border rounded mb-3 mx-auto">
+                            <img src="{{ $simComponent->image_name }}" alt="{{ $simComponent->name }}" class="w-full h-full object-cover">
                         </div>
 
                         <h2 class="text-lg font-semibold">{{ $simComponent->name }}</h2>

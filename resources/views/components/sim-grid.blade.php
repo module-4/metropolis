@@ -6,13 +6,10 @@
     overflow-y-auto
     overflow-hidden
     gap-1
-
-    col-span-1
-    min-md:col-span-2
-    min-lg:col-span-3
-    min-lg:row-span-2
-    min-lg:max-h-[400px]
     sim-grid
+    grid
+    grid-cols-4
+    grid-rows-3
     ">
     @for($y = 0; $y < 3; $y++)
         @for($x = 0; $x < 4; $x++)

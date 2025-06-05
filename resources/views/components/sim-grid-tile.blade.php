@@ -11,7 +11,9 @@
         text-white
         font-bold
         text-sm
-        max-lg:min-h-[100px]
+        aspect-square
+        h-full
+{{--        max-lg:min-h-[100px]--}}
         flex
         justify-center
         items-center

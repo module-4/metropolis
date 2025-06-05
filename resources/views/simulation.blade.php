@@ -10,20 +10,11 @@
                     <x-tabler-file aria-hidden="true" class="-mr-1"/>
                 </x-button>
             </x-slot:buttons>
-            <div class="flex flex-col">
-                <div class="
-                    grid
-                    grid-cols-1
-                    gap-2
-
-                    min-md:grid-cols-2
-                    min-lg:grid-cols-5
-
-                    min-xl:w-full
-                    min-xl:max-w-[1000px]
-                    min-xl:mx-auto
-                ">
+            <div class="flex flex-col gap-2 lg:flex-row justify-center">
+                <div class="flex flex-col gap-2 grow max-w-[768px]">
                     <x-sim-grid :components="$simulationComponents"/>
+                </div>
+                <div class="flex flex-col gap-2">
                     <x-sim-effects-list :effects="$effects"/>
                     <x-sim-components-library :categories="$categories"/>
                 </div>

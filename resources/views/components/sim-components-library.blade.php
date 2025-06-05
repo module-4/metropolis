@@ -9,12 +9,9 @@
     rounded-md
     p-4
     bg-gray-100
-    col-span-1
     gap-2
 
-    min-lg:col-start-4
-    min-lg:col-span-2
-
+    w-full
     max-h-[600px]
 
     self-start
