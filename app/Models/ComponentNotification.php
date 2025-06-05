@@ -15,7 +15,7 @@ use Illuminate\Support\Carbon;
  * @property int $component_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read \App\Models\Component $component
+ * @property-read Component $component
  * @method static Builder<static>|ComponentNotification newModelQuery()
  * @method static Builder<static>|ComponentNotification newQuery()
  * @method static Builder<static>|ComponentNotification query()
