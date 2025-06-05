@@ -76,6 +76,7 @@ const componentDragStartHandler = e => {
 /**
  * Handles component approval
  * @param {DragEvent} e
+ * @param {Simulation} simulation
  */
 const componentDblClickHandler = async (e, simulation) => {
     const component = e.currentTarget;
@@ -104,7 +105,7 @@ const componentDblClickHandler = async (e, simulation) => {
     );
 
     await simulation.toggleApprovalStatus(x, y, (success, data) => {
-        if (success) console.log(data);
+        if (!success) console.error(data);
     });
 
 }
