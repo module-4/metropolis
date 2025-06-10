@@ -19,15 +19,12 @@ class SimulationController extends Controller
         // Get all available components, included with the categories
         $categories = Category::all();
         $events = Event::with(['effects'])->get();
-        $eventEffects = $events->effects();
-
         return view(
             'simulation',
             compact(
                 'categories',
                 'simulationComponents',
                 'effects',
-                'eventEffects',
                 'events'
             )
         );

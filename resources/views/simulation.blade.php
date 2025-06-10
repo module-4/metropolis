@@ -4,6 +4,7 @@
             <x-slot name="title">
                 Simulation view
             </x-slot>
+            <x-sim-controlbar :events="$events" class="mb-6"></x-sim-controlbar>
             <div class="flex flex-col">
                 <div class="
                     grid
