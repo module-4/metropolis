@@ -25,7 +25,7 @@ class EventController extends Controller
             'name' => 'required|max:255|unique:events,name',
             'effects' => 'required|array',
             'effects.*.id' => 'required|exists:effects,id|distinct',
-            'effects.*.value' => 'required|numeric',
+            'effects.*.value' => 'required|numeric|min:-999|max:999',
         ]);
 
         $event = Event::create([
@@ -53,7 +53,7 @@ class EventController extends Controller
             'name' => 'required|max:255|unique:events,name,' . $event->id,
             'effects' => 'required|array',
             'effects.*.id' => 'required|exists:effects,id|distinct',
-            'effects.*.value' => 'required|numeric',
+            'effects.*.value' => 'required|numeric|min:-999|max:999',
         ]);
 
         $event->update([

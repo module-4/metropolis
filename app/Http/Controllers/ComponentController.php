@@ -27,7 +27,7 @@ class ComponentController extends Controller
             'category' => 'required|exists:categories,id',
             'effects' => 'required|array',
             'effects.*.id' => 'required|exists:effects,id|distinct',
-            'effects.*.value' => 'required|numeric',
+            'effects.*.value' => 'required|numeric|min:-999|max:999',
         ]);
 
 
