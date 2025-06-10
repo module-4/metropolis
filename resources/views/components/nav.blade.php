@@ -35,7 +35,7 @@
             <x-nav-item href="{{ route('events.index') }}"
                         active="{{ request()->routeIs('events.index') }}">
                 <x-slot:icon>
-                    <x-tabler-puzzle />
+                    <x-tabler-building-circus/>
                 </x-slot:icon>
                 Events Manager
             </x-nav-item>
