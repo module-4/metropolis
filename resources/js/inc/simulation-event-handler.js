@@ -72,7 +72,7 @@ function resetEventSimulation() {
 
     const progressBar = document.getElementById('sim-event-progress')
     progressBar.style.transition = "width 0s";
-    progressBar.style.width = 0;
+    progressBar.style.width = "0px";
 
     removeEventEffects()
 
@@ -85,13 +85,9 @@ function resetEventSimulation() {
         }
     })
 
-    // recreate an empty state if there are no effects
-    if (effectsListElement.children.length == 0){
-       const emptyStateElement  = document.createElement("p")
-        emptyStateElement.innerText = "No effects found"
-        emptyStateElement.id="empty-state"
-        effectsListElement.append(emptyStateElement)
-    }
+    const emptyState = document.getElementById('effects-empty-state');
+    emptyState.toggleAttribute('aria-hidden', effectsListElement.children.length > 0);
+    emptyState.toggleAttribute('hidden', effectsListElement.children.length > 0);
 }
 
 function removeEventEffects(){
@@ -114,24 +110,24 @@ function updateEventEffects( action) {
 
    currentEvent.effects.forEach((effect) => {
 
-       if (effectsListElement.children[0].id == "empty-state"){
-           effectsListElement.children[0].remove()
-       }
+       const emptyState = document.getElementById('effects-empty-state');
+       emptyState.toggleAttribute('aria-hidden', effectsListElement.children.length > 0);
+       emptyState.toggleAttribute('hidden', effectsListElement.children.length > 0);
 
         let exists
         effectsArray.forEach((child) => {
-            if (child.id == effect.name) {
+            if (child.id === effect.name) {
                 exists = true
                 const eventEffectElement = child.children[1]
 
-                if (effect.pivot.value == 0 || action == "stop") {
+                if (effect.pivot.value === 0 || action === "stop") {
                     eventEffectElement.textContent = ""
                 } else {
                     eventEffectElement.textContent = ` ${effect.pivot.value > 0 ? "+" : ""} ${effect.pivot.value}`
                 }
             }
         })
-        if (!exists && effect.pivot.value != 0) {
+        if (!exists && effect.pivot.value !== 0) {
             const effectElement = document.createElement('div');
             effectElement.classList.add(
                 'bg-white',
