@@ -10,6 +10,7 @@
                     <x-tabler-file aria-hidden="true" class="-mr-1"/>
                 </x-button>
             </x-slot:buttons>
+            <x-sim-controlbar :events="$events" class="mb-6"></x-sim-controlbar>
             <div class="flex flex-col gap-2 lg:flex-row justify-center">
                 <div class="flex flex-col gap-2 grow max-w-[768px]">
                     <x-sim-grid :components="$simulationComponents"/>

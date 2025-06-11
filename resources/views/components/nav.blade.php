@@ -36,6 +36,13 @@
                 </x-slot:icon>
                 Component Manager
             </x-nav-item>
+            <x-nav-item href="{{ route('events.index') }}"
+                        active="{{ request()->routeIs('events.index') }}">
+                <x-slot:icon>
+                    <x-tabler-building-circus/>
+                </x-slot:icon>
+                Events Manager
+            </x-nav-item>
             <x-nav-item href="{{ route('blocklist.index') }}"
                         active="{{ request()->routeIs('blocklist.index') }}"
                         aria-label="Navigate to placement restrictions page">

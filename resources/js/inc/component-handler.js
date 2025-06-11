@@ -1,3 +1,5 @@
+import { resetEventSimulation} from "./simulation-event-handler.js";
+
 /** @type {HTMLDialogElement} */
 const blockListWarningDialog = document.getElementById('simulation-blocklist-warning');
 if (blockListWarningDialog) {
@@ -10,7 +12,7 @@ const blockListWarningDialogDismissButton = blockListWarningDialog?.querySelecto
 const updateEffectsList = (effects) => {
     const effectsList = document.getElementById('sim-effects-list');
 
-    while(effectsList.lastChild) {
+    while (effectsList.lastChild) {
         effectsList.lastChild.remove();
     }
     const effectEntries = Object.entries(effects);
@@ -27,11 +29,23 @@ const updateEffectsList = (effects) => {
             'px-4',
             'py-2',
             'rounded-md',
-            'text-black'
+            'text-black',
+            'flex',
+            'gap-4'
         );
-        effect.textContent = `${key} ${value}`;
+        effect.id = key;
+
+        const simEffect = document.createElement('div');
+        simEffect.textContent = `${key}: ${value}`;
+
+        const eventEffect = document.createElement('div');
+
+        effect.append(simEffect);
+        effect.append(eventEffect);
         effectsList.append(effect);
     })
+
+   resetEventSimulation()
 }
 
 /**
@@ -127,7 +141,7 @@ const handleTileValidation = async (simulation, componentId, x, y, onSuccess, on
         if (data.isBlocked === true) {
             // Show warning
             const list = blockListWarningDialog.querySelector('ul');
-            while(list.lastChild) {
+            while (list.lastChild) {
                 list.lastChild.remove();
             }
             data.blocklist.forEach(blockedComponent => {

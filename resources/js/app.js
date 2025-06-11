@@ -1,5 +1,6 @@
 import './bootstrap';
 import './component-form.js';
+import './inc/simulation-event-handler.js'
 import './inc/component-search.js';
 import Simulation from './inc/classes/Simulation.js';
 

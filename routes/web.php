@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ComponentBlockListController;
 use App\Http\Controllers\ComponentEffectManagementController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\PDFReportController;
 use App\Http\Controllers\SimulationController;
 use App\Models\ComponentNotification;
@@ -61,3 +62,5 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/report', [PDFReportController::class, 'show'])->name('reports.show');
 });
+
+Route::resource('events', EventController::class)->middleware('auth');
