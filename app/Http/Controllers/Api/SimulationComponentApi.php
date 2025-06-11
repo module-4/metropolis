@@ -25,7 +25,7 @@ class SimulationComponentApi extends Controller
             }
 
             $componentId = intval($request->get('id'));
-            $component = Component::find($componentId);
+            $component = Component::withTrashed()->find($componentId);
 
             if (!$component) {
                 throw new \Exception('Simulation component not found');
