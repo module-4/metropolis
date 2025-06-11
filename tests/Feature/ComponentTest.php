@@ -103,7 +103,7 @@ test('user can see the edit component form', function () {
     $response = get(route('components.edit', $component));
 
     $response->assertStatus(200);
-    $response->assertSee('Edit Component');
+    $response->assertSee('Edit component');
     $response->assertSee('Editable Component');
     $response->assertSee('value="Editable Component"', false); // input value
     $response->assertSee('name="name"', false);

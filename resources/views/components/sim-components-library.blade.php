@@ -9,12 +9,9 @@
     rounded-md
     p-4
     bg-gray-100
-    col-span-1
     gap-2
 
-    min-lg:col-start-4
-    min-lg:col-span-2
-
+    w-full
     max-h-[600px]
 
     self-start
@@ -35,7 +32,7 @@
         @foreach($categories as $category)
             <x-sim-component-group :category="$category">
                 @forelse($category->components as $gridComponent)
-                    <x-sim-component :id="$gridComponent->id">
+                    <x-sim-component :id="$gridComponent->id" :inLibrary="true">
                         <img src="{{$gridComponent->image_name}}" alt="{{$gridComponent->name}}" class="pointer-events-none max-w-12 rounded-sm"/>
                         <p>{{ $gridComponent->name }}</p>
                     </x-sim-component>

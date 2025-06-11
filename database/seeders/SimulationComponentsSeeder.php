@@ -21,7 +21,8 @@ class SimulationComponentsSeeder extends Seeder
                 'simulation_id' => 1,
                 'component_id' => Component::inRandomOrder()->first()->id,
                 'x' => $x,
-                'y' => $y
+                'y' => $y,
+                'approved' => false
             ]);
             }
         }

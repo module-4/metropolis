@@ -17,7 +17,7 @@ class Button extends Component
 
     private array $variantClasses = [
         'primary' => 'bg-primary text-primary-foreground shadow hover:bg-primary/90',
-        'accent' => 'bg-accent text-secondary-foreground shadow-sm hover:bg-accent/80',
+        'accent' => 'bg-accent text-accent-foreground shadow-sm hover:bg-accent/80',
         'success' => 'bg-success text-success-foreground shadow-sm hover:bg-success/90',
         'danger' => 'bg-danger text-danger-foreground shadow-sm hover:bg-danger/90',
         'ghost' => 'hover:bg-bg-foreground/5',
@@ -57,7 +57,7 @@ class Button extends Component
     public function render(): View|Closure|string
     {
         return view('components.button', [
-            'variantClass' => $this->variantClasses[$this->variant],
+            'variantClass' => $this->variantClasses[$this->variant] . ' focus-visible:outline-none focus-visible:ring-2 ring-offset-2 ring-primary focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
             'sizeClass' => $this->sizeClasses[$this->size]
         ]);
     }
