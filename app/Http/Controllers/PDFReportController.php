@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Simulation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Spatie\Browsershot\Browsershot;
 use function Spatie\LaravelPdf\Support\pdf;
 class  PDFReportController extends Controller
 {
@@ -18,6 +19,9 @@ class  PDFReportController extends Controller
         $fileName = 'Simulation Report - ' . $dateOfExport;
 
         return pdf()
+            ->withBrowsershot(function (Browsershot $browsershot) {
+                $browsershot->noSandbox();
+            })
             ->view('report', compact('simulation', 'totalEffects', 'simulationComponents', 'dateOfExport'))
             ->format('a4')
             ->name($fileName);
