@@ -1,22 +1,21 @@
+import { resetEventSimulation} from "./simulation-event-handler.js";
+
 /** @type {HTMLDialogElement} */
 const blockListWarningDialog = document.getElementById('simulation-blocklist-warning');
-blockListWarningDialog.onSuccess = () => {};
-blockListWarningDialog.onFailure = () => {};
+blockListWarningDialog.onSuccess = () => {
+};
+blockListWarningDialog.onFailure = () => {
+};
 const blockListWarningDialogAcceptButton = blockListWarningDialog?.querySelector('button[name=accept]')
 const blockListWarningDialogDismissButton = blockListWarningDialog?.querySelector('button[name=dismiss]')
 
 const updateEffectsList = (effects) => {
     const effectsList = document.getElementById('sim-effects-list');
 
-    while(effectsList.lastChild) {
+    while (effectsList.lastChild) {
         effectsList.lastChild.remove();
     }
     const effectEntries = Object.entries(effects);
-    if (effectEntries.length === 0) {
-        const emptyStateMessage = document.createElement('p');
-        emptyStateMessage.textContent = 'No effects found';
-        return;
-    }
 
     effectEntries.forEach(([key, value]) => {
         const effect = document.createElement('div');
@@ -27,11 +26,23 @@ const updateEffectsList = (effects) => {
             'px-4',
             'py-2',
             'rounded-md',
-            'text-black'
+            'text-black',
+            'flex',
+            'gap-4'
         );
-        effect.textContent = `${key} ${value}`;
+        effect.id = key;
+
+        const simEffect = document.createElement('div');
+        simEffect.textContent = `${key}: ${value}`;
+
+        const eventEffect = document.createElement('div');
+
+        effect.append(simEffect);
+        effect.append(eventEffect);
         effectsList.append(effect);
     })
+
+   resetEventSimulation()
 }
 
 /**
@@ -90,7 +101,7 @@ const handleTileValidation = async (simulation, componentId, x, y, onSuccess, on
         if (data.isBlocked === true) {
             // Show warning
             const list = blockListWarningDialog.querySelector('ul');
-            while(list.lastChild) {
+            while (list.lastChild) {
                 list.lastChild.remove();
             }
             data.blocklist.forEach(blockedComponent => {
@@ -239,7 +250,7 @@ export const initializeDragAndDropListeners = (simulation) => {
     const blockListWarningForm = blockListWarningDialog?.querySelector('form');
     blockListWarningDialog?.addEventListener('close', async e => {
         if (!blockListWarningForm) return;
-        const { elements } = blockListWarningForm;
+        const {elements} = blockListWarningForm;
         const data = {
             componentId: parseInt(elements.componentId.value),
             x: parseInt(elements.x.value),
@@ -259,7 +270,7 @@ export const initializeDragAndDropListeners = (simulation) => {
     })
     blockListWarningForm?.addEventListener('submit', async e => {
         e.preventDefault();
-        const { elements } = e.currentTarget;
+        const {elements} = e.currentTarget;
         const data = {
             componentId: parseInt(elements.componentId.value),
             x: parseInt(elements.x.value),
