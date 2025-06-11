@@ -24,6 +24,30 @@ RUN a2enmod rewrite
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get install -y nodejs
 
+# Install dependencies for Browsershot
+RUN apt-get update && apt-get install -y \
+    libx11-dev \
+    libxext-dev \
+    libxrender-dev \
+    libxrandr-dev \
+    libxfixes-dev \
+    libxcursor-dev \
+    libxinerama-dev \
+    libxss-dev \
+    libgtk-3-dev \
+    libnss3 \
+    libasound2 \
+    libgbm-dev \
+    wget \
+    && apt-get clean
+
+# Install Puppeteer (required by Browsershot)
+RUN npm install puppeteer
+
+# Set up cache directory for Browsershot
+ENV BROWSERSHOT_CACHE_DIR=/var/www/cache
+RUN mkdir -p $BROWSERSHOT_CACHE_DIR && chmod -R 777 $BROWSERSHOT_CACHE_DIR
+
 COPY ./apache.conf /etc/apache2/sites-available/000-default.conf
 
 # Set working directory
