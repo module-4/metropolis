@@ -12,6 +12,7 @@
                     type="text" name="name" id="name"
                     value="{{ old('name',$event->name) }}"
                     required
+                    class="mt-2"
                 />
                 <x-input-error :messages="$errors->get('name')"/>
             </div>
@@ -25,14 +26,22 @@
                         id="effects-{{$effect->pivot->id}}"
                         value="{{ old('effects.'.$index.'.value',$effect->pivot->value) }}"
                         step="0.01"
+                        class="mt-2"
                         required
                     />
                     <x-input-error :messages="$errors->get('effects.' . $effect->id)"/>
                 </div>
             @endforeach
-            <x-button variant="primary" type="submit">
-                Update
-            </x-button>
+            <div class="flex items-center justify-end gap-1 mt-4">
+                <x-button :isLink="true" href="{{ route('events.index') }}" variant="danger">
+                    Discard changes
+                    <x-tabler-trash aria-hidden="true" class="-mr-1"/>
+                </x-button>
+                <x-button variant="success" type="submit">
+                    Save changes
+                    <x-tabler-check aria-hidden="true" class="-mr-1" />
+                </x-button>
+            </div>
         </form>
     </x-card>
 </x-dashboard-layout>
