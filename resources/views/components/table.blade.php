@@ -1,14 +1,10 @@
-<div class="rounded-md border border-border bg-bg">
-    <div class="overflow-x-auto">
-        <table class="w-full">
-            <thead class="bg-primary/20 text-foreground">
-            <tr>
-                {{ $thead }}
-            </tr>
-            </thead>
-            <tbody class="divide-y divide-border">
-            {{ $slot }}
-            </tbody>
-        </table>
-    </div>
-</div>
+<table {{ $attributes->class(["w-full border-separate border-spacing-0 border border-border rounded-md overflow-hidden"])->merge() }}>
+    <thead>
+        <tr>
+            {{ $thead }}
+        </tr>
+    </thead>
+    <tbody class="divide-y divide-border">
+        {{ $slot }}
+    </tbody>
+</table>

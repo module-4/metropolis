@@ -2,10 +2,10 @@ import { resetEventSimulation} from "./simulation-event-handler.js";
 
 /** @type {HTMLDialogElement} */
 const blockListWarningDialog = document.getElementById('simulation-blocklist-warning');
-blockListWarningDialog.onSuccess = () => {
-};
-blockListWarningDialog.onFailure = () => {
-};
+if (blockListWarningDialog) {
+    blockListWarningDialog.onSuccess = () => {};
+    blockListWarningDialog.onFailure = () => {};
+}
 const blockListWarningDialogAcceptButton = blockListWarningDialog?.querySelector('button[name=accept]')
 const blockListWarningDialogDismissButton = blockListWarningDialog?.querySelector('button[name=dismiss]')
 
@@ -16,6 +16,9 @@ const updateEffectsList = (effects) => {
         effectsList.lastChild.remove();
     }
     const effectEntries = Object.entries(effects);
+    const emptyState = document.getElementById('effects-empty-state');
+    emptyState.toggleAttribute('aria-hidden', effectEntries.length > 0);
+    emptyState.toggleAttribute('hidden', effectEntries.length > 0);
 
     effectEntries.forEach(([key, value]) => {
         const effect = document.createElement('div');
@@ -82,6 +85,43 @@ const componentDragStartHandler = e => {
     }
 
     e.dataTransfer.setData('text/json', JSON.stringify(data));
+}
+
+/**
+ * Handles component approval
+ * @param {DragEvent} e
+ * @param {Simulation} simulation
+ */
+const componentDblClickHandler = async (e, simulation) => {
+    const component = e.currentTarget;
+    const gridCell = component.parentElement
+    const grid = component.parentElement.parentElement;
+    const x = parseInt(gridCell.getAttribute('data-x'));
+    const y = parseInt(gridCell.getAttribute('data-y'));
+
+    if (!grid.classList.contains('sim-grid')) {
+        return;
+    }
+
+    const hasGrayBorder = component.classList.contains('border-gray-200');
+
+    if (hasGrayBorder) {
+        component.setAttribute('draggable', 'false')
+    } else {
+        component.setAttribute('draggable', 'true')
+    }
+
+    component.classList.toggle('border-4');
+
+    component.classList.replace(
+        hasGrayBorder ? 'border-gray-200' : 'border-success',
+        hasGrayBorder ? 'border-success' : 'border-gray-200'
+    );
+
+    await simulation.toggleApprovalStatus(x, y, (success, data) => {
+        if (!success) console.error(data);
+    });
+
 }
 
 /**
@@ -182,6 +222,8 @@ const gridItemDropHandler = async (e, simulation) => {
 
         clonedComponent.id = `component-${randomBytes}`;
         clonedComponent.addEventListener('dragstart', componentDragStartHandler);
+        clonedComponent.addEventListener('dblclick', e => componentDblClickHandler(e, simulation));
+
         e.currentTarget.appendChild(clonedComponent);
 
         await handleTileValidation(
@@ -235,11 +277,12 @@ const library = document.querySelector('.sim-component-library');
  * @param {Simulation} simulation
  */
 export const initializeDragAndDropListeners = (simulation) => {
-    library.addEventListener('dragover', e => e.preventDefault());
-    library.addEventListener('drop', e => libraryDropHandler(e, simulation));
+    library?.addEventListener('dragover', e => e.preventDefault());
+    library?.addEventListener('drop', e => libraryDropHandler(e, simulation));
 
     components.forEach(component => {
         component.addEventListener('dragstart', componentDragStartHandler);
+        component.addEventListener('dblclick', e => componentDblClickHandler(e, simulation));
     });
 
     gridItems.forEach(gridItem => {
@@ -250,7 +293,7 @@ export const initializeDragAndDropListeners = (simulation) => {
     const blockListWarningForm = blockListWarningDialog?.querySelector('form');
     blockListWarningDialog?.addEventListener('close', async e => {
         if (!blockListWarningForm) return;
-        const {elements} = blockListWarningForm;
+        const { elements } = blockListWarningForm;
         const data = {
             componentId: parseInt(elements.componentId.value),
             x: parseInt(elements.x.value),
@@ -270,7 +313,7 @@ export const initializeDragAndDropListeners = (simulation) => {
     })
     blockListWarningForm?.addEventListener('submit', async e => {
         e.preventDefault();
-        const {elements} = e.currentTarget;
+        const { elements } = e.currentTarget;
         const data = {
             componentId: parseInt(elements.componentId.value),
             x: parseInt(elements.x.value),

@@ -38,6 +38,36 @@ class SimulationController extends Controller
     }
 
 
+    public function toggleApprovedStatus(Simulation $simulation, Request $request) {
+        try {
+            $x = intval($request->input("x"));
+            $y = intval($request->input("y"));
+
+
+            if (!$simulation->inBounds($x, $y)) {
+                throw new \Exception("Coordinates out of bounds");
+            }
+
+            $simulationComponent = SimulationComponent::find([$simulation->id, $x, $y]);
+            $isApproved = $simulationComponent->approved;
+
+           if ($isApproved) {
+               $simulationComponent->approved = false;
+               $simulationComponent->save();
+               $isApproved = false;
+           } else {
+               $simulationComponent->approved = true;
+               $simulationComponent->save();
+               $isApproved = true;
+           }
+
+            return response(["data" => ["altered_data" => ['isApproved' => $isApproved]], 200]);
+
+        } catch (\Exception $e) {
+            return response(["error" => $e->getMessage()], 500);
+        }
+    }
+
     public function isBlocked(Simulation $simulation, Request $request)
     {
 
@@ -57,7 +87,7 @@ class SimulationController extends Controller
                 throw new \Exception("Component id is required");
             }
 
-            $component = Component::find($componentId);
+            $component = Component::withTrashed()->find($componentId);
 
             if (!$component) {
                 throw new \Exception("Component not found");

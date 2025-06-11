@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ComponentBlockListController;
 use App\Http\Controllers\ComponentEffectManagementController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\PDFReportController;
 use App\Http\Controllers\SimulationController;
 use App\Models\ComponentNotification;
 use Illuminate\Support\Facades\Route;
@@ -48,6 +49,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/component-manager', [\App\Http\Controllers\ComponentController::class, 'store'])->name('component-store');
     Route::get('/components-manager/{component}/edit', [\App\Http\Controllers\ComponentController::class, 'edit'])->name('components.edit');
     Route::patch('/components-manager/{component}', [\App\Http\Controllers\ComponentController::class, 'update'])->name('components.update');
+    Route::delete('/components-manager/{component}', [\App\Http\Controllers\ComponentController::class, 'destroy'])->name('components.destroy');
 });
 
 Route::middleware('auth')->group(function () {
@@ -55,6 +57,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/blocklist/create', [ComponentBlockListController::class, 'create'])->name('blocklist.create');
     Route::delete('/blocklist/{componentId}/{blockedComponentId}', [ComponentBlockListController::class, 'destroy'])->name('blocklist.destroy');
     Route::post('/blocklist', [ComponentBlockListController::class, 'store'])->name('blocklist.store');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/report', [PDFReportController::class, 'show'])->name('reports.show');
 });
 
 Route::resource('events', EventController::class)->middleware('auth');

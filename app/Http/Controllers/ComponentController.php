@@ -6,7 +6,6 @@ use App\Models\Category;
 use App\Models\Component;
 use App\Models\Effect;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 
 
 class ComponentController extends Controller
@@ -63,7 +62,7 @@ class ComponentController extends Controller
     public function update(Request $request, Component $component)
     {
         $validated = $request->validate([
-            'name' => 'required|unique:components,name,'. $component->id .'|max:255',
+            'name' => 'required|unique:components,name,' . $component->id . '|max:255',
             'image' => 'nullable|image',
             'category_id' => 'required|exists:categories,id',
         ]);
@@ -83,6 +82,12 @@ class ComponentController extends Controller
         return redirect(route('component-manager'))->with('success', 'Component updated successfully.');
     }
 
+    public function destroy(Component $component)
+    {
+        $component->delete();
+
+        return redirect(route('component-manager'))->with('success', 'Component deleted successfully.');
+    }
 
 }
 
