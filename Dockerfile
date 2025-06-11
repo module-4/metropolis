@@ -24,6 +24,9 @@ RUN a2enmod rewrite
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get install -y nodejs
 
+# Fix permissions for Laravel logs
+RUN mkdir -p /var/www/html/storage/logs && chmod -R 777 /var/www/html/storage/logs
+
 # Install dependencies for Browsershot
 RUN apt-get update && apt-get install -y \
     libx11-dev \
@@ -41,12 +44,16 @@ RUN apt-get update && apt-get install -y \
     wget \
     && apt-get clean
 
-# Install Puppeteer (required by Browsershot)
-RUN npm install puppeteer
+# Set Puppeteer cache directory
+ENV PUPPETEER_CACHE_DIR=/var/www/.cache/puppeteer
+RUN mkdir -p $PUPPETEER_CACHE_DIR && chmod -R 777 $PUPPETEER_CACHE_DIR
 
 # Set up cache directory for Browsershot
 ENV BROWSERSHOT_CACHE_DIR=/var/www/cache
 RUN mkdir -p $BROWSERSHOT_CACHE_DIR && chmod -R 777 $BROWSERSHOT_CACHE_DIR
+
+# Install Puppeteer and Chrome
+RUN npm install puppeteer && npx puppeteer browsers install chrome
 
 COPY ./apache.conf /etc/apache2/sites-available/000-default.conf
 
