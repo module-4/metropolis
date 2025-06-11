@@ -32,7 +32,7 @@
                         </x-table-data>
                         <x-table-data class="flex h-full justify-end items-center">
                             <div class="flex flex-row gap-2">
-                                <x-button isLink href="{{route('events.edit',[$event->id])}}" variant="success">
+                                <x-button isLink href="{{route('events.edit',[$event->id])}}" variant="primary">
                                     Edit event
                                     <x-tabler-pencil aria-hidden="true" class="-mr-2"/>
                                 </x-button>
