@@ -41,7 +41,7 @@
 @theme {
     --font-sans: 'SF Pro', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
     'Segoe UI Symbol', 'Noto Color Emoji';
-    --color-primary: oklch(0.4226 0.2621 268.79);
+    --color-primary: oklch(0.465 0.148 269.232);
     --color-primary-foreground: #ffffff;
     --color-success: oklch(0.598 0.163 149.843);
     --color-success-foreground: #ffffff;
