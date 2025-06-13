@@ -2,28 +2,35 @@
     'effects' => []
 ])
 
-<div id="sim-effects-list" class="
+<div class="
     flex
     flex-col
 
     rounded-md
-    p-1.5
+    p-4
     bg-gray-100
-    col-span-1
     gap-0.5
 
-    min-lg:col-span-2
+    w-full
 
     overflow-y-auto
     max-h-[400px]
-
     self-start
     border
     border-gray-200
 ">
-    @forelse($effects as $key => $value)
-        <x-sim-effect>{{ $key }} {{ $value }}</x-sim-effect>
-    @empty
-        <p>No effects found.</p>
-    @endforelse
+    <div>
+        <h2 class="text-black font-bold text-xl pb-2">
+            Simulation effects
+        </h2>
+    </div>
+
+    <div class="flex flex-col gap-1" id="sim-effects-list">
+        @foreach($effects as $key => $value)
+            <x-sim-effect id="{{$key}}">{{ $key }} {{ $value }}</x-sim-effect>
+        @endforeach
+    </div>
+    <p {{ count($effects) > 1 ? 'hidden aria-hidden' : '' }} id="effects-empty-state" class="text-sm text-neutral-700 italic">
+        No effects found.
+    </p>
 </div>

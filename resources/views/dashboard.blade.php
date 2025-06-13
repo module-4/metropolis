@@ -4,14 +4,11 @@
         /** @var Collection<ComponentNotification> $notifications */
 @endphp
 <x-dashboard-layout>
-    <div class="flex items-center justify-center grow max-h-full">
-        <x-card class="min-h-[95%] w-[95%] overflow-hidden flex flex-col">
-            <x-slot name="title">
-                Dashboard
-            </x-slot>
-            <h2 class="text-2xl">
+    <div class="flex grow max-h-full">
+        <x-card class="m-6 w-full">
+            <x-slot:title>
                 Component creation notifications
-            </h2>
+            </x-slot:title>
             <x-table>
                 <x-slot:thead>
                     <x-table-head>

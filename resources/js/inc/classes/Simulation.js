@@ -167,4 +167,25 @@ export default class Simulation {
         this.invalidateCache();
         if (callback) callback(response.ok, json.data);
     }
+
+    /**
+     * Toggles a component approved status at the specified position from the simulation.
+     * @param {number} x
+     * @param {number} y
+     * @param {(success: boolean, data: Record<string, any>|ErrorResponse) => any} callback
+     */
+    async toggleApprovalStatus(x, y, callback) {
+        const response = await fetch(
+            `/api/simulation/${this.#id}/toggle-approved-status?x=${x}&y=${y}`,
+            { method: 'PATCH' }
+        );
+        const json = await response.json();
+
+        if (!response.ok) {
+            console.error(json.error);
+            return;
+        }
+
+        if (callback) callback(response.ok, json.data);
+    }
 }

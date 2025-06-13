@@ -20,6 +20,8 @@ class DatabaseSeeder extends Seeder
             CategoriesSeeder::class,
             ComponentSeeder::class,
             EffectsSeeder::class,
+            EventsSeeder::class,
+            EventEffectSeeder::class,
             ComponentEffectSeeder::class,
             SimulationSeeder::class,
             // Not needed, this seeder fills the grid

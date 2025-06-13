@@ -9,14 +9,14 @@ use Illuminate\Http\Request;
 class ComponentEffectManagementController extends Controller
 {
     public function index() {
-        $data = Component::with('effects')->get();
+        $data = Component::with('effects')->paginate(6);
         return view('component-effect-management', compact('data'));
     }
 
     public function update($componentId, $effectId)
     {
         request()->validate([
-            'effect-value' => ['required', 'numeric']
+            'effect-value' => ['required', 'numeric', 'min:-100000', 'max:100000']
         ]);
 
         // get the component that is related to that compId
