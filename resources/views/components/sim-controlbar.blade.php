@@ -21,7 +21,7 @@
     </div>
     <div class="flex flex-col ">
         <x-label for="iterating">
-            Iterating
+            Recurring
         </x-label>
         <input hidden class="hidden peer" type="checkbox" name="iterating" id="iterating"
         />

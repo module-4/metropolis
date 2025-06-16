@@ -58,7 +58,7 @@ class Simulation extends Model
     public function components(): BelongsToMany
     {
         return $this->belongsToMany(Component::class, table: 'simulation_components')
-                    ->withPivot(['x', 'y'])
+                    ->withPivot(['x', 'y', 'approved'])
                     ->withTrashed();
     }
 

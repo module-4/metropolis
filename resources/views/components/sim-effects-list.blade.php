@@ -27,7 +27,7 @@
 
     <div class="flex flex-col gap-1" id="sim-effects-list">
         @foreach($effects as $key => $value)
-            <x-sim-effect id="{{$key}}">{{ $key }} {{ $value }}</x-sim-effect>
+            <x-sim-effect id="{{$key}}">{{ $key }}: {{ $value }}</x-sim-effect>
         @endforeach
     </div>
     <p {{ count($effects) > 1 ? 'hidden aria-hidden' : '' }} id="effects-empty-state" class="text-sm text-neutral-700 italic">

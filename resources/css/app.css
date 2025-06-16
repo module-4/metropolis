@@ -75,7 +75,7 @@
         padding: unset;
         height: 100%;
         width: 100%;
-        border: unset;
+        border-radius: .33rem;
 
         p {
             display: none;
