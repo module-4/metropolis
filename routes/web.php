@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ComponentBlockListController;
+use App\Http\Controllers\ComponentController;
 use App\Http\Controllers\ComponentEffectManagementController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\PDFReportController;
@@ -45,11 +47,11 @@ Route::patch('/component-effect-management/{componentId}/{effectId}', [Component
     ->middleware('auth');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/component-manager', [\App\Http\Controllers\ComponentController::class, 'index'])->name('component-manager');
-    Route::post('/component-manager', [\App\Http\Controllers\ComponentController::class, 'store'])->name('component-store');
-    Route::get('/components-manager/{component}/edit', [\App\Http\Controllers\ComponentController::class, 'edit'])->name('components.edit');
-    Route::patch('/components-manager/{component}', [\App\Http\Controllers\ComponentController::class, 'update'])->name('components.update');
-    Route::delete('/components-manager/{component}', [\App\Http\Controllers\ComponentController::class, 'destroy'])->name('components.destroy');
+    Route::get('/component-manager', [ComponentController::class, 'index'])->name('component-manager');
+    Route::post('/component-manager', [ComponentController::class, 'store'])->name('component-store');
+    Route::get('/components-manager/{component}/edit', [ComponentController::class, 'edit'])->name('components.edit');
+    Route::patch('/components-manager/{component}', [ComponentController::class, 'update'])->name('components.update');
+    Route::delete('/components-manager/{component}', [ComponentController::class, 'destroy'])->name('components.destroy');
 });
 
 Route::middleware('auth')->group(function () {
@@ -64,3 +66,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('events', EventController::class)->middleware('auth');
+
+Route::post('/comments', [CommentController::class, 'store'])
+    ->name('comments.store')
+    ->middleware('auth');

@@ -20,6 +20,7 @@
                     <x-sim-components-library :categories="$categories"/>
                 </div>
             </div>
+            <x-comment-section-form :simulation-id="$simulation->id" :errors="$errors"/>
         </x-card>
     </div>
 </x-dashboard-layout>
