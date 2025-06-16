@@ -16,10 +16,12 @@
                     <x-sim-grid :components="$simulationComponents"/>
                 </div>
                 <div class="flex flex-col gap-2">
+                    <x-sim-delete-area id="delete-area">Drop component to remove</x-sim-delete-area>
                     <x-sim-effects-list :effects="$effects"/>
                     <x-sim-components-library :categories="$categories"/>
                 </div>
             </div>
+
         </x-card>
     </div>
 </x-dashboard-layout>
