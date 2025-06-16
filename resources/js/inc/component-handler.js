@@ -245,12 +245,12 @@ const gridItemDropHandler = async (e, simulation) => {
 }
 
 /**
- * Initialize the drop handler for the library.
+ * Initialize the drop handler for the delete area.
  * @param {Event} e
  * @param {Simulation} simulation
  * @returns {Promise<void>}
  */
-const libraryDropHandler = async (e, simulation) => {
+const deleteAreaDropHandler = async (e, simulation) => {
     const data = JSON.parse(e.dataTransfer.getData('text/json') ?? "{}");
     const draggedComponent = document.getElementById(data.targetId);
 
@@ -271,6 +271,7 @@ const libraryDropHandler = async (e, simulation) => {
 const components = document.querySelectorAll('.sim-component');
 const gridItems = document.querySelectorAll('.sim-grid-tile');
 const library = document.querySelector('.sim-component-library');
+const deleteArea = document.getElementById('delete-area')
 
 /**
  * Initialize the drag and drop listeners.
@@ -278,7 +279,8 @@ const library = document.querySelector('.sim-component-library');
  */
 export const initializeDragAndDropListeners = (simulation) => {
     library?.addEventListener('dragover', e => e.preventDefault());
-    library?.addEventListener('drop', e => libraryDropHandler(e, simulation));
+    deleteArea?.addEventListener('dragover', e => e.preventDefault());
+    deleteArea?.addEventListener('drop', e => deleteAreaDropHandler(e, simulation));
 
     components.forEach(component => {
         component.addEventListener('dragstart', componentDragStartHandler);
