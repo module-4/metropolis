@@ -70,3 +70,4 @@ Route::resource('events', EventController::class)->middleware('auth');
 Route::post('/comments', [CommentController::class, 'store'])
     ->name('comments.store')
     ->middleware('auth');
+Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');

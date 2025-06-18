@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCommentRequest;
 use App\Models\Simulation;
+use App\Models\Comment;
 
 class CommentController extends Controller
 {
@@ -18,4 +19,14 @@ class CommentController extends Controller
 
         return redirect()->back()->with('success', 'Comment added successfully.');
     }
+    public function destroy(Comment $comment)
+    {
+        if (auth()->id() !== $comment->user_id) {
+            abort(403);
+        }
+
+        $comment->delete();
+        return back()->with('success', 'Comment deleted.');
+    }
 }
+
