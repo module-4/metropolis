@@ -15,7 +15,7 @@
     </div>
     <div>
         <x-label for="duration">
-            Event duration
+            Duration in Sec.
         </x-label>
         <x-input type="number" name="duration" id="duration" class="mt-2" required min="1" value="1" step="0.1"></x-input>
     </div>
