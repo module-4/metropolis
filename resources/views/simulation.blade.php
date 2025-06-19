@@ -20,14 +20,13 @@
                     <x-sim-components-library :categories="$categories"/>
                 </div>
             </div>
-            <div class="bg-white p-4 rounded shadow-md w-full max-h-[28rem] overflow-y-auto">
-                <x-comment-section-form :simulation-id="$simulation->id" :errors="$errors"/>
-                <!-- Top bar with 'New Comment' button -->
+            <x-comment-section-form :simulation-id="$simulation->id" :errors="$errors"/>
+            <div class="max-h-[28rem] overflow-y-auto">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-xl font-semibold">Comments</h2>
                 </div>
                 <!-- Comments List -->
-                @foreach ($simulation->comments as $comment)
+                @foreach ($simulation->comments()->orderBy('created_at', 'desc')->get() as $comment)
                     <div class="grid grid-cols-[1fr_4fr_1fr] gap-4 border-b py-2 w-full">
                         <!-- User column -->
                         <div class="text-gray-700 font-medium truncate">
