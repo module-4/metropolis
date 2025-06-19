@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Event;
 use App\Models\Simulation;
-use Illuminate\Http\Request;
 
 class SimulationController extends Controller
 {
@@ -25,7 +24,8 @@ class SimulationController extends Controller
                 'categories',
                 'simulationComponents',
                 'effects',
-                'events'
+                'events',
+                'simulation'
             )
         );
     }
