@@ -27,6 +27,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Comment extends Model
 {
+    use \Illuminate\Database\Eloquent\Factories\HasFactory;
+
     /**
      * The attributes that are mass assignable.
      *

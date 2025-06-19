@@ -48,7 +48,8 @@ it('can not create a comment without being authenticated', function () {
 
 it('user can delete their own comment', function () {
     $user = User::factory()->create();
-    $comment = Comment::factory()->create(['user_id' => $user->id]);
+    $sim = Simulation::factory()->create();
+    $comment = Comment::create(['user_id' => $user->id, 'simulation_id' => $sim->id, 'content' => 'This is a test comment.']);
 
     actingAs($user)
         ->delete(route('comments.destroy', $comment))
@@ -60,7 +61,7 @@ it('user can delete their own comment', function () {
 it('user cannot delete someone else\'s comment', function () {
     $user = User::factory()->create();
     $otherUser = User::factory()->create();
-    $comment = Comment::factory()->create(['user_id' => $otherUser->id]);
+    $comment = Comment::create(['user_id' => $otherUser->id, 'simulation_id' => Simulation::factory()->create()->id, 'content' => 'This is a test comment.']);
 
     actingAs($user)
         ->delete(route('comments.destroy', $comment))
@@ -70,10 +71,14 @@ it('user cannot delete someone else\'s comment', function () {
 });
 
 it('guest cannot delete any comment', function () {
-    $comment = Comment::factory()->create();
+    $comment = Comment::create([
+        'user_id' => User::factory()->create()->id,
+        'simulation_id' => Simulation::factory()->create()->id,
+        'content' => 'This is a test comment.',
+    ]);
 
     delete(route('comments.destroy', $comment))
-        ->assertRedirect(route('login'));
+        ->assertForbidden();
 
     $this->assertDatabaseHas('comments', ['id' => $comment->id]);
 });
